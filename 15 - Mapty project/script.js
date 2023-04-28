@@ -12,31 +12,48 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 class Workout {
-  date = new Date();
-  id = (new Date() + ``).slice(-10);
+  date = new Date(); // These are PUBLIC FIELDS OF THIS CLASS
+  id = +Math.random().toString().slice(3, 10); // `Unique` ID
   constructor(distance, duration, coords) {
-    this.distance = distance; // in mins
-    this.duration = duration; // in km
-    this.coords = coords;
+    this.distance = distance; // in miles - 3
+    this.duration = duration; // in mins - 21
+    this.coords = coords; // [latitude, longitude]
   }
 }
 
 class Running extends Workout {
-  constructor(distance, duration, coords) {
-    super(cadence, pace);
+  constructor(distance, duration, coords, cadence) {
+    super(distance, duration, coords);
+    this.cadence = cadence;
+    this.calcPace();
+  }
+
+  calcPace() {
+    //min/mile
+    this.pace = this.duration / this.distance;
+    return this.pace;
   }
 }
 
 class Cycling extends Workout {
-  constructor(distance, duration, coords) {
-    super(eleGain, speed);
+  constructor(distance, duration, coords, elevationGain) {
+    super(distance, duration, coords);
+    this.elevationGain = elevationGain;
+    this.calcSpeed();
+  }
+
+  calcSpeed() {
+    //mph
+    this.speed = this.distance / this.duration / 60;
+    return this.speed;
   }
 }
 
-// Geo-location API
+//////////////////////////////////////////////
+// APPLICATION ARCHITECTURE
 class App {
   #map;
-  #mapEvent;
+  #mapEvent; // FIELDS
   constructor() {
     this._getPosition();
     form.addEventListener(`submit`, this._newWorkout.bind(this));
