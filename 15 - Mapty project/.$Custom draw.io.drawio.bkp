@@ -1,0 +1,86 @@
+<mxfile host="Electron" modified="2023-04-26T23:11:57.689Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.1 Chrome/112.0.5615.87 Electron/24.1.2 Safari/537.36" etag="AX8PW0lyjlKznRQNAEWK" version="21.2.1" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1219" dy="713" grid="1" gridSize="19" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#EBEBEB" math="0" shadow="1">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="2YpiFR3k0A0LA5LxRxkj-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=none;strokeColor=#457B9D;fontColor=default;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2YpiFR3k0A0LA5LxRxkj-0" target="2YpiFR3k0A0LA5LxRxkj-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YpiFR3k0A0LA5LxRxkj-0" value="&lt;b&gt;Page loads&lt;/b&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;rounded=1;labelBackgroundColor=none;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="170" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2YpiFR3k0A0LA5LxRxkj-1" target="iBThmPdztrCWKWG5P9wv-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2YpiFR3k0A0LA5LxRxkj-1" value="&lt;b&gt;Get current location coordinates&lt;/b&gt;" style="whiteSpace=wrap;html=1;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;rounded=1;labelBackgroundColor=none;fillColor=#f8cecc;strokeColor=#b85450;arcSize=5;enumerate=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="180" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-14" value="" style="endArrow=classic;html=1;rounded=1;labelBackgroundColor=none;strokeColor=#457B9D;fontColor=default;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="199.5" as="sourcePoint" />
+            <mxPoint x="560" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-15" value="&lt;i style=&quot;font-size: 13px;&quot;&gt;&lt;b style=&quot;font-size: 13px;&quot;&gt;Bind &lt;br style=&quot;font-size: 13px;&quot;&gt;Handler&lt;/b&gt;&lt;/i&gt;" style="edgeLabel;resizable=1;html=1;align=center;verticalAlign=middle;rounded=1;labelBackgroundColor=none;fontColor=#1D3557;movable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontSize=13;" connectable="0" vertex="1" parent="iBThmPdztrCWKWG5P9wv-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-22" value="&lt;b&gt;Render map on current location&lt;/b&gt;" style="whiteSpace=wrap;html=1;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;rounded=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;arcSize=5;enumerate=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="370" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-24" value="&lt;b&gt;Render Workout Form&lt;/b&gt;" style="whiteSpace=wrap;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;labelBackgroundColor=none;html=1;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;arcSize=5;enumerate=1;comic=0;enumerateValue=3;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="750" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#457B9D;fontColor=#1D3557;fillColor=#A8DADC;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iBThmPdztrCWKWG5P9wv-26" target="iBThmPdztrCWKWG5P9wv-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-26" value="&lt;b&gt;User Clicks on Map&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#d79b00;fillColor=#ffe6cc;arcSize=50;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;strokeWidth=2;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-29" value="&lt;b&gt;&lt;u&gt;ASYNC&lt;/u&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;strokeWidth=0;rounded=1;movable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="205" y="140" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-30" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#457B9D;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="809.41" y="230" as="sourcePoint" />
+            <mxPoint x="809" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-31" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;&lt;i style=&quot;font-size: 13px;&quot;&gt;Bind Handler&lt;/i&gt;&lt;/b&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=13;labelBackgroundColor=none;fontFamily=Helvetica;fontColor=#1D3557;movable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" connectable="0" vertex="1" parent="iBThmPdztrCWKWG5P9wv-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="46" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-35" value="" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=#457B9D;fontFamily=Helvetica;fontSize=11;fontColor=#1D3557;endArrow=classic;fillColor=#A8DADC;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="iBThmPdztrCWKWG5P9wv-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="615.4705882352941" y="323" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-39" value="" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=#457B9D;fontFamily=Helvetica;fontSize=11;fontColor=#1D3557;endArrow=classic;fillColor=#A8DADC;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iBThmPdztrCWKWG5P9wv-33" target="iBThmPdztrCWKWG5P9wv-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-33" value="&lt;b&gt;User Submits New Workout&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;arcSize=50;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="750" y="383" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-34" value="&lt;b&gt;Render Workout on Map&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;arcSize=5;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;enumerate=1;enumerateValue=5;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="285" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-37" value="" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=#457B9D;fontFamily=Helvetica;fontSize=11;fontColor=#1D3557;endArrow=classic;fillColor=#A8DADC;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="iBThmPdztrCWKWG5P9wv-33">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="413" as="sourcePoint" />
+            <mxPoint x="684" y="323" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="703" y="399" />
+              <mxPoint x="703" y="323" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iBThmPdztrCWKWG5P9wv-38" value="&lt;b&gt;Render Workout in List&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;arcSize=5;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;enumerate=1;enumerateValue=6;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="560" y="383" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,88 @@
+// When building an application ranging from small to medium sized, we plan it with the following steps.
+
+/*
+
+1.) User stories - A description of the apps functionalities from the users perspective. Every user application combined, describes the application in its entirety
+
+2.) Features - All features we need to implement in order to match up with the user stories
+
+3.) Flowchart - A flowchart to explain each and every feature we need to integrate into the app
+
+4.) Architecture - How we will organize our code and what javascript features we will use within our project. This essensially holds all of our code together.
+
+5.) ----- DEVELOPMENT -----
+
+---
+
+---
+
+---
+
+------------------------- USER STORIES -------------------------
+
+`As a [type of user], I want to [an action] so that I can [benefit]` WHO - WHAT - WHY
+
+                    ----- USER STORY 1 -----
+
+1.) As a [runner], I want [to log my running workout with location, time, pace and steps/minute], so that I can [keep a log of all my running].
+
+                     ----- USER STORY 2 -----
+
+2.) As a [cyclist], I want to [log my cycling workouts with location, time, speed and elevation gain], so I can [log all of my cycling]
+
+                    ----- USER STORY 3 -----
+
+3.) As a [user] I want to [see all of my workout at a glance], so I can [easily track my progress over time]
+
+                    ----- USER STORY 4 -----
+
+4.) As a [user] I want to [see all of my workouts on a map], so that I can [easily check where I work out the most]
+
+                    ----- USER STORY 5 -----
+
+5.) As a [user] I want to [see all of my workouts when I leave and come back later], so that I [can keep using the app over time]
+
+--------------------------- Features ---------------------------
+
+1.) Map that a user can click on in order to add a new workout location.
+2.) Geolocation in order to display map at current location ( so that user doesn't have to scroll to their location)
+3.) Form to input the rest of the data (distance, time, pace, steps per minute)
+4.) Form to input distance, time, speed, elevation gain
+5.) Display all workouts in a list
+6.) Display all workouts on the map as well
+7.) Store workout data in the browser via local storage API
+8.) When the page loads, read the saved data from the API and display that data
+
+We don't always have to have a perfect flowchart right from the start, we can create a base and then work on it as we go along and program more and more
+
+In order to use a custom API, we have to first import the script and links to the HTML file. We then have to grab the functionality (functions) that are linked and included with the scripts we downloaded.
+
+Any variable that is in the global context, will be available to any script that is connected with the html document. The script containing the variables in the GEC that we are trying to access.
+
+When listing multiple scripts with the `defer` attribute, the script which is listed first has access to the script lsted second, but not visa versa.
+
+Different javascript libraries can have different variables and methods uncluded with them in order to achieve different results within each libraries main functions
+
+We use functional programming when we need to have a fixed set of things and need to incrementally add more operations to it.
+
+We use OOP when we have a fixed set of OPERATIONS and we need to create more isntances based on those operations.
+
+We (for this project) are going to store our data in classes, one parent App class, then two child classes for running and for cycling.
+
+Since we are creating data pockets for `App`, we use classes. The general `App` class will contain data/variables/methods that the entire application and both the running and the cycling classes will need to inherit in order for proper page function.
+
+We have created all of these methods, based on our flowchart design. Now we will structure all of the code that we have written into classes that match their respective needs. The 'App' class is going to be the parent class, which contains all of the methods and properties that we will need to have access to on all other objects created under this scope.
+
+THE CONSTRUCTOR METHOD IS IMMEDIATELY CALLED WHEN AN OBJECT IS INSTANTIATED FROM ANY CLASS!!!!!!!------ USE THIS!!
+
+We place our code, such as event handlers, and the required functions needed to load the page into the constructor function of our App class. This way it's encapsulated from the global context but still is called right as the page loads, since the constructor function of any class will be called on page load.
+
+We also put our _getPosition(); function inside of the App class constructor function because that's our function that will get the navigator.geolocation.getCurrentPosition(this._loadMap.bind(this)) which then as a callback function calls the this._loadMap.bind(this) function which actually loads the map. So this is a very imperative, if not the most imperative part for this and many pages alike to work correctly.
+
+The .this keyword within an event handler function is the HTML element in which the event handler is attached to.
+
+Many times in javascript programming, when using event handlers inside classes, you will need to manually .bind() the .this keyword.
+
+We create the Workout class and add our properties and methods in the constructor function that we would like to pass along to the child classes and objects created with this class. Above of the constructor function, we define variables that we would only like the parent class to contain.
+
+*/
