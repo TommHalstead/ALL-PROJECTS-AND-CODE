@@ -87,4 +87,16 @@ We create the Workout class and add our properties and methods in the constructo
 
 We in this case use the new Date(); constructor to make a string out of the date in order to slice it and grab the last 10 digits to act as a uniqie ID for any given account.
 
+We place all functions that are imperative to the pages functionality but not to any other type of action in private classes or private field in order to protect them from being manually overtwritten.
+
+We use a flowhcart to delegate WHAT we want to implement into our project.
+
+We use an achitecture structure to delegate HOW we are going to implement certain functions within out javascript code
+
+We use a guard clause here in this case for our form validation. We are saying, IF(value doesn't meet expectations) then return an error to the UI and user.
+
+When using a lot of test conditions, make sure to use helper functions in order to refacture code and simplify reading.
+
+Once the user submits the input field data from the form, we created an empty array called #workouts within our App class that we then push these values to once the validation has been completed.
+
 */
