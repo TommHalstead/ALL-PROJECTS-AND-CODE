@@ -284,7 +284,26 @@ class App {
     });
 
     // Using the oublic interface
-    workout.click();
+    // workout.click();
+  }
+
+  #setLocalStorage() {
+    localStorage.setItem(`workouts`, JSON.stringify(this.#workouts)); // We call the localStorage property and use the setItem() method. We pass in our key `workout` - this iw what these will be saved as in local storage. As the first parameter. The second parameter is our value that we want to associate with this localStorage.
+  } // We use the `JSON.stringify()` in order to pass in an object and turn any object into a string, which is what this method does for us.
+
+  #getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem(`workouts`));
+
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      this.#renderWorkout(work);
+    });
+  }
+  reset() {
+    localStorage.removeItem(`workouts`);
+    location.reload();
   }
 }
 const app = new App();
