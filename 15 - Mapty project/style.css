@@ -71,10 +71,6 @@ a:visited {
   transform: translateY(3px);
 }
 
-.hidden {
-  display: none;
-}
-
 .sidebar {
   flex-basis: 50rem;
   background-color: var(--color-dark--1);
