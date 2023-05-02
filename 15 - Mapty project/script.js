@@ -75,7 +75,13 @@ class App {
   #workouts = [];
   #mapZoomLevel = 15;
   constructor() {
+    // Get users position
     this.#getPosition();
+
+    // Get data from local storage
+    this.#getLocalStorage();
+
+    // Attach event Handlers
     form.addEventListener(`submit`, this.#newWorkout.bind(this));
     inputType.addEventListener(`change`, this.#toggleElevationField);
     containerWorkouts.addEventListener(
@@ -110,6 +116,10 @@ class App {
 
     // Handling clicks on map
     this.#map.on(`click`, this.#showForm.bind(this));
+
+    this.#workouts.forEach(work => {
+      this.#renderWorkoutMarker(work);
+    });
   }
 
   #showForm(mapE) {
@@ -187,6 +197,9 @@ class App {
     //Hide form and clear input fields
 
     this.#hideForm();
+
+    // Set local storage to all workouts
+    this.#setLocalStorage();
   }
 
   #renderWorkoutMarker(workout) {

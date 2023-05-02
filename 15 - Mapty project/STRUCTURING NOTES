@@ -105,4 +105,19 @@ In order to actually move the map, we use the built-in leaflet method of setView
 
 In order to render the workoutform on the left hand side, we grab our html code structure from the HTML sourcecode and insert that via the insertAdjacentHTML() method. 
 
+Local data storage is data that will store with the page and therefore remain intact even when the page is reloaded. LocalStorage is an API within the broswer that we can utilize to store our data.
+
+We put most of our functions inside of one loarger functions that will delegate each action individually but also keep this data out of the GEC.
+
+We call the localStorage property and use the setItem() method. We pass in our key `workout` as the first parameter. The second parameter is a string that we want to associate with this localStorage.
+
+We use the `JSON.stringify()` in order to pass in an object and turn any object into a string, which is what this method does for us.
+
+The localstorage API is a very simple API, therefore it cannot take or remember too much data or information. It should only be used with small applications and small amounts of data.
+
+In order to retrieve this saved localStorage data, we use the JSON.parse(localStorage.getItem(`workouts`)). This takes this string of data and converts it to each individual objects for easier using and application.
+
+We use the .forEach() on the #workouts array to loop over them and call the #renderWorkout(work) on each item within the array, therefore displaying the original workout back in the form on the left hand side. We place this functionality inside of the #loadMap() function because trying to place the markers right as the page loads but before the map loads doesn't work. So therefore, we need to place the #renderWorkoutMarker() inside the #loadMap() funtionality, therefore when we load the page, we first wait for the #laodMap() function to be called, only then do we call the #renderWorkoutMarker() function to display the workout markers on the map.
+
+When we store objects into local storage, they are first parsed into strings with the JSON.stringify() method. Once we try and retrieve these items and they are parsed back into objects with the JSON.parse(). They no longer exist in the prototype chain, so any methods and properties we previously had connected to these objects will no longer work and be able to be utilized.  
 */
