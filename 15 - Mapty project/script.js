@@ -3,6 +3,7 @@
 class Workout {
   date = new Date(); // These are PUBLIC FIELDS OF THIS CLASS
   id = +Math.random().toString().slice(3, 10); // `Unique` ID
+  clicks = 0;
   constructor(distance, duration, coords) {
     this.distance = distance; // in miles - 3
     this.duration = duration; // in mins - 21
@@ -15,6 +16,10 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
+  }
+
+  click() {
+    this.clicks++;
   }
 }
 
@@ -68,11 +73,15 @@ class App {
   #map;
   #mapEvent; // FIELDS
   #workouts = [];
+  #mapZoomLevel = 15;
   constructor() {
     this.#getPosition();
     form.addEventListener(`submit`, this.#newWorkout.bind(this));
     inputType.addEventListener(`change`, this.#toggleElevationField);
-    containerWorkouts.addEventListener(`click`, this.#moveMapToMarker);
+    containerWorkouts.addEventListener(
+      `click`,
+      this.#moveMapToMarker.bind(this)
+    );
   }
 
   #getPosition() {
@@ -92,7 +101,7 @@ class App {
     const { longitude } = position.coords;
     const coords = [latitude, longitude];
 
-    this.#map = L.map('map').setView(coords, 15); // This .setView() function takes two arguments, the first is an array of coordinates, lat, lng. The second is the zoom level of the map that you would like to be default
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel); // This .setView() function takes two arguments, the first is an array of coordinates, lat, lng. The second is the zoom level of the map that you would like to be default
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -168,7 +177,6 @@ class App {
     // Add new object to workout array
 
     this.#workouts.push(workout);
-    console.log(this.#workouts);
     // Render workout on map as marker
     this.#renderWorkoutMarker(workout);
 
@@ -251,7 +259,19 @@ class App {
   }
   #moveMapToMarker(e) {
     const workoutEl = e.target.closest(`.workout`);
-    console.log(workoutEl);
+
+    if (!workoutEl) return;
+    const workout = this.#workouts.find(
+      work => work.id === +workoutEl.dataset.id
+    );
+    console.log(workout);
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: { duration: 1 },
+    });
+
+    // Using the oublic interface
+    workout.click();
   }
 }
 const app = new App();

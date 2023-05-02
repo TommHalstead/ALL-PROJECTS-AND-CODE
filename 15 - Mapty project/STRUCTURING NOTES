@@ -99,4 +99,10 @@ When using a lot of test conditions, make sure to use helper functions in order 
 
 Once the user submits the input field data from the form, we created an empty array called #workouts within our App class that we then push these values to once the validation has been completed.
 
+In order to move the map to the clicked location, we will use event delegation by attaching an event handler to the parent container and use the e.target.closest(`.workout`) in order to tell JS that we want to find the closest parent element with the class of `.workout`. We add a guard clause to say if there is no workout to return, to avoid a null return to the console.
+
+In order to actually move the map, we use the built-in leaflet method of setView()
+
+In order to render the workoutform on the left hand side, we grab our html code structure from the HTML sourcecode and insert that via the insertAdjacentHTML() method. 
+
 */
