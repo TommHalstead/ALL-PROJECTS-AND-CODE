@@ -69,6 +69,11 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+let deleteButton = document.createElement(`button`);
+deleteButton.classList.add(`delete`);
+deleteButton.textContent = `Delete All Workouts`;
+containerWorkouts.insertAdjacentElement(`beforebegin`, deleteButton);
+
 class App {
   #map;
   #mapEvent; // FIELDS
@@ -83,11 +88,15 @@ class App {
 
     // Attach event Handlers
     form.addEventListener(`submit`, this.#newWorkout.bind(this));
+
     inputType.addEventListener(`change`, this.#toggleElevationField);
+
     containerWorkouts.addEventListener(
       `click`,
       this.#moveMapToMarker.bind(this)
     );
+
+    deleteButton.addEventListener(`click`, this._deleteWorkouts);
   }
 
   #getPosition() {
@@ -118,7 +127,7 @@ class App {
     this.#map.on(`click`, this.#showForm.bind(this));
 
     this.#workouts.forEach(work => {
-      this.#renderWorkoutMarker(work);
+      this._renderWorkoutMarker(work);
     });
   }
 
@@ -152,14 +161,13 @@ class App {
 
     e.preventDefault();
 
-    // Add new workout to workout array
-
     // Get data from input form
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
+
     // If workout is running, create running object
     if (type === `running`) {
       // Check if data is valid
@@ -172,10 +180,12 @@ class App {
 
       workout = new Running(distance, duration, [lat, lng], cadence);
     }
+
     // If workout if cycling, createa cyclying object
     if (type === `cycling`) {
       // Check if data is valid
       const elevationGain = +inputElevation.value;
+
       if (
         !validInputs(distance, duration, elevationGain) ||
         !allPositive(distance, duration)
@@ -185,24 +195,22 @@ class App {
     }
 
     // Add new object to workout array
-
     this.#workouts.push(workout);
+
     // Render workout on map as marker
-    this.#renderWorkoutMarker(workout);
+    this._renderWorkoutMarker(workout);
 
     // Render workout on list
-
-    this.#renderWorkout(workout);
+    this._renderWorkout(workout);
 
     //Hide form and clear input fields
-
     this.#hideForm();
 
     // Set local storage to all workouts
     this.#setLocalStorage();
   }
 
-  #renderWorkoutMarker(workout) {
+  _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
@@ -220,7 +228,8 @@ class App {
       .openPopup();
   }
 
-  #renderWorkout(workout) {
+  _renderWorkout(workout) {
+    deleteButton.classList.remove(`hidden`);
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
       <h2 class="workout__title">${workout.description}</h2>
@@ -270,6 +279,7 @@ class App {
       form.insertAdjacentHTML(`afterend`, html);
     }
   }
+
   #moveMapToMarker(e) {
     const workoutEl = e.target.closest(`.workout`);
 
@@ -277,7 +287,6 @@ class App {
     const workout = this.#workouts.find(
       work => work.id === +workoutEl.dataset.id
     );
-    console.log(workout);
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
       pan: { duration: 1 },
@@ -298,12 +307,18 @@ class App {
 
     this.#workouts = data;
     this.#workouts.forEach(work => {
-      this.#renderWorkout(work);
+      this._renderWorkout(work);
     });
   }
   reset() {
     localStorage.removeItem(`workouts`);
     location.reload();
+  }
+
+  _deleteWorkouts(e) {
+    deleteButton.style.display = `none`;
+    localStorage.removeItem(`workouts`);
+    document.querySelectorAll(`.workouts`).forEach(n => n.remove());
   }
 }
 const app = new App();
