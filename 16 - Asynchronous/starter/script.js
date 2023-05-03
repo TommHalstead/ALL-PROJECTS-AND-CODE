@@ -117,4 +117,26 @@ const renderCountry = function (data, className = ``) {
 // Simple GET request - More complex calls can take options
 const request = fetch(`https:restcountries.com/v3.1/alpha/USA`);
 // This creates a promise, stored to this request variable.
-console.log(request);
+
+// Fetch data and consume with .then()
+// const getCountryData = function (countryCode) {
+//   fetch(`https:restcountries.com/v3.1/alpha/${countryCode}`) // .fetch() returns a promise
+//     .then(function (response) {
+//       // .then() handles this promise
+//       console.log(response);
+//       return response.json(); // .json() parses the the code in this response into a new promise.
+//     })
+//     .then(function (data) {
+//       // We call the .then() method on this resolved promise in order to get a javascript object.
+//       console.log(data);
+//       renderCountry(data[0]);
+//     });
+// };
+
+const getCountryData = code => {
+  fetch(`https:restcountries.com/v3.1/alpha/${code}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+
+getCountryData(`USA`);

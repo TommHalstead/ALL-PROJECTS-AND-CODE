@@ -113,7 +113,16 @@ A state in this case represents the pending status of the promise, or it being f
 
 These states are useful when we need to use this promise to get a result. We call using the promise, CONSUMING the promise. In order for a promise to be consumed, it must first be assembled by the packets it's sent with. The FETCH API is the one that will build the promise. 
 
-Soemtimes we must build a promise ourselves in order to consume it.
+Sometimes we must build a promise ourselves in order to consume it. When a promise is fullfilled, in order to consume it, we use the .then() method, which takes a callback function as a parameter that we want to be executed as soon as the promise is fulfilled. This callback function takes a parameter which is the value of the fulfilled promise. Follwed by the .catch() method
+
+Our data is stored in the body of the response object. In order to use this data, we must call the JSON method on the response. The .json() method is available to all response objects coming from a fetch call. When we call the json() method on our response, it will return another promise. In order to use this promise, we must return the response with the json() call on it. Then we must handle the promise returned back from the response.json() call. In order to do this, we add another .then() call onto 
+
+------------------------------------------------------------How to use the .fetch() API-------------------------------------------------------------
+
+fetch(`url`).then(function(response){
+  // Use the response to do what you need.
+  console.log(response) -- Object of properties, with values and methods.
+})
 
 
 
