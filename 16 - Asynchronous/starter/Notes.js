@@ -101,9 +101,19 @@ Code that is hard to understand is bad code.
 
 Promises are a way of fixing and escaping callback hell.
 
-Promises and the Fetch API
- 
+Promises and the Fetch API - We start a fetch request with a simple fetch(`url`) call and store the return value into a variable. What is returned is a promise from the request.
 
+A promise is an object that is used as a placeholder for the future result of an asynchronous operation call. e.g the response from the AJAX call. We use a promise to negate the need to rely on eventHandlers and callbacks passed into async functions to handle async results.
+
+We can chain promises for a sequence of asynchronous events to happen in the background. Thus escaping callback hell and having to listen for callbacks in order to get this data.
+ 
+Promises work with Async operations, meaning they are time sensitive. Meaning they can be in different states, this is what is called the lifecycle of a prommise. In the beginning, a promise is pending (this is before the value is available from the request) when the task finished, the promise is settled. There are two types of settled, fulfilled promises and rejected promises. A fulfilled promise has successfully resulted in a value. A rejected promise are promises that weren't able to retreive the data requested.
+
+A state in this case represents the pending status of the promise, or it being fulfilled or rejected. These are all different states of the promise. A promise state only changes once. It goes from pending to either FULFILLED or REJECTED. This will be the promises final state, it will not change in any way after this.
+
+These states are useful when we need to use this promise to get a result. We call using the promise, CONSUMING the promise. In order for a promise to be consumed, it must first be assembled by the packets it's sent with. The FETCH API is the one that will build the promise. 
+
+Soemtimes we must build a promise ourselves in order to consume it.
 
 
 

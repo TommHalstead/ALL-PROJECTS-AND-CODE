@@ -116,4 +116,5 @@ const renderCountry = function (data, className = ``) {
 
 // Simple GET request - More complex calls can take options
 const request = fetch(`https:restcountries.com/v3.1/alpha/USA`);
-console.log();
+// This creates a promise, stored to this request variable.
+console.log(request);
