@@ -56,7 +56,42 @@ request.open(`GET`, `https://restcountries.com/v3.1/alpha/US`);
 // This is all done asynchronously in the background
 // 4.) We then add an event listener to listen for this data to load, only then can we access this data.
 
+The concept of requesting and receiving data is called the REQUEST-RESPONSE MODEL or CLIENT-SERVER ARCHITECTURE
 
+Every URL gets and HTTP or HTTPS protocal that will be used on the connection. Then there's the domain name and after the slash / the so called `resource` that we want to access. 
+
+The real address of the server we're trying to access is not the domain name but the resource is what we're accessing. In order to access this we have to `convert` the domain name to the real address of the server. This happens through DNS (Domain Name Server) - A special kind of server that acts like a phonebook of servers.
+
+Through DNS we look up the real name of the domain server, and converts this resource to the real IP address. After the real IP address has been sent back to the browser, we can then finally call it.
+
+A real domain server address looks like this: https://104.27.142.425:443
+
+We have the protocol HTTPS, then we have the IP address 104.27.142.425 then we have the port number default :443 for HTTPS and :80 for HTTP  
+
+Once we have the real IP address a TCP/IP socket is made between the browser and the web client and is typically kept alive for the whole duration of the file transfers and/or data transfer
+
+TCP - Transmission Control Protocol 
+
+The job of the TCP is to break down the request into thousands of small chunks called packets (which is how you DDoS ) when these packets arrive at their destination, TCP reassembles all of the packets into the original request. This is necessary so that the packets all take a different route on the internet and therefore arrive much quicker than one single big packet
+
+IP - Internet Protocol
+
+The Job of the IP protocol is to actually send the packets themselves to the destination by adding an IP address on each packet and routing them to the destination IP address.
+
+Together these are communication protocols that define exactly how data travels across the web. 
+
+After all of this is done, we make the request, which is a HTTP (Hypertext Transfer Protocol) request, which is another communication protocol (a sytsem of rules that allows two applications to communicate )
+
+HTTP methods include: GET(To get data), POST(To set data), PUT and PATCH (to modify data)
+
+The HTTP response comes from the web server and is similar to the request, it has a start line, HTTP request header and a request body. The start line on the response has the HTTP version, the status code (200) means OK and (404) mean PAGE NOT FOUND, which is where this error comes from. It comes from the HTTP request being made to a pages IP address that is not there. 
+
+
+This whole process goes as ordered: 1.) DNS lookup 2.) TCP/IP socket connection 3.) HTTP Request 4.) HTTP Response
+
+A new HTTP request is made for every single file that is included in the webpage, for example: index.html, resources.html, about.html etc.
+
+When the response has arrived, the file can be loaded in the browser according to the HTML, CSS and JS specs.
 
 
 
