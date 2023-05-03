@@ -115,7 +115,7 @@ const renderCountry = function (data, className = ``) {
 // FETCH API AND AJAX CALLS
 
 // Simple GET request - More complex calls can take options
-const request = fetch(`https:restcountries.com/v3.1/alpha/USA`);
+// const request = fetch(`https:restcountries.com/v3.1/alpha/USA`);
 // This creates a promise, stored to this request variable.
 
 // Fetch data and consume with .then()
@@ -133,10 +133,22 @@ const request = fetch(`https:restcountries.com/v3.1/alpha/USA`);
 //     });
 // };
 
-const getCountryData = code => {
-  fetch(`https:restcountries.com/v3.1/alpha/${code}`)
+const getCountryData = function (country) {
+  // Country 1 - Original
+  fetch(`https://restcountries.com/v3.1/alpha/${country}`)
     .then(response => response.json())
-    .then(data => renderCountry(data[0]));
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbor = data[0].borders[0];
+      if (!neighbor) return;
+
+      // Country 2 - Neighbor[0]
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbor}`);
+    })
+    .then(neighborResponse => neighborResponse.json())
+    .then(neighborData => {
+      renderCountry(neighborData[0], `neighbor`);
+    });
 };
 
-getCountryData(`USA`);
+getCountryData(`de`);

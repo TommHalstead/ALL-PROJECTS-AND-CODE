@@ -124,6 +124,26 @@ fetch(`url`).then(function(response){
   console.log(response) -- Object of properties, with values and methods.
 })
 
+// Chaining promises
+
+The .then() method ALWAYS returns a promise, whether it's rejected or fulfilled. If fulfilled, the promises return value will be the data.
+
+return 23;
+    })
+    .then(data => alert(data));
+
+This will return 23 because that is the return value of the promise before it. When we call the .then() method, the parameter will always be the promise in which we are calling it on.
+
+return fetch(`https://restcountries.com/v3.1/alpha/${code}`); - When we return this fetch call, the return value of the fetch is a promise, in which we can call the .then() method on.
+
+
+We return a fetch and call it on the encompassing .then() callback in order to escape callback hell. Instead, we call the .then() method on the entire function itself because we return the promise to the function, which now becomes the functions value.
+
+
+
+
+
+
 
 
 */
