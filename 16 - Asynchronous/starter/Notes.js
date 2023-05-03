@@ -93,9 +93,15 @@ A new HTTP request is made for every single file that is included in the webpage
 
 When the response has arrived, the file can be loaded in the browser according to the HTML, CSS and JS specs.
 
+Callback hell is when you have callbacks inside of callbacks inside of callbacks to sequentiate the calls of these functions. 
 
+A triangular structure of the code on the left hand side is an easy way to indicate callback hell. Callback hell makes our code hard to understand and reason about, as you have many sequences happening that you have to break down step-by-step. It's also hard to maintain because changing one thing can affect all of the nested callbacks.
 
+Code that is hard to understand is bad code.
 
+Promises are a way of fixing and escaping callback hell.
+
+Promises and the Fetch API
  
 
 
