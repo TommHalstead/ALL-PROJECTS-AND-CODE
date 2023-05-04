@@ -155,4 +155,10 @@ When we have an error with our promise, we get a generic typeError unrelated to 
 
 When we use a `throw new Error()` inside any .then() promise handler, and we actually throw an error, then the promise will immediately rejection. This will propegate all the way down to the .catch() error handler. 
 
+
+We first always have to call the .then() to handle to original promise and parse it to json, after that we can use the .then() function again to actually handle the data.
+
+The .catch() handler will catch all errors from the previous .then() statements and propegate all the way down to the .catch() function
+
+An error that is thrown in the .then() function, will ALWAYS reject the promise immediately.
 */
