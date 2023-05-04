@@ -139,11 +139,20 @@ return fetch(`https://restcountries.com/v3.1/alpha/${code}`); - When we return t
 
 We return a fetch and call it on the encompassing .then() callback in order to escape callback hell. Instead, we call the .then() method on the entire function itself because we return the promise to the function, which now becomes the functions value.
 
+                                          ---------- How to handle promise rejections ----------
 
+A promise is only rejected if the user loses internet connection. As a second parameter in our .then() method call, we can designate a second function to handle the promise in the event of a rejected response. Instead of passing in a callback function for error handling on all instances of .then() usage, we can add a .catch() method to catch any and all errors within the promises.
 
+Using the .catch() method at the end of any fetch() request chain will catch any and all errors that come back back through any of these promises, we can set our custom console.error() messages, and we can print an error to the UI for the user.
 
+We can then after using all of these methods use the .finally() method to call a method regardless of the promise state. So this callback method will always be called regardless if the promise was fulfilled or not.
 
+.then() callback function is only called if the promise is fulfilled, .catch() is only called when a promise is rejected and .finally() is always called regardless if the promise was fulfilled or rejected.
 
+The .finally() promise method only works because the .catch() method returns a promise as well.
 
+When we have an error with our promise, we get a generic typeError unrelated to the actual issue. In order to catch this error, we can use the `throw new Error()` function with a custom error to the console. The new Error() sybtax is a constructor function that throws an error. The throw keyword will immediately exit the code block and resume normal execution.
+
+When we use a `throw new Error()` inside any .then() promise handler, and we actually throw an error, then the promise will immediately rejection. This will propegate all the way down to the .catch() error handler. 
 
 */

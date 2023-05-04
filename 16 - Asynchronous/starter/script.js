@@ -3,6 +3,32 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText(`beforebegin`, msg);
+  // countriesContainer.style.opacity = 1;
+};
+
+const renderCountry = function (data, className = ``) {
+  // set className to default ``, incase we don't want one so we don't get errors.
+  const languages = Object.values(data.languages)[0];
+  const currencies = Object.values(data.currencies)[0].name;
+  let html = `
+  <article class="country ${className}">
+    <img class="country__img" src="${data.flags.png}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name.official}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)} Million</p>
+      <p class="country__row"><span>🗣️</span>${languages}</p>
+      <p class="country__row"><span>💰</span>${currencies}</p>
+    </div>
+  </article>`;
+  countriesContainer.insertAdjacentHTML(`beforeend`, html);
+  // countriesContainer.style.opacity = 1;
+};
+
 ///////////////////////////////////////
 
 // const getCountryData = function (countryCode) {
@@ -35,28 +61,6 @@ const countriesContainer = document.querySelector('.countries');
 // };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// OLD XMLHttpRequest() AJAX method.
-
-const renderCountry = function (data, className = ``) {
-  const languages = Object.values(data.languages)[0];
-  const currencies = Object.values(data.currencies)[0].name;
-  let html = `
-  <article class="country ${className}">
-    <img class="country__img" src="${data.flags.png}" />
-    <div class="country__data">
-      <h3 class="country__name">${data.name.official}</h3>
-      <h4 class="country__region">${data.region}</h4>
-      <p class="country__row"><span>👫</span>${(
-        +data.population / 1000000
-      ).toFixed(1)} Million</p>
-      <p class="country__row"><span>🗣️</span>${languages}</p>
-      <p class="country__row"><span>💰</span>${currencies}</p>
-    </div>
-  </article>`;
-  countriesContainer.insertAdjacentHTML(`beforeend`, html);
-  countriesContainer.style.opacity = 1;
-};
 
 // const getCountryAndNeighbor = function (countryCode) {
 //   // Create AJAX request
@@ -93,6 +97,8 @@ const renderCountry = function (data, className = ``) {
 // getCountryAndNeighbor(`US`);
 // // getCountryAndNeighbor(`PT`);
 
+// Callback hell
+
 // setTimeout(() => {
 //   console.log(`1 second passed`);
 //   setTimeout(() => {
@@ -107,10 +113,6 @@ const renderCountry = function (data, className = ``) {
 // }, 1000);
 
 // OLD XMLHttpRequest() method - very long and hard
-
-// const request = new XMLHttpRequest();
-// request.open(`GET`, `https://restcountries.com/v3.1/alpha/${countryCode}`);
-// request.send();
 
 // FETCH API AND AJAX CALLS
 
@@ -136,19 +138,46 @@ const renderCountry = function (data, className = ``) {
 const getCountryData = function (country) {
   // Country 1 - Original
   fetch(`https://restcountries.com/v3.1/alpha/${country}`)
-    .then(response => response.json())
-    .then(data => {
-      renderCountry(data[0]);
-      const neighbor = data[0].borders[0];
-      if (!neighbor) return;
+    .then(response => {
+      // Original PROMISE request
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error(`Country not found: Error - ${response.status}`);
+      }
+
+      return response.json(); // RETURN PARSED PROMISE - NOW BECOMES THIS FUNCTIONS RETURN VALUE
+    })
+    .then(dataUS => {
+      // NEW PROMISE RETURNED from the original function now becomes the dataUS object created from this AJAX call
+      renderCountry(dataUS[0]); // We render the first index from this array of objects to the UI
+      const neighbor = dataUS[0].borders[0]; // Create a neighbor const with the borders[0] from the dataUS[0] object property
+      console.log(dataUS[0]);
+      if (!neighbor) return; // IF there is NO neighbors, exit the function.
 
       // Country 2 - Neighbor[0]
-      return fetch(`https://restcountries.com/v3.1/alpha/${neighbor}`);
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbor}`); // fetch new object with the neighbor value as the country code.
     })
-    .then(neighborResponse => neighborResponse.json())
-    .then(neighborData => {
-      renderCountry(neighborData[0], `neighbor`);
+    .then(neighborResponse => {
+      if (!neighborResponse.ok) {
+        throw new Error(`Country not found: Error - ${response.status}`);
+      }
+      return neighborResponse.json();
+    }) // Original PROMISE request parse returned and now this function.
+    .then(dataNei => renderCountry(dataNei[0], `neighbor`)) // Fulfilled promise rendered to the UI with the new object and neighbor class added.
+    .catch(err => {
+      // ERROR HANDLER
+      console.error(`${err} 🚩🚩`); // Custom error message throwing in the error itself.
+      renderError(`${err.message}`); // We use this err parameter to access the message property, which is the msg we created above.
+    })
+    .finally(() => {
+      // ALWAYS CALLED ERROR OR NOT - Change the opacity of the container to show our content.
+      countriesContainer.style.opacity = 1;
     });
 };
 
-getCountryData(`de`);
+btn.addEventListener(`click`, function () {
+  getCountryData(`US`);
+});
+
+getCountryData(`Bsdafadga`);
