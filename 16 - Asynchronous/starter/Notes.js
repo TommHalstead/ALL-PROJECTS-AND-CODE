@@ -178,7 +178,7 @@ Callback functions associated with promises, go into the "microtask queue", the 
 
 You can build your own promise with the promise constructor. E.g new Promise(); Promises are a special kind of object in javascript, therefore we can use the object constructor method on them.
 
-The promise constructor takes exacly one argument, and that is the so called executor function. Into the executor function we pass in two arguments which are the resolve and reject functions. Therefore when we create use this new Promise syntax, we are in fact creating a new promise. Within the executor function, we pass in the value in which we want to be the resolved promise of this whol entire function. When we call the resolve() function inside of the executor function, it marks the promise as resolved. We pass the fulfilled value of the promise into the resolve() function so that it can later be resolved with the .then() method.
+The promise constructor takes exacly one argument, and that is the so called executor function. Into the executor function we pass in two arguments which are the resolve and reject functions. Therefore when we create use this new Promise syntax, we are in fact creating a new promise. Within the executor function, we pass in the value in which we want to be the resolved promise of this whol entire function. When we call the resolve() function inside of the executor function, it marks the promise as resolved. We pass the fulfilled value of the promise into the resolve() function so that it can later be manipulated with the .then() method.
 
 Within this new Promise constructor, we create an if block for the resolved promise return value, which we pass into the resolve() function itself. We create an else statement in order to execute the reject() function in case of a rejected promise. We ALWAYS have to make sure that our promise ends up in one of these two states, either fullfilled or rejected. 
 
@@ -187,5 +187,9 @@ So our fulfilled promise result is the value that we pass into the resolve() fun
 Promisifying is the act of wrapping old callback based function into promises. Converting callback based async behavior to promise based behavior, in order to avoid having stacked callbacks.
 
 Passing a value into the resolved promise, is not mandatory.
+
+The geolocation API takes two callbacks, one for success with the parameter of the position of the current user, the second an error callback to call incase grabbing the location was unsuccessful. It may have a third optional object of options.
+
+IN ORDER TO GET ACCESS TO A FULFILLED PROMISE WE DEFINE WITHIN A FUNCTION, WE MUST RETURN THAT PROMISE FROM THE FUNTION SO WE CAN CHAIN IT!
 
 */

@@ -3,31 +3,31 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
-// const renderError = function (msg) {
-//   countriesContainer.insertAdjacentText(`beforebegin`, msg);
-//   // countriesContainer.style.opacity = 1;
-// };
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText(`beforebegin`, msg);
+  // countriesContainer.style.opacity = 1;
+};
 
-// const renderCountry = function (data, className = ``) {
-//   // set className to default ``, incase we don't want one so we don't get errors.
-//   const languages = data.languages[Object.keys(data.languages)[0]];
-//   const currencies = Object.values(data.currencies)[0].name;
-//   let html = `
-//   <article class="country ${className}">
-//     <img class="country__img" src="${data.flags.png}" />
-//     <div class="country__data">
-//       <h3 class="country__name">${data.name.official}</h3>
-//       <h4 class="country__region">${data.region}</h4>
-//       <p class="country__row"><span>👫</span>${(
-//         +data.population / 1000000
-//       ).toFixed(1)} Million</p>
-//       <p class="country__row"><span>🗣️</span>${languages}</p>
-//       <p class="country__row"><span>💰</span>${currencies}</p>
-//     </div>
-//   </article>`;
-//   countriesContainer.insertAdjacentHTML(`beforeend`, html);
-//   // countriesContainer.style.opacity = 1;
-// };
+const renderCountry = function (data, className = ``) {
+  // set className to default ``, incase we don't want one so we don't get errors.
+  const languages = data.languages[Object.keys(data.languages)[0]];
+  const currencies = Object.values(data.currencies)[0].name;
+  let html = `
+  <article class="country ${className}">
+    <img class="country__img" src="${data.flags.png}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name.official}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${(
+        +data.population / 1000000
+      ).toFixed(1)} Million</p>
+      <p class="country__row"><span>🗣️</span>${languages}</p>
+      <p class="country__row"><span>💰</span>${currencies}</p>
+    </div>
+  </article>`;
+  countriesContainer.insertAdjacentHTML(`beforeend`, html);
+  countriesContainer.style.opacity = 1;
+};
 
 ///////////////////////////////////////
 
@@ -303,3 +303,47 @@ const countriesContainer = document.querySelector('.countries');
 
 // Promise.resolve(`Promise Resolved!`).then(x => console.log(x));
 // Promise.reject(new Error(`Promise Rejected!`)).catch(x => console.error(x));
+
+const getPosition = function () {
+  return new Promise((resolve, reject) => {
+    // Promise callbacks, RESOLVED, REDJECTED
+    // Callbacks (success, error, options) - Navigator
+    // navigator.geolocation.getCurrentPosition(
+    // position => {
+    // console.log(position);
+    // resolve(position);
+    // }, // Resolved promise - LAT,LNG IS THE FULFILLED PROMISE VALUE
+    // err => reject(console.error(`${err}`)) // Rejected promise - ANY ERROR IS REJECTED PROMISE VALUE
+    // ); // WEB API - ALL ASYNCHRONOUS BEHVAIOR
+    navigator.geolocation.getCurrentPosition(resolve, reject); // The Promise executor function is called no matter what, so here instead of all the logic above, we can simply pass in the resolve and reject parameters into our getCurrentPosition() function since it takes two callbacks, one as a resolved promise and one as a rejected promise.
+  });
+}; // This function will return either a rejected or fulfilled promise based on the code.
+
+// getPosition().then(promise => console.log(promise));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Problem with geocoding API ${res.status} `);
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.country || data.prov}`);
+      return fetch(`https://restcountries.com/v3.1/alpha/${data.prov}`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Country not found! (${res.status})`);
+      return res.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => {
+      console.error(`Something went wrong, try again please! \n ${err}`);
+    });
+};
+
+btn.addEventListener(`click`, whereAmI);
