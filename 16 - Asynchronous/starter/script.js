@@ -8,14 +8,6 @@ const renderError = function (msg) {
   // countriesContainer.style.opacity = 1;
 };
 
-const throwErr = function (responseStatus) {
-  // Original PROMISE request
-  if (!responseStatus.ok) {
-    throw new Error(`Country not found: Error - ${responseStatus.status}`);
-  }
-  return responseStatus.json(); // RETURN PARSED PROMISE - NOW BECOMES THIS FUNCTIONS RETURN VALUE
-};
-
 const renderCountry = function (data, className = ``) {
   // set className to default ``, incase we don't want one so we don't get errors.
   const languages = data.languages[Object.keys(data.languages)[0]];
