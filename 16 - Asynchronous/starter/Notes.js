@@ -175,4 +175,17 @@ When we do .addEventListener() it registers the callback, which waits in the run
 Callback functions that are registered with the fetch() function and linked to promises in the .then() method, do not go into the callback queue.
 
 Callback functions associated with promises, go into the "microtask queue", the microtask queue has priority over the callback queue. So at the next cycle of the event loop, it also checks the microtasks queue for any tasks. If there are any tasks, it will execute all of these as soon as the callstack is empty before resuming focus to the callback queue.
+
+You can build your own promise with the promise constructor. E.g new Promise(); Promises are a special kind of object in javascript, therefore we can use the object constructor method on them.
+
+The promise constructor takes exacly one argument, and that is the so called executor function. Into the executor function we pass in two arguments which are the resolve and reject functions. Therefore when we create use this new Promise syntax, we are in fact creating a new promise. Within the executor function, we pass in the value in which we want to be the resolved promise of this whol entire function. When we call the resolve() function inside of the executor function, it marks the promise as resolved. We pass the fulfilled value of the promise into the resolve() function so that it can later be resolved with the .then() method.
+
+Within this new Promise constructor, we create an if block for the resolved promise return value, which we pass into the resolve() function itself. We create an else statement in order to execute the reject() function in case of a rejected promise. We ALWAYS have to make sure that our promise ends up in one of these two states, either fullfilled or rejected. 
+
+So our fulfilled promise result is the value that we pass into the resolve() function and our rejected promise result is the value that we pass into the reject() function. When we throw a rejection, we should use within the rejection value, `new Error()` so that in case of a rejection, it will throw a new error to the console with the real reasoning.
+
+Promisifying is the act of wrapping old callback based function into promises. Converting callback based async behavior to promise based behavior, in order to avoid having stacked callbacks.
+
+Passing a value into the resolved promise, is not mandatory.
+
 */

@@ -230,17 +230,76 @@ const countriesContainer = document.querySelector('.countries');
 
 // EVENT LOOP, CALLBACK QUEUE, CALL STACK, MICROTASK QUEUE, WEB APIS example
 
-console.log(`Test Start`);
+// console.log(`Test Start`);
 
-setTimeout(() => {
-  console.log(`0 Second timer`);
-}, 0);
+// setTimeout(() => {
+//   console.log(`0 Second timer`);
+// }, 0);
 
-Promise.resolve(`Resolved promise 1`).then(res => console.log(res)); // Our resolved promise 1 from this promise will be places on the microtask queue, therefore on the next event loop tick, it will notice the mircotasks and handle these tasks first before continuing work in the callback queue.
-Promise.resolve(`Resolved promise 2`).then(res => {
-  for (let i = 0; i < 5000; i++) {
-    console.log(res);
-  }
-});
+// Promise.resolve(`Resolved promise 1`).then(res => console.log(res)); // Our resolved promise 1 from this promise will be places on the microtask queue, therefore on the next event loop tick, it will notice the mircotasks and handle these tasks first before continuing work in the callback queue.
+// Promise.resolve(`Resolved promise 2`).then(res => {
+//   for (let i = 0; i < 5000; i++) {
+//     console.log(res);
+//   }
+// });
 
-console.log(`Test end`);
+// console.log(`Test end`);
+
+// Executor function will automaticaly be executed once the promise constructor runs, since it's a promise, it goes on the microtask queue.
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log(`Lottery draw is happening! 🔮`);
+//   setTimeout(function () {
+//     // Asynchronous function that is handled behind the scenes with the web API.
+//     if (Math.random() >= 0.5) {
+//       resolve(`You WIN! 🏁`);
+//     } else {
+//       reject(
+//         new Error(`You lost your money! 😓
+//   `)
+//       );
+//     }
+//   }, 2000);
+// }); // This function will be the one that contains the async behavior in which we are trying to handle with the promise
+
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err)); // Here we consume this promise with the .then() method, and we add a .catch() method to catch any errors that are thrown.
+
+// // Promisifying setTimeout()
+// const wait = seconds => {
+//   // Function that returns a promise, that we can then chain. Same as the .fetch() in a sense.
+//   return new Promise(resolve => setTimeout(resolve, seconds * 1000)); // We add a setTimeout() saying to resolve, only after 2 seconds.
+//   // No reject() needed, it's impossible for a timer to fail. So no rejection is possible.
+// };
+
+// wait(1)
+//   .then(() => {
+//     // We handle this promise by returning the same promise
+//     console.log(`1 second passed`);
+//     return wait(1); // Create a new fetch `promise` and return it as well, which we can then also handle.
+//   })
+//   .then(() => {
+//     console.log(`2 seconds passed`);
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log(`3 seconds passed`);
+//     return wait(1);
+//   })
+//   .then(() => console.log(`I waited for 4 seconds! `));
+
+// SAME RESULT ⬆️⬇️
+
+// setTimeout(() => {
+//   console.log(`1 second passed`);
+//   setTimeout(() => {
+//     console.log(`2 seconds passes`);
+//     setTimeout(() => {
+//       console.log(`3 seconds passes`);
+//       setTimeout(() => {
+//         console.log(`4 seconds passes`);
+//       }, 1000);
+//     }, 1000);
+//   }, 1000);
+// }, 1000);
+
+// Promise.resolve(`Promise Resolved!`).then(x => console.log(x));
+// Promise.reject(new Error(`Promise Rejected!`)).catch(x => console.error(x));
