@@ -3,31 +3,31 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
-const renderError = function (msg) {
-  countriesContainer.insertAdjacentText(`beforebegin`, msg);
-  // countriesContainer.style.opacity = 1;
-};
+// const renderError = function (msg) {
+//   countriesContainer.insertAdjacentText(`beforebegin`, msg);
+//   // countriesContainer.style.opacity = 1;
+// };
 
-const renderCountry = function (data, className = ``) {
-  // set className to default ``, incase we don't want one so we don't get errors.
-  const languages = data.languages[Object.keys(data.languages)[0]];
-  const currencies = Object.values(data.currencies)[0].name;
-  let html = `
-  <article class="country ${className}">
-    <img class="country__img" src="${data.flags.png}" />
-    <div class="country__data">
-      <h3 class="country__name">${data.name.official}</h3>
-      <h4 class="country__region">${data.region}</h4>
-      <p class="country__row"><span>👫</span>${(
-        +data.population / 1000000
-      ).toFixed(1)} Million</p>
-      <p class="country__row"><span>🗣️</span>${languages}</p>
-      <p class="country__row"><span>💰</span>${currencies}</p>
-    </div>
-  </article>`;
-  countriesContainer.insertAdjacentHTML(`beforeend`, html);
-  // countriesContainer.style.opacity = 1;
-};
+// const renderCountry = function (data, className = ``) {
+//   // set className to default ``, incase we don't want one so we don't get errors.
+//   const languages = data.languages[Object.keys(data.languages)[0]];
+//   const currencies = Object.values(data.currencies)[0].name;
+//   let html = `
+//   <article class="country ${className}">
+//     <img class="country__img" src="${data.flags.png}" />
+//     <div class="country__data">
+//       <h3 class="country__name">${data.name.official}</h3>
+//       <h4 class="country__region">${data.region}</h4>
+//       <p class="country__row"><span>👫</span>${(
+//         +data.population / 1000000
+//       ).toFixed(1)} Million</p>
+//       <p class="country__row"><span>🗣️</span>${languages}</p>
+//       <p class="country__row"><span>💰</span>${currencies}</p>
+//     </div>
+//   </article>`;
+//   countriesContainer.insertAdjacentHTML(`beforeend`, html);
+//   // countriesContainer.style.opacity = 1;
+// };
 
 ///////////////////////////////////////
 
@@ -135,14 +135,14 @@ const renderCountry = function (data, className = ``) {
 //     });
 // };
 
-const getJSON = function (url, errorMsg = `Something went wrong!`) {
-  return fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(`${errorMsg} - ${response.status}`);
-    }
-    return response.json(); // RETURN PARSED PROMISE - NOW BECOMES THIS FUNCTIONS RETURN VALUE
-  });
-};
+// const getJSON = function (url, errorMsg = `Something went wrong!`) {
+//   return fetch(url).then(response => {
+//     if (!response.ok) {
+//       throw new Error(`${errorMsg} - ${response.status}`);
+//     }
+//     return response.json(); // RETURN PARSED PROMISE - NOW BECOMES THIS FUNCTIONS RETURN VALUE
+//   });
+// };
 
 //     -- BEFORE REFACTURING --
 
@@ -189,39 +189,58 @@ const getJSON = function (url, errorMsg = `Something went wrong!`) {
 //     });
 // };
 
-const getCountryData = function (country) {
-  // Country 1 - Original
-  getJSON(
-    // Helper function that checks for the response, and throws an error if something is wrong. Returns the whole AJAX promise request.
-    `https://restcountries.com/v3.1/alpha/${country}`,
-    `Country not found!`
-  )
-    .then(dataUS => {
-      // NEW PROMISE RETURNED from the original function now becomes the dataUS object created from this AJAX call
-      renderCountry(dataUS[0]); // We render the first index from this array of objects to the UI
-      if (!dataUS[0].borders) throw new Error(`No neighbors found!`); // IF there is NO neighbors, exit the function.
-      const neighbor = dataUS[0].borders[0]; // Create a neighbor const with the borders[0] from the dataUS[0] object property
-      return getJSON(
-        `https://restcountries.com/v3.1/alpha/${neighbor}`,
-        `Neighbor Country not found!`
-      );
-    })
-    .then(dataNei => {
-      renderCountry(dataNei[0], `neighbor`);
-    }) // Fulfilled promise rendered to the UI with the new object and neighbor class added.
-    .catch(err => {
-      // ERROR HANDLER
-      console.error(`${err} 🚩🚩`); // Custom error message throwing in the error itself.
-      renderError(`${err.message}`); // We use this err parameter to access the message property, which is then the msg we created above.
-    })
-    .finally(() => {
-      // ALWAYS CALLED ERROR OR NOT - Change the opacity of the container to show our content.
-      countriesContainer.style.opacity = 1;
-    });
-};
+// Fetch, then, catch, finally, errors.
 
-btn.addEventListener(`click`, function () {
-  getCountryData(`mv`);
+// const getCountryData = function (country) {
+//   // Country 1 - Original
+//   getJSON(
+//     // Helper function that checks for the response, and throws an error if something is wrong. Returns the whole AJAX promise request.
+//     `https://restcountries.com/v3.1/alpha/${country}`,
+//     `Country not found!`
+//   )
+//     .then(dataUS => {
+//       // NEW PROMISE RETURNED from the original function now becomes the dataUS object created from this AJAX call
+//       renderCountry(dataUS[0]); // We render the first index from this array of objects to the UI
+//       if (!dataUS[0].borders) throw new Error(`No neighbors found!`); // IF there is NO neighbors, exit the function.
+//       const neighbor = dataUS[0].borders[0]; // Create a neighbor const with the borders[0] from the dataUS[0] object property
+//       return getJSON(
+//         `https://restcountries.com/v3.1/alpha/${neighbor}`,
+//         `Neighbor Country not found!`
+//       );
+//     })
+//     .then(dataNei => {
+//       renderCountry(dataNei[0], `neighbor`);
+//     }) // Fulfilled promise rendered to the UI with the new object and neighbor class added.
+//     .catch(err => {
+//       // ERROR HANDLER
+//       console.error(`${err} 🚩🚩`); // Custom error message throwing in the error itself.
+//       renderError(`${err.message}`); // We use this err parameter to access the message property, which is then the msg we created above.
+//     })
+//     .finally(() => {
+//       // ALWAYS CALLED ERROR OR NOT - Change the opacity of the container to show our content.
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
+
+// btn.addEventListener(`click`, function () {
+//   getCountryData(`mv`);
+// });
+
+// // getCountryData(`mv`);
+
+// EVENT LOOP, CALLBACK QUEUE, CALL STACK, MICROTASK QUEUE, WEB APIS example
+
+console.log(`Test Start`);
+
+setTimeout(() => {
+  console.log(`0 Second timer`);
+}, 0);
+
+Promise.resolve(`Resolved promise 1`).then(res => console.log(res)); // Our resolved promise 1 from this promise will be places on the microtask queue, therefore on the next event loop tick, it will notice the mircotasks and handle these tasks first before continuing work in the callback queue.
+Promise.resolve(`Resolved promise 2`).then(res => {
+  for (let i = 0; i < 5000; i++) {
+    console.log(res);
+  }
 });
 
-// getCountryData(`mv`);
+console.log(`Test end`);

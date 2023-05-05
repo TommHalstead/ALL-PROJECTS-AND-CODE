@@ -2,10 +2,6 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
-btn.addEventListener(`click`, function () {
-  renderCountry(data);
-});
-
 const renderCountry = function (data, className = ``) {
   // set className to default ``, incase we don't want one so we don't get errors.
   const languages = data.languages[Object.keys(data.languages)[0]];
@@ -67,7 +63,9 @@ const whereAmI = function (lat, lng) {
       console.error(`Something went wrong, try again please! \n ${err}`);
     });
 };
-whereAmI(52.508, 13.381);
+whereAmI(52.508, 13.381); // Germany
+// whereAmI(19.037, 72.873); // India
+// whereAmI(-33.933, 18.474); // South Africa
 
 // 52.508, 13.381
 // 19.037, 72.873

@@ -161,4 +161,18 @@ We first always have to call the .then() to handle to original promise and parse
 The .catch() handler will catch all errors from the previous .then() statements and propegate all the way down to the .catch() function
 
 An error that is thrown in the .then() function, will ALWAYS reject the promise immediately.
+
+Asynchronous happens because we have the event loop and the callback queue and web APIS which handle asynchronous events, timers, eventHandlers, loading images are all async events that get handled by web APIs that javascript has access to.
+
+When using timers and/or timed events, we are guaranteed that this callback function won't be called before our timer states, but depending on the callback queue size, it could be called later than the timer specifications. Any and all events are put into the callback queue.
+
+The event loop is a loop that loops between the callstack and the callback queue and constantly checks if the callstack is empty, if it is empty, it will place the first item in the callback queue into the callstack. This loop and act is called an event loop tick. The event loop orchestrates the javascript runtime.
+
+The JS language itself has no sense of time. All Async events happen and are managed by the runtime, and the event loop that decides what code to execute next. The engine itself (call stack ) executs whatever code it is given.
+
+When we do .addEventListener() it registers the callback, which waits in the runtime web APIs environment until the load event is fired off, then the web API environment places the callback in the queue, it then waits for the event loop to pick it up and place it in the call stack.
+
+Callback functions that are registered with the fetch() function and linked to promises in the .then() method, do not go into the callback queue.
+
+Callback functions associated with promises, go into the "microtask queue", the microtask queue has priority over the callback queue. So at the next cycle of the event loop, it also checks the microtasks queue for any tasks. If there are any tasks, it will execute all of these as soon as the callstack is empty before resuming focus to the callback queue.
 */
