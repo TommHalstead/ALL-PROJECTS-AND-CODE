@@ -70,3 +70,64 @@ const whereAmI = function (lat, lng) {
 // 52.508, 13.381
 // 19.037, 72.873
 // -33.933, 18.474
+
+const wait = seconds => {
+  return new Promise(resolve => {
+    setTimeout(resolve, seconds * 1000);
+  }); // We add a setTimeout() saying to resolve, only after 2 seconds.
+  // No reject() needed, it's impossible for a timer to fail. So no rejection is possible.
+};
+
+const div = document.querySelector(`.images`);
+const pic = document.createElement(`img`);
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    // const pic = document.createElement(`img`);
+    pic.src = imgPath; // Logic we want applied to successfull promise
+    pic.addEventListener(`load`, () => {
+      // Event handler to listen for the load event to finish and then append it to the div.
+      div.append(pic);
+      resolve(pic); // We resolve this pic into a new promise with the logic applied to it.
+    });
+    pic.addEventListener(`error`, function () {
+      // We listen for an error
+      reject(new Error(`Image path was not right`)); // Reject message throws new Error()
+    });
+  });
+};
+
+let currentImg;
+createImage(`/ALL PROJECTS AND CODE/16 - Asynchronous/starter/img/img-1.jpg`)
+  .then(newPic => {
+    currentImg = newPic;
+    console.log(`Img 1 loaded`);
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = `none`;
+    return createImage(
+      `/ALL PROJECTS AND CODE/16 - Asynchronous/starter/img/img-2.jpg`
+    );
+  })
+  .then(res => {
+    currentImg = res;
+    console.log(`Img 2 loaded`);
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = `block`;
+    return wait(2);
+  })
+  .then(() => (currentImg.style.display = `none`))
+  .catch(err => {
+    console.error(`Request was rejected. \n \n ${err}!`);
+  });
+
+// `/ALL PROJECTS AND CODE/16 - Asynchronous/starter/img/img-1.jpg`;
+
+// .then(newPromise => {
+//   newPromise.addEventListener(`load`, () => {
+//     wait(2);
+//   });
+// })

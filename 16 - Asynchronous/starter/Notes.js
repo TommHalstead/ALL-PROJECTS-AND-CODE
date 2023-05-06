@@ -192,4 +192,12 @@ The geolocation API takes two callbacks, one for success with the parameter of t
 
 IN ORDER TO GET ACCESS TO A FULFILLED PROMISE WE DEFINE WITHIN A FUNCTION, WE MUST RETURN THAT PROMISE FROM THE FUNTION SO WE CAN CHAIN IT!
 
+
+// PROMISES
+
+When creating a new promise, we use the new Promise syntax. This promise has an executor function. The executor function is called immediately, it takes two parameter which are functions as arguments. The resolve function and the reject function. The executor function is where we put our code that we would like to be asynchronous (we put the code we would like to do to our resolved promise in the case that it is resolved). 
+
+// RESOLVE FUNCTION INSIDE OF EXECUTOR FUNCTION
+
+We use the resolve function to set the promise as resolved. AFTER WE DO WHATEVER LOGIC THAT WE WOULD LIKE TO DO TO THE PROMSE, we pass the `resolved` promise into the the resolve() function, so that we can later consume it with the then() method on that fulfilled promise.  
 */
