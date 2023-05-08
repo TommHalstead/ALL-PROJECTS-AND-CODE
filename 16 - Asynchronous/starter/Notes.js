@@ -219,4 +219,14 @@ try...catch is the method for catching errors when using the async / await metho
 
 NEVER IGNORE ERROR HANDLING!!
 
+                ----------------- Returning values from promises ----------------------
+
+When using async / await, the function itselfs return value will be the pending promise. If we would like to return a value from an ansync function, the fulfilledResult of the promise will be our return value. WHATEVER VALUE WE RETURN FROM AN ASYNC FUNCTION WILL BE THE FULFILLED VALUE OF THAT ASYNC FUNCTION.
+
+In order to get the fulfilled result from an async function, we can use the .then() method to extract that fulfilledresult value.
+
+When we have an error inside of an async function from another async event(the async event will be rejected) but the promise from the containing function itself will still be fulfilled.
+
+When we need a return value from a function and we need to catch the errors thrown from that function, we can rethrow our error so it can propegate down and when we access our return value from our function, we can use a .then() to handle our return value an a .catch() block to access our rethrown error.
+
 */

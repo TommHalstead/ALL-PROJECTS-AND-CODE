@@ -369,16 +369,21 @@ const whereAmI = async function (country) {
       `https://restcountries.com/v3.1/alpha/${geoData.prov}`
     ); // Fulfilled or Rejected response.
     if (!resCou.ok) throw new Error(`Problem getting Country!`);
-    const data = await resCou.json(); // Actual data object after being parsed through json.
-    renderCountry(data[0]);
+    const [data] = await resCou.json(); // Actual data object after being parsed through json.
+    renderCountry(data);
+
+    return `You are in ${geoData.city}. ${geoData.country}`;
   } catch (err) {
     console.error(`${err} 👎`);
     renderError(`Something went wrong! \n ${err.message} 👎`);
   }
 };
 
-whereAmI();
-console.log(`Hello`);
+console.log(`1: Will get location`);
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message} 🚩`))
+//   .finally(console.log(`3: Finished getting location`));
 
 // try {
 //   let y = 1;
@@ -387,3 +392,17 @@ console.log(`Hello`);
 // } catch (err) {
 //   alert(err.message);
 // }
+
+(async function () {
+  try {
+    const pos = await whereAmI();
+    console.log(`2: ${pos}`);
+  } catch (err) {
+    console.error(`${err.message}`);
+  }
+  console.log(`3: Finished getting location`);
+})();
+
+// .then(city => console.log(`2: ${city}`))
+// .catch(err => console.error(`2: ${err.message} 🚩`))
+// .finally(console.log(`3: Finished getting location`));
