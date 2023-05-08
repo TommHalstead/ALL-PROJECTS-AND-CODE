@@ -229,4 +229,31 @@ When we have an error inside of an async function from another async event(the a
 
 When we need a return value from a function and we need to catch the errors thrown from that function, we can rethrow our error so it can propegate down and when we access our return value from our function, we can use a .then() to handle our return value an a .catch() block to access our rethrown error.
 
+
+                                    ----------------- Running Promises In Parallel ----------------------
+
+When using an async function, we always use a try...catch(err) block.
+
+In order to run the promises in parallel, so they don't have to wait for one another to run, we use the Promise.all() static method.
+
+The Promise.all() takes as an input an array of promises, and will return a new promise, which will then run all of the promises in the array at the same time.
+
+Promise.all() receives as input, an array of promises and also returns an array.
+
+When using the Promise.all() if one promise rejects, then the whole promise itself will be rejected. IT short-circuits when one promise rejects.
+
+WHENEVER we have promises we are running together and don't depend on each other, we should ALWAYS run them together with the Promise.all().
+
+The Promise.all() id a combinator function.
+
+
+                                    ----------------- Promise combinators ----------------------
+
+1.) Promise.race - Receives an array of promises and returns a promise. Settles as soon as the first promise within its input is settled. Fullfillment value returned is that of the winning promise. Fulfilled or not, the promise gets settled as soon as the first one settles within the array.
+2.) Promise.allSettled - Takes in an array of promises and returns an array of all of the promises fulfilled or rejected. 
+3.) any - Takes in an array of promises and will return the first fulfilled promise and ignore rejected promises. The result will always be a fulfilled promise, unless all of them are rejected.
+
+
+
+
 */

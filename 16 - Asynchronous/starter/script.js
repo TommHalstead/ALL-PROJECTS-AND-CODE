@@ -348,38 +348,38 @@ const renderCountry = function (data, className = ``) {
 
 // btn.addEventListener(`click`, whereAmI);
 
-const getPosition = function () {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const getPosition = function () {
+//   return new Promise((resolve, reject) => {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
-// Async -- Await
-const whereAmI = async function (country) {
-  try {
-    // Geolocation
-    const pos = await getPosition(); // Actual data object
-    const { latitude: lat, longitude: lng } = pos.coords;
-    // Geocoding
-    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?json=1`); // Fulfilled or Rejected response.
-    if (!resGeo.ok) throw new Error(`Problem getting location data!`);
-    const geoData = await resGeo.json(); // Actual data object after being parsed through json.
-    // Country data
-    const resCou = await fetch(
-      `https://restcountries.com/v3.1/alpha/${geoData.prov}`
-    ); // Fulfilled or Rejected response.
-    if (!resCou.ok) throw new Error(`Problem getting Country!`);
-    const [data] = await resCou.json(); // Actual data object after being parsed through json.
-    renderCountry(data);
+// // Async -- Await
+// const whereAmI = async function (country) {
+//   try {
+//     // Geolocation
+//     const pos = await getPosition(); // Actual data object
+//     const { latitude: lat, longitude: lng } = pos.coords;
+//     // Geocoding
+//     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?json=1`); // Fulfilled or Rejected response.
+//     if (!resGeo.ok) throw new Error(`Problem getting location data!`);
+//     const geoData = await resGeo.json(); // Actual data object after being parsed through json.
+//     // Country data
+//     const resCou = await fetch(
+//       `https://restcountries.com/v3.1/alpha/${geoData.prov}`
+//     ); // Fulfilled or Rejected response.
+//     if (!resCou.ok) throw new Error(`Problem getting Country!`);
+//     const [data] = await resCou.json(); // Actual data object after being parsed through json.
+//     renderCountry(data);
 
-    return `You are in ${geoData.city}. ${geoData.country}`;
-  } catch (err) {
-    console.error(`${err} 👎`);
-    renderError(`Something went wrong! \n ${err.message} 👎`);
-  }
-};
+//     return `You are in ${geoData.city}. ${geoData.country}`;
+//   } catch (err) {
+//     console.error(`${err} 👎`);
+//     renderError(`Something went wrong! \n ${err.message} 👎`);
+//   }
+// };
 
-console.log(`1: Will get location`);
+// console.log(`1: Will get location`);
 // whereAmI()
 //   .then(city => console.log(`2: ${city}`))
 //   .catch(err => console.error(`2: ${err.message} 🚩`))
@@ -393,16 +393,87 @@ console.log(`1: Will get location`);
 //   alert(err.message);
 // }
 
-(async function () {
-  try {
-    const pos = await whereAmI();
-    console.log(`2: ${pos}`);
-  } catch (err) {
-    console.error(`${err.message}`);
-  }
-  console.log(`3: Finished getting location`);
-})();
+// (async function () {
+//   try {
+//     const pos = await whereAmI();
+//     console.log(`2: ${pos}`);
+//   } catch (err) {
+//     console.error(`${err.message}`);
+//   }
+//   console.log(`3: Finished getting location`);
+// })();
 
 // .then(city => console.log(`2: ${city}`))
 // .catch(err => console.error(`2: ${err.message} 🚩`))
 // .finally(console.log(`3: Finished getting location`));
+
+//                        --------------------------  RUNNING PROMISES IN PARALLEL -------------------------
+
+// const get3Countries = async function (c1, c2, c3) {
+//   try {
+//     // const [ctry1] = await getJSON(`https://restcountries.com/v3.1/alpha/${c1}`); // Destructure immediately
+//     // const [ctry2] = await getJSON(`https://restcountries.com/v3.1/alpha/${c2}`); // All running after one another
+//     // const [ctry3] = await getJSON(`https://restcountries.com/v3.1/alpha/${c3}`);
+//     //  console.log([ctry1.capital[0], ctry2.capital[0], ctry3.capital[0]]);  Create array of 3 API grab country capitals
+//     const data = await Promise.all([
+// getJSON(`https://restcountries.com/v3.1/alpha/${c1}`),
+// getJSON(`https://restcountries.com/v3.1/alpha/${c2}`),
+// getJSON(`https://restcountries.com/v3.1/alpha/${c3}`),
+//     ]);
+//     const [[data1], [data2], [data3]] = data;
+//     console.log(data);
+//     console.log(data.flatMap(d => d[0].capital));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+// get3Countries(`us`, `pt`, `de`);
+
+// Promise.race() -- Combinator - receives an array of promises and returns a promise. First settled promise wins the race
+
+// Fullfillment value returned is that of the winning promise.
+
+// (async function () {
+//   try {
+//     const res = await Promise.race([
+//       getJSON(`https://restcountries.com/v3.1/alpha/US`),
+//       getJSON(`https://restcountries.com/v3.1/alpha/PT`),
+//       getJSON(`https://restcountries.com/v3.1/alpha/MX`),
+//     ]);
+//     console.log(res[0]);
+//   } catch (err) {
+//     console.error(`${err}`);
+//   }
+// })();
+
+// const timeout = function (sec) {
+//   return new Promise(function (_, reject) {
+//     setTimeout(function () {
+//       reject(new Error(`Request took too long!`));
+//     }, sec * 1000);
+//   });
+// }; // This creates a simple timeout function that returns if the AJAX call is taking too long.
+
+// Promise.race([getJSON(`https://restcountries.com/v3.1/alpha/TZ`), timeout(1)])
+//   .then(res => console.log(res[0]))
+//   .catch(err => console.error(err)); // If the request takes longer than this timer, it will return rejected.
+
+// // Promise.allSettled()
+
+// Promise.allSettled([
+//   Promise.resolve(`Success`),
+//   Promise.reject(`ERROR`),
+//   Promise.resolve(`Success`),
+// ]).then(pro => console.log(pro)); // Result === [Fulfilled, Rejected, Fulfilled] - Returns all regardless of state.
+
+// // Promise.any() --
+
+// Promise.any([
+//   Promise.reject(`Rejected`),
+//   Promise.reject(`Rejected`),
+//   Promise.reject(`Rejected`),
+//   Promise.reject(`Rejected`),
+//   Promise.reject(`Fuflfilled`),
+// ])
+//   .then(fufl => console.log(fufl))
+//   .catch(err => console.error(`All promises were rejected.`)); // Returns the first fulfilled promise, unless all are rejected
