@@ -199,5 +199,21 @@ When creating a new promise, we use the new Promise syntax. This promise has an 
 
 // RESOLVE FUNCTION INSIDE OF EXECUTOR FUNCTION
 
-We use the resolve function to set the promise as resolved. AFTER WE DO WHATEVER LOGIC THAT WE WOULD LIKE TO DO TO THE PROMSE, we pass the `resolved` promise into the the resolve() function, so that we can later consume it with the then() method on that fulfilled promise.  
+We use the resolve function to set the promise as resolved. AFTER WE DO WHATEVER LOGIC THAT WE WOULD LIKE TO DO TO THE PROMSE, we pass the `resolved` promise into the the resolve() function, so that we can later consume it with the then() method on that fulfilled promise.
+
+                                 -------------------- USING THE ASYNC / AWAIT PROMISES ------------------------
+
+The best way to consume promises is async await. You have to first create an async await function, we do this with the "async" keyword in front of the `function` keyword. This function will be running in the web APIs runtime while preforming the code tasks inside. When this function is finished, it will automatically return a promise.
+
+Within an async function, we use the await keyword in front of our API call or our promise call, `await fetch(url)`. Await will stop the code execution at that point, until the promise is fulfilled. When we use the async/await, our promise is stored into this await call. We can store that in a variable in order to use it.
+
+With Async / Await, we can easily store our promise into a variable and use it easily like that. Before we had to always return a promise before we could use or comsume it. This method is exactly the same as grabbing the promise with the .then() method, it's simply syntactic sugar over that method.
+
+After we await our fetch promise and store it into a variable, we parse the response through json() and await that promise as well, in order to receive our Javascript object. const data = await res.json(); Then we can use this data.
+
+Async / Await only correlates to how we consume promises, but not how to we build them in any way
+
+try...catch is the method for catching errors when using the async / await method for promise handling.
+
+
 */

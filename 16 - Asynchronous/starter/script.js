@@ -304,46 +304,72 @@ const renderCountry = function (data, className = ``) {
 // Promise.resolve(`Promise Resolved!`).then(x => console.log(x));
 // Promise.reject(new Error(`Promise Rejected!`)).catch(x => console.error(x));
 
-const getPosition = function () {
-  return new Promise((resolve, reject) => {
-    // Promise callbacks, RESOLVED, REDJECTED
-    // Callbacks (success, error, options) - Navigator
-    // navigator.geolocation.getCurrentPosition(
-    // position => {
-    // console.log(position);
-    // resolve(position);
-    // }, // Resolved promise - LAT,LNG IS THE FULFILLED PROMISE VALUE
-    // err => reject(console.error(`${err}`)) // Rejected promise - ANY ERROR IS REJECTED PROMISE VALUE
-    // ); // WEB API - ALL ASYNCHRONOUS BEHVAIOR
-    navigator.geolocation.getCurrentPosition(resolve, reject); // The Promise executor function is called no matter what, so here instead of all the logic above, we can simply pass in the resolve and reject parameters into our getCurrentPosition() function since it takes two callbacks, one as a resolved promise and one as a rejected promise.
-  });
-}; // This function will return either a rejected or fulfilled promise based on the code.
+// const getPosition = function () {
+// return new Promise((resolve, reject) => {
+// Promise callbacks, RESOLVED, REDJECTED
+// Callbacks (success, error, options) - Navigator
+// navigator.geolocation.getCurrentPosition(
+// position => {
+// console.log(position);
+// resolve(position);
+// }, // Resolved promise - LAT,LNG IS THE FULFILLED PROMISE VALUE
+// err => reject(console.error(`${err}`)) // Rejected promise - ANY ERROR IS REJECTED PROMISE VALUE
+// ); // WEB API - ALL ASYNCHRONOUS BEHVAIOR
+// navigator.geolocation.getCurrentPosition(resolve, reject); // The Promise executor function is called no matter what, so here instead of all the logic above, we can simply pass in the resolve and reject parameters into our getCurrentPosition() function since it takes two callbacks, one as a resolved promise and one as a rejected promise.
+// });
+// }; // This function will return either a rejected or fulfilled promise based on the code.
 
 // getPosition().then(promise => console.log(promise));
 
-const whereAmI = function () {
-  getPosition()
-    .then(pos => {
-      const { latitude: lat, longitude: lng } = pos.coords;
-      return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`Problem with geocoding API ${res.status} `);
-      return res.json();
-    })
-    .then(data => {
-      console.log(data);
-      console.log(`You are in ${data.city}, ${data.country || data.prov}`);
-      return fetch(`https://restcountries.com/v3.1/alpha/${data.prov}`);
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`Country not found! (${res.status})`);
-      return res.json();
-    })
-    .then(data => renderCountry(data[0]))
-    .catch(err => {
-      console.error(`Something went wrong, try again please! \n ${err}`);
-    });
+// const whereAmI = function () {
+//   getPosition()
+//     .then(pos => {
+//       const { latitude: lat, longitude: lng } = pos.coords;
+//       return fetch(`https://geocode.xyz/${lat},${lng}?json=1`);
+//     })
+//     .then(res => {
+//       if (!res.ok) throw new Error(`Problem with geocoding API ${res.status} `);
+//       return res.json();
+//     })
+//     .then(data => {
+//       console.log(data);
+//       console.log(`You are in ${data.city}, ${data.country || data.prov}`);
+//       return fetch(`https://restcountries.com/v3.1/alpha/${data.prov}`);
+//     })
+//     .then(res => {
+//       if (!res.ok) throw new Error(`Country not found! (${res.status})`);
+//       return res.json();
+//     })
+//     .then(data => renderCountry(data[0]))
+//     .catch(err => {
+//       console.error(`Something went wrong, try again please! \n ${err}`);
+//     });
+// };
+
+// btn.addEventListener(`click`, whereAmI);
+
+const getPosition = function () {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
 };
 
-btn.addEventListener(`click`, whereAmI);
+// Async -- Await
+const whereAmI = async function (country) {
+  // Geolocation
+  const pos = await getPosition(); // Actual data object
+  const { latitude: lat, longitude: lng } = pos.coords;
+  // Geocoding
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?json=1`); // Fulfilled or Rejected response.
+  const geoData = await resGeo.json(); // Actual data object after being parsed through json.
+  // Country data
+  const resCou = await fetch(
+    `https://restcountries.com/v3.1/alpha/${geoData.prov}`
+  ); // Fulfilled or Rejected response.
+  const [data] = await resCou.json(); // Actual data object after being parsed through json.
+  renderCountry(data);
+};
+
+whereAmI();
+
+console.log(`Helllo`);
