@@ -356,20 +356,34 @@ const getPosition = function () {
 
 // Async -- Await
 const whereAmI = async function (country) {
-  // Geolocation
-  const pos = await getPosition(); // Actual data object
-  const { latitude: lat, longitude: lng } = pos.coords;
-  // Geocoding
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?json=1`); // Fulfilled or Rejected response.
-  const geoData = await resGeo.json(); // Actual data object after being parsed through json.
-  // Country data
-  const resCou = await fetch(
-    `https://restcountries.com/v3.1/alpha/${geoData.prov}`
-  ); // Fulfilled or Rejected response.
-  const [data] = await resCou.json(); // Actual data object after being parsed through json.
-  renderCountry(data);
+  try {
+    // Geolocation
+    const pos = await getPosition(); // Actual data object
+    const { latitude: lat, longitude: lng } = pos.coords;
+    // Geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?json=1`); // Fulfilled or Rejected response.
+    if (!resGeo.ok) throw new Error(`Problem getting location data!`);
+    const geoData = await resGeo.json(); // Actual data object after being parsed through json.
+    // Country data
+    const resCou = await fetch(
+      `https://restcountries.com/v3.1/alpha/${geoData.prov}`
+    ); // Fulfilled or Rejected response.
+    if (!resCou.ok) throw new Error(`Problem getting Country!`);
+    const data = await resCou.json(); // Actual data object after being parsed through json.
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(`${err} 👎`);
+    renderError(`Something went wrong! \n ${err.message} 👎`);
+  }
 };
 
 whereAmI();
+console.log(`Hello`);
 
-console.log(`Helllo`);
+// try {
+//   let y = 1;
+//   const x = 2;
+//   y = 3;
+// } catch (err) {
+//   alert(err.message);
+// }

@@ -21,6 +21,7 @@ body {
 }
 
 .container {
+  font-size: 18px;
   display: flex;
   flex-flow: column;
   align-items: center;

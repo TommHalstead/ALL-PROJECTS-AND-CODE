@@ -213,7 +213,10 @@ After we await our fetch promise and store it into a variable, we parse the resp
 
 Async / Await only correlates to how we consume promises, but not how to we build them in any way
 
-try...catch is the method for catching errors when using the async / await method for promise handling.
+              --------------------- try ... catch -----------------------
 
+try...catch is the method for catching errors when using the async / await method for promise handling. We use try {} and wrap all of our code into this try...catch block. Javascript will try all of the code within the block and catch any errors with the catch block.
+
+NEVER IGNORE ERROR HANDLING!!
 
 */
