@@ -213,13 +213,13 @@ After we await our fetch promise and store it into a variable, we parse the resp
 
 Async / Await only correlates to how we consume promises, but not how to we build them in any way
 
-              --------------------- try ... catch -----------------------
+                                       --------------------- try ... catch -----------------------
 
 try...catch is the method for catching errors when using the async / await method for promise handling. We use try {} and wrap all of our code into this try...catch block. Javascript will try all of the code within the block and catch any errors with the catch block.
 
 NEVER IGNORE ERROR HANDLING!!
 
-                ----------------- Returning values from promises ----------------------
+                                  ----------------- Returning values from promises ----------------------
 
 When using async / await, the function itselfs return value will be the pending promise. If we would like to return a value from an ansync function, the fulfilledResult of the promise will be our return value. WHATEVER VALUE WE RETURN FROM AN ASYNC FUNCTION WILL BE THE FULFILLED VALUE OF THAT ASYNC FUNCTION.
 
