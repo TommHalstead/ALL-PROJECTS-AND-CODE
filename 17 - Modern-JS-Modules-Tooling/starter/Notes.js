@@ -80,7 +80,7 @@ If we don't return a variable from the function, then it will be undefined since
 
 There are also other modules used by developers before ES6 modules. One being CommonJS
 
-
+Just like ES6, CommonJS with one file is one module.
 
 
 

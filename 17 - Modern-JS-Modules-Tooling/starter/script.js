@@ -77,3 +77,15 @@ console.log(`IMPORTING MODULE`);
 
 // console.log(ShoppingCart2);
 // console.log(ShoppingCart2.cart);
+
+// Export
+
+// export.addToCart = function (product, quantity) {
+//   cart.push({ product, quantity });
+//   console.log(`${quantity} ${product} added to cart`);
+// }; // NODE.JS
+
+// Import
+
+// const { addToCart } = require(`./shoppingCart`);
+// CommonJS
