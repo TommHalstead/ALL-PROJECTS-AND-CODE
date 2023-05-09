@@ -84,6 +84,36 @@ Just like ES6, CommonJS with one file is one module.
 
 
 
+------------------------------------------------------------ NPM -------------------------------------------------------------------------------
 
+
+In order to use NPM in a project, we need to initialize it in the folder first by using the CMD command `npm init`. 
+
+npm init will create a package.json file within your folder. 
+
+npm init will ask you multiple questions regarding your package.json folder. 
+
+When we install another package such as leaflet to this same file directory, the package.json file will update with leaflet as a dependency. This file alows 
+
+YOU MUST have a package.json file before you can install any type of dependency packages. The package.json file is used by the npm CLI to identify your project and understand how to work with it and handle dependencies, run scripts, install scripts, install packages, publish to NPM registry. Must have one in order to deploy your website to the internet.
+
+When we install a package, a folder called 'node moduless' is created, which is where all the packages we install in this particular project will be installed.
+
+In order to use a package like leaflet, we would have to install a package bundler because leaflet uses CommonJS
+
+A very useful JS library is lodash, which has a TON of functions for arrays, dates, numbers, everything you can think of. 
+
+When you are trying to send your project file to another computer or another developer, you NEVER INCLUDE the node modules folder, there can be thousands of files in there that will take up a lot of space, as these files are already on npm.
+
+When you need these dependencies in another location or another file, npm will look into your package.json folder and you can do npm i and it will install all of the dependencies required to run your project.
+
+
+------------------------------------------------------------------------ PARCEL --------------------------------------------------------------------
+
+parcel is a dev dependency.
+
+To install parcel, we have to do `npx parcel (file)` we pass in the entry point, which would be index.html because that's where we include our script link and location.
+
+When we use parcel, it no longer uses modules but it uses scripts, so if we have the script type="module" it wil throw an error.
 
 */

@@ -22,11 +22,11 @@ console.log(`IMPORTING MODULE`);
 //   totalQuantity,
 // } from './shoppingCart.js';
 
-// import add, { cart } from './shoppingCart.js';
-// add(`pizza`, 2);
-// add(`bread`, 5);
-// add(`apple`, 4);
-// console.log(cart);
+import add, { cart } from './shoppingCart.js';
+add(`pizza`, 2);
+add(`bread`, 5);
+add(`apple`, 4);
+console.log(cart);
 
 // const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
 
@@ -89,3 +89,25 @@ console.log(`IMPORTING MODULE`);
 
 // const { addToCart } = require(`./shoppingCart`);
 // CommonJS
+
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+
+const state = {
+  cart: [
+    { product: `bread`, quantity: 5 },
+    { product: `pizza`, quantity: 5 },
+  ],
+  user: { loggedIn: true },
+};
+
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+
+state.user.loggedIn = false;
+console.log(stateClone);
+
+console.log(stateDeepClone);
+
+if (module.hot) {
+  module.hot.accept();
+}
