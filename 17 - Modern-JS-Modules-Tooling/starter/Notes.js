@@ -72,9 +72,13 @@ Await in a module outside of an async function will block execution.
 
 The .at() method allows you to grab ANY ITEM AT ANY INDEX IN AN ARRAY
 
+---------------------------------------------------------- The Module Pattern --------------------------------------------------------------
 
+The module pattern is a method for sending and receiving imports and exports. It is done by creating a IIFE and declaring variables and/or methods and then returning those variables and methods from the function inside of an object. Then we must in order to save this data and be able to use it externally, we must save this IIFE to a variable.
 
+If we don't return a variable from the function, then it will be undefined since it's declared in the functions scope.
 
+There are also other modules used by developers before ES6 modules. One being CommonJS
 
 
 
