@@ -6,6 +6,12 @@
 // } from './shoppingCart.js'; // We must place our function into curly braces and they have to be the same name
 // addToCart(`bread`, 5);
 // console.log(price, totalQuantity);
+
+// Pollyfilling ASYNC functions
+
+import 'regenerator-runtime/runtime';
+import add, { cart } from './shoppingCart.js';
+import cloneDeep from 'lodash-es';
 import 'core-js/actual';
 console.log(`IMPORTING MODULE`);
 
@@ -22,7 +28,6 @@ console.log(`IMPORTING MODULE`);
 //   totalQuantity,
 // } from './shoppingCart.js';
 
-import add, { cart } from './shoppingCart.js';
 add(`pizza`, 2);
 add(`bread`, 5);
 add(`apple`, 4);
@@ -92,8 +97,6 @@ console.log(cart);
 
 // import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
 
-import cloneDeep from 'lodash-es';
-
 const state = {
   cart: [
     { product: `bread`, quantity: 5 },
@@ -127,3 +130,5 @@ class Person {
 const thomas = new Person(`Thomas`);
 
 console.log(cart.filter(el => el.quantity >= 5));
+
+Promise.resolve(`Test`).then(el => console.log(el));

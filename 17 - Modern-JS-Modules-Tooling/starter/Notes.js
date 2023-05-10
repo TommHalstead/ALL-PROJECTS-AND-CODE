@@ -136,4 +136,11 @@ USe 'npm run build' to build/transpile your code.
 
 npm i will install all dependencies listed in the package.json folder. 
 
+With a transpiler, only syntax can be converted to ES5 syntax. Not new functions or capabilities.
+
+polyfilling is what happens when code can't be transpiled, then we polyfill it, which is when we convert methods or functions to functions that are understandable by ES5 syntax.
+
+ In order to polyfill async functions, we use the regenerator runtime npm package
+
+
 */
