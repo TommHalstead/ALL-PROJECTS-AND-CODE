@@ -116,4 +116,18 @@ To install parcel, we have to do `npx parcel (file)` we pass in the entry point,
 
 When we use parcel, it no longer uses modules but it uses scripts, so if we have the script type="module" it wil throw an error.
 
+The folder created by parcel called `dist` will be the one that we send for production. 
+
+Parcel will also create a new live server in which will update the same as before. Any updates will be instantly parced and resaved as this new folder.
+
+The following code: if (module.hot) {
+  module.hot.accept();
+}
+
+Will make it so when you update your code, it will still get injected into the browser without triggering a whole page reload 
+
+We can make custom scripts within the package.json file to shortcut actions we would like to preform
+
+Use `npm run start` to start our live server for parcel and to build a new package. 
+
 */
