@@ -6,7 +6,7 @@
 // } from './shoppingCart.js'; // We must place our function into curly braces and they have to be the same name
 // addToCart(`bread`, 5);
 // console.log(price, totalQuantity);
-
+import 'core-js/actual';
 console.log(`IMPORTING MODULE`);
 
 // NAMED IMPORTS AND EXPORTS
@@ -115,3 +115,13 @@ if (module.hot) {
 }
 
 console.log(`hello`);
+
+class Person {
+  greeting = `Hey`;
+  constructor(name) {
+    this.name = name;
+    console.log(`${this.greeting}, ${this.name}`);
+  }
+}
+
+const thomas = new Person(`Thomas`);

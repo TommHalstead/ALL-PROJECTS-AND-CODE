@@ -130,4 +130,6 @@ We can make custom scripts within the package.json file to shortcut actions we w
 
 Use `npm run start` to start our live server for parcel and to build a new package. 
 
+PARCEL USES BABEL TO TRANSPILE OUR CODE TO ES5
+
 */
