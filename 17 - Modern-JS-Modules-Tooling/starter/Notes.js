@@ -140,7 +140,61 @@ With a transpiler, only syntax can be converted to ES5 syntax. Not new functions
 
 polyfilling is what happens when code can't be transpiled, then we polyfill it, which is when we convert methods or functions to functions that are understandable by ES5 syntax.
 
- In order to polyfill async functions, we use the regenerator runtime npm package
+ In order to polyfill async functions, we use the regenerator runtime npm package.
+
+
+ ---------------------------------------------------------- HOW TO WRITE MODERN AND CLEAN CODE -----------------------------------------------------
+
+1.) Write readable code ( so others can understand )
+2.) Avoid writing too clever or overcomplicated code.
+3.) Use descriptive names for variables for functions and variables.
+4.) Use the DRY principle
+5.) Don't pollute the global namespace, encapsulate data into functions, classes, or modules.
+5.) Use strong type checks `!==` and `===`
+
+------------------------------------------------------------------- WRITING FUNCTIONS --------------------------------------------------------------
+
+
+1.) Generally, functions should only do ONE THING. Or one processm rather than having one single function handle multiple processes.
+2.) Don't use more than 3 parameters in a function and use default parameters whenever possible.
+3.) Generally, return the same data type as you receive. If you use numebrs as an input, you probably want to return numbers.
+4.) Use arrow functions whenever they make the code more readable.
+
+
+-------------------------------------------------------------- OBJECT ORIENTED PROGRAMMING ---------------------------------------------------------
+
+1.) Use ES6 classes.
+2.) Encapsulate any data, so it isn't accessible from outside the class, unless it needs to be. If you need to access these methods and properties, use helper functions to change this data internally.
+3.) Implement method chaining when using classes.
+4.) DO NOT use arrow functions as methods inside of regular objects.
+
+
+----------------------------------------------------------------- AVOIDING NESTED CODE -------------------------------------------------------------
+
+1.) Use early return (guard clause)
+2.) Use ternary (conditional) or logical operators instead of if()
+3.) Use multiple if statements instead of if else statements.
+4.) Avoid for loops and use array methods instead.
+5.) Avoid callback-based asynchronous APIs
+
+------------------------------------------------------------------- ASYNCHRONOUS CODE --------------------------------------------------------------
+
+1.) Consume promises with async/await for best readability
+2.) Whenever possible, run promises in parallel. 
+3.) Hande errors and promise rejections.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 */
