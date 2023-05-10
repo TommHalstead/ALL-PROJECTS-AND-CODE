@@ -209,6 +209,8 @@ DECLARATIVE
 
 4.) IMMUTABILITY state or data is NEVER modified. Instead, the state is copied and mutated and returned. Immunability makes it much easier to write and understand your program without having to jump all over the code looking for variables and functions.
 
+5.) IMPURE FUNCTION is one that manipulates any outside data or doesn't strictly return a value.
+
 - Try to avoid data mutations outside of functions.
 - Use built-in methods that don't produce side effects. 
 - Do data transformations with methods such as .map(), .filter(), and .reduce()
@@ -221,7 +223,18 @@ DECLARATIVE SYNTAX
 3.) Use the ternary (conditional) operator
 4.) Use template literals.
 
+- We can do Object.freeze({object}) to make an object immutable, this also works on arrays as well. 
+- Object.freeze() only freezes the first level, it does not freeze deeper than the first level of an object. Nested objects will not be changed.
 
+- When practicing functional programming, in order to avoid mutation, we sometimes need to pass objects from one function call to the next function call, in the real world we would use 'composing' and create one function in order to complete all of these tasks.
 
+- When we say in functional programming that we have to make functions self dependent, we still have to at least pass the data in, we just can't alter that data without mutating it internally.
 
+- Whatever is returned from the map() callback, will be the element in the same position of the new array
+
+- When practicing FP, creating and mutating variables inside of a function still goes againsnt the immutability rule. In FP, you should NEVER see the `let` variable
+
+- DON'T FORGET THAT WE CAN MAP ITEMS TO AN ARRAY AND JOIN THOSE ITEMS IN THAT ARRAY WITH A SEPERATOR STRING!!
+
+- Of course any program has to have side effects, otherwise it literally wouldn't do anything. The goal is to push these side effects to the end of the project so that we don't pollute and manipulate code throughout.
 */
