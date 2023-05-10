@@ -132,4 +132,8 @@ Use `npm run start` to start our live server for parcel and to build a new packa
 
 PARCEL USES BABEL TO TRANSPILE OUR CODE TO ES5
 
+USe 'npm run build' to build/transpile your code.
+
+npm i will install all dependencies listed in the package.json folder. 
+
 */

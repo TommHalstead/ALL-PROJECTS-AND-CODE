@@ -125,3 +125,5 @@ class Person {
 }
 
 const thomas = new Person(`Thomas`);
+
+console.log(cart.filter(el => el.quantity >= 5));
