@@ -183,16 +183,43 @@ polyfilling is what happens when code can't be transpiled, then we polyfill it, 
 2.) Whenever possible, run promises in parallel. 
 3.) Hande errors and promise rejections.
 
+------------------------------------------------------------------- GENERAL NOTES ------------------------------------------------------------------
+
+Get used to using the nullish coalescing operating. It takes two expressions and return the right operand if the left if undefined or null
+
+Emojis count as two characters when slicing them from a string.
 
 
+--------------------------------------------------------------- IMPERATIVE vs DECLARTATIVE ---------------------------------------------------------
 
+IMPERATIVE 
+1.) Write out step by step what the computer needs to do, e.g a for(let i = 0; i < arr.length; i++) loop, we tell it exactly what to do.
 
+DECLARATIVE
+1.) We tell the computer 'what to do' and it knows how to 'polyfill' the abstracted steps.
+2.) We tell the computer the way it should achieve the end result.
 
+---------------------------------------------------------------- FUNCTIONAL PROGRAMMING ------------------------------------------------------------
 
+1.) Functional programming is a declarative sub-paradigm that is based on the idea of writing software by combining many pure functions, avoiding side effects and mutating data. (ES6 Syntax) 
 
+2.) SIDE EFFECTS within functional programming are modifications or mutations of any data outside of the function in which the code is ran. (changing variable states, logging to the console, writing to the DOM etc.)
 
+3.) PURE FUNCTION is a function that does not give off any side effects and does not depend on external variables. If given the same inputs, it always returns the same outputs.
 
+4.) IMMUTABILITY state or data is NEVER modified. Instead, the state is copied and mutated and returned. Immunability makes it much easier to write and understand your program without having to jump all over the code looking for variables and functions.
 
+- Try to avoid data mutations outside of functions.
+- Use built-in methods that don't produce side effects. 
+- Do data transformations with methods such as .map(), .filter(), and .reduce()
+- Try to avoid side effects in functions as much as possible.
+
+DECLARATIVE SYNTAX 
+
+1.) Use array and object destrcturing whenever possible. 
+2.) Use the spread (...) operator
+3.) Use the ternary (conditional) operator
+4.) Use template literals.
 
 
 
