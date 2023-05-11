@@ -33,7 +33,13 @@ FEATURES:
 
 When working with your package.json file, a devDependency is an element that contains all the packages that your prject requires in the development process and not in the prodcution or testing environments/phases.
 
+ ----------------------------------------------------------- SETTING UP PARCEL ---------------------------------------------------------------------
 
+ - When we set up parcel, the folders that parcel create in the 'dist' folder are the real ones that we will use for future deployment.
+
+- Since we referenced the css file within the <link rel>, parcel knows it needs to compile the sass file to css. href="src/sass/main.scss", that way parcel will know it needs to compile the sass css file to css in the end, and place that compiled code into the new index.html file that was created by parcel. The same works with the images, parcel will copy all of these files and give them a new name, and replace that image in the newly creaetd index.html file to the new image names that parcel has created.
+
+- A module bundler takes our raw source code and compiles it into a nice package (folder) that browsers can understand, and then be shipped to the browser so that it can display this newly created source code.
 
 
 
