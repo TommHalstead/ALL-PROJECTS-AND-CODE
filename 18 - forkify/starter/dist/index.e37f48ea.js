@@ -558,7 +558,9 @@ function hmrAccept(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js");
+var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js"); // If we want to listen for multiple events and fire the same function in both cases, we can use this type of syntax. This will work for as many events as we would like to listen for.
+ // window.addEventListener(`hashchange`, showRecipe);
+ // window.addEventListener(`load`, showRecipe);
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _iconsSvg = require("url:../img/icons.svg"); // Parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
@@ -589,6 +591,7 @@ const renderSpinner = function(parentEl) {
 const showRecipe = async function() {
     try {
         const id = window.location.hash.slice(1);
+        if (!id) return;
         // 1.) Loading recipe
         renderSpinner(recipeContainer);
         const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`); // Create an API call and await the result in a variable.
@@ -701,7 +704,10 @@ const showRecipe = async function() {
         alert(err); // Catch block will catch all errors above, and do what we designate in this block.
     }
 };
-window.addEventListener(`hashchange`, showRecipe);
+[
+    `hashchange`,
+    `load`
+].forEach((ev)=>window.addEventListener(ev, showRecipe));
 
 },{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","url:../img/icons.svg":"loVOp","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");

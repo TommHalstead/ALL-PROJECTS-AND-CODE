@@ -37,6 +37,9 @@ const renderSpinner = function (parentEl) {
 const showRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
+
+    if (!id) return;
+
     // 1.) Loading recipe
     renderSpinner(recipeContainer);
 
@@ -164,4 +167,7 @@ const showRecipe = async function () {
   }
 };
 
-window.addEventListener(`hashchange`, showRecipe);
+[`hashchange`, `load`].forEach(ev => window.addEventListener(ev, showRecipe)); // If we want to listen for multiple events and fire the same function in both cases, we can use this type of syntax. This will work for as many events as we would like to listen for.
+
+// window.addEventListener(`hashchange`, showRecipe);
+// window.addEventListener(`load`, showRecipe);
