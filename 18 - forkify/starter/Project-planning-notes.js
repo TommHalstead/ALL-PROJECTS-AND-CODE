@@ -63,6 +63,8 @@ FEATURES:
 
 - Once we install these packages, we have to import them into our code so that they can be utilized. 
 
+- When we import packages from npm, we don't need to specify any patch because they are in the package.json folder. 
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------ GENERAL PROGRAMMING TIPS --------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -141,7 +143,25 @@ FEATURES:
 
 - All that either the view or the model do is sit there with their own processes and logic ready to be interacted with by logic and function calls from the controller.
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------- ACTUAL IMPLEMENTATION ----------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
+- We create a seperate javascript folder for our controller, model, and then the multiple views.
+
+- We use multiple view folders simply because we don't want to folder to contain 500+ lines of code. We could also split up the controller and the model as well, but for this project that won't be necessary because they shouldn't be too big.
+
+- We first start by creating our state object and loadRecipe() functionality and export all of this info to the controller.js module.
+
+- If we have async functions in one module and we export them, all the same rules still apply. We still must await these promises and parse these promises before we can have access to them.
+
+- ITS VERY IMPORTANT to remember that whenever we create an async function it will ALWAYS return a promise that we first must handle whenever we call that async function to get data. EVEN IF this function returns nothing, we still must handle the promise when we call it.
+
+- Export default means to only export one item. 
+
+- We create a class for our recipes and we export a new object created from that class. export default new RecipeView();. Since we don't have a constructor, we don't need to pass any data into this new class. After this we have to import this class into our controller file so we can use this data in this other module.
+
+- When we import default, we can give that default any name on the importing file.
 
 
 
