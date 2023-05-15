@@ -2,16 +2,8 @@ import * as model from './model.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import recipeView from './views/recipeView.js';
-import { sign } from 'core-js/es6/number';
-const recipeContainer = document.querySelector('.recipe');
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
+const recipeContainer = document.querySelector('.recipe');
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -37,7 +29,7 @@ const controlRecipes = async function () {
     // 3.) Rendering recipe with the state object we created and imported from the model module
     recipeView.render(model.state.recipe);
   } catch (err) {
-    console.error(err); // Catch block will catch all errors above, and do what we designate in this block.
+    console.error(`${err.name} - ${err.message}`); // Catch block will catch all errors above, and do what we designate in this block.
   }
 };
 

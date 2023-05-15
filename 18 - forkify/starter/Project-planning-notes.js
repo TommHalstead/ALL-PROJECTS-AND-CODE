@@ -143,6 +143,8 @@ FEATURES:
 
 - All that either the view or the model do is sit there with their own processes and logic ready to be interacted with by logic and function calls from the controller.
 
+- We create a config.js file in order to store functions, variables, or any peice of code that we're not 100% sure about that might be changed later or updated, reused etc. The standard for config.js files is to capitalize all of the variable names for them to standout. Any time we have random numbers or random pieces of data that may be unreadable from anothers perspective, we should name these and place them in our config files so that we have a cookie trail or something we can look at to verify this data and its purpose.
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------- ACTUAL IMPLEMENTATION ----------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -163,13 +165,30 @@ FEATURES:
 
 - When we import default, we can give that default any name on the importing file.
 
+- We create a config.js file in order to store all of our global variables in it, that way we can easily change and update this information just purely based on this one file
+
+- Since our API URL grab will be used more than one time across our application, we create a config.js file in order to use this same URL again within any of our scripts easily. We make it API_URL all caps because it will be a constant that will NEVER change. (A common practice.)
+
+- We put all global const declarations into a seperate folder so that we need to import it in order to use it. 
+
+- We also create a new file to hold all of our helper functions. These are functions that will be little pieces of code to help apply the DRY principle. We create a new file for this so that we can ration this data up and use it when we need to across all files.
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------- ERROR HANDLING --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
+- When we are handling errors, especially when we have try{}catch(){} blocks, we will get multiple errors thrown because lets say we have an API call that fails, we got one error for that and then whatever other data or actions are piggybacking off of this API call will also throw errors as well in their respective functions and locations. The goal is to handle the actual error where it is actually happening. We will get an error thrown in our helper.js file because of a bad request, because this is where the function is living. The function wasn't called in this file itself though, it simply was created and the function body lives in this file so therefore it will throw an error at this file too. We only call this function within the model.js loadRecipe() function, so that is what we want this error to represent.
 
+- When we need to catch an error that is happening in one function, but is being called in another function(therefore that's where we want to handle the error) we have to re-throw our error from our original function so that it will propegate down the line in order to be caught in the correct function.
 
+- When we use a try...catch block, and we throw new Error(), this error object will be created and passed down to the nearest .catch() block in the call stack with our message we defined in the error object. When we throw a error, and we define a message. This is the message that will be sent to the nearest catch block.
 
+- When we are throwing an error, we can use either the simple throw Error(), or we can use the constructor syntax of throw new Error(). The constructor syntax is better because it wraps the developer created error into an object with the following format: {name: `Error`, message: `String that you define in the constrcutor`}. Therefore when we use the constrcutor syntax, we are then able to access the error name and the error message. Whereas with just creating a simple Error object, we don't then have access to the name and message property.
 
+- .catch() handlers will handle errors thrown in promises. Whether it's a reject() call or an error created by the developer with the throw new Error() constrcutor. When we throw an error from an async function, it will then reject the error. That way we can handle this error later on.
+
+- A common usecase of the setTimeout() function is to set a timer to automatically make this request fail. Therefore if a user has bad internet connection, it will timout after the designated time that we set. This way we prevent the fetch from running forever. In order to implement this functionality, we must first create a function that retuns a promise. Within that promise, we have a setTimeout() function that within its function body will reject the promise. Now we will use the Promise.race() static method in order to pass in both of these promises. Whatever promise returns first wins the race and that response is now the return value of that Promise.race() function. The reject() method will only be called once and if the setTimeout() function finishes before the API fetch() call returns.
 
 
 

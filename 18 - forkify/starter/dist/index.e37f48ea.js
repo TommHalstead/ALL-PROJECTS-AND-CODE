@@ -567,13 +567,6 @@ var _runtime = require("regenerator-runtime/runtime");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
 const recipeContainer = document.querySelector(".recipe");
-const timeout = function(s) {
-    return new Promise(function(_, reject) {
-        setTimeout(function() {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        }, s * 1000);
-    });
-};
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
 if (module.hot) module.hot.accept();
@@ -590,7 +583,7 @@ const controlRecipes = async function() {
         // 3.) Rendering recipe with the state object we created and imported from the model module
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
-        console.error(err); // Catch block will catch all errors above, and do what we designate in this block.
+        console.error(`${err.name} - ${err.message}`); // Catch block will catch all errors above, and do what we designate in this block.
     }
 };
 [
@@ -2774,14 +2767,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
+var _config = require("./config");
+var _helpers = require("./helpers");
 const state = {
     recipe: {}
 };
 const loadRecipe = async function(id) {
     try {
-        const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`); // Create an API call and await the result in a variable.
-        const data = await res.json(); // We await for the promise to be parsed through json().
-        if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This error will propegate down to the catch block, and alert this error message.
+        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
         const { recipe  } = data.data;
         state.recipe = {
             id: recipe.id,
@@ -2795,11 +2788,47 @@ const loadRecipe = async function(id) {
         };
         console.log(recipe);
     } catch (err) {
-        console.error(err);
+        // Temp error handling
+        console.error(`${err.name} - ${err.message} 🚩🚩`);
     }
 };
 
-},{"regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3SU56":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
+const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`; //
+const TIMEOUT_SEC = 10; // ITS STANDARD to keep all config values in all caps and name them accordingly, that way it's not just a random number appearing out of no where.
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+var _regeneratorRuntime = require("regenerator-runtime");
+var _config = require("./config");
+const timeout = (s)=>{
+    return new Promise((_, reject)=>{
+        setTimeout(()=>{
+            reject(new Error(`Request took too long! Timeout after ${s} second`));
+        }, s * 1000);
+    });
+}; // This setTimeout function, returns a new promise that will use the reject() function to reject this promise after the designated time has elapsed.
+const getJSON = async function(url) {
+    try {
+        const res = await Promise.race([
+            fetch(url),
+            timeout((0, _config.TIMEOUT_SEC))
+        ]);
+        const data = await res.json();
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This throws an error that will propegate to the nearest catch block.
+        return data; // We return data from this function, which will be the resolved promise of this API call.
+    } catch (err) {
+        throw err; // This will now re-throw this error, and will be handled by the next nearest catch block within environment where this function is called.
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime":"dXNgZ","./config":"k5Hzs"}],"3SU56":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.
