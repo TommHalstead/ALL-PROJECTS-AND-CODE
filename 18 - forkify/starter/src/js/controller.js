@@ -2,6 +2,7 @@ import * as model from './model.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import recipeView from './views/recipeView.js';
+import { sign } from 'core-js/es6/number';
 const recipeContainer = document.querySelector('.recipe');
 
 const timeout = function (s) {
