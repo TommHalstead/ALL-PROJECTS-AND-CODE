@@ -558,17 +558,20 @@ function hmrAccept(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js"); // We create this IIFE in order to call the addHandlerRender() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view.
+var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
-var _runtime = require("regenerator-runtime/runtime");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
-const recipeContainer = document.querySelector(".recipe");
-// https://forkify-api.herokuapp.com/v2
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
+var _resultsViewJs = require("./views/resultsView.js");
+var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
+var _runtime = require("regenerator-runtime/runtime");
 ///////////////////////////////////////
-if (module.hot) module.hot.accept();
-console.log(`Test`);
+// if (module.hot) {
+//   module.hot.accept();
+// }
 // Async function
 const controlRecipes = async function() {
     try {
@@ -578,17 +581,35 @@ const controlRecipes = async function() {
         (0, _recipeViewJsDefault.default).renderSpinner();
         // 2.) Loading recipe
         await _modelJs.loadRecipe(id);
+        console.log(recipe);
         // 3.) Rendering recipe with the state object we created and imported from the model module
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
         (0, _recipeViewJsDefault.default).renderError(); // We pass in nothing because we have a default message set in our renderError function.
     }
 };
-(()=>{
+// We create a new function to handle our search query, we call and await our loadSearchResults fn from our model.js
+const controlSearchResults = async function() {
+    try {
+        // Get search query
+        const query = (0, _searchViewJsDefault.default).getQuery();
+        if (!query) return;
+        // Load search results
+        await _modelJs.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
+        // Render results
+        console.log(_modelJs.state.search.results);
+    } catch (err) {
+        console.error(err);
+    }
+};
+const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
-})();
+    (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
+};
+// We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
+init();
 
-},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","regenerator-runtime/runtime":"dXNgZ","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
+},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/resultsView.js":"cSbZE"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");
 var DESCRIPTORS = require("1672c5f06c5f6f74");
 var defineBuiltInAccessor = require("55ee9251f1b0483a");
@@ -1986,11 +2007,16 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
-    recipe: {}
+    recipe: {},
+    search: {
+        query: ``,
+        results: []
+    }
 };
 const loadRecipe = async function(id) {
     try {
@@ -2006,13 +2032,31 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-    // console.log(recipe);
+    // console.log(rec);
     } catch (err) {
         // Temp error handling
         console.error(`${err.name} - ${err.message} 🚩🚩`);
         throw err; // We throw this error because in our controller.js is where we call this function but this function lives here in the model.js. So therefore if this function has an error, as the engine is reading this code, it would short-circuit and throw this error right here, never propegating it to the controller. This way, we throw our error and now it will return the code execution to the calling function in the (controller.js) which is where we will catch and ha ndle this error.
     }
 };
+const loadSearchResults = async function(query) {
+    try {
+        state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
+        const { data: { recipes  }  } = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
+        state.search.results = recipes.map((rec)=>{
+            return {
+                id: rec.id,
+                title: rec.title,
+                publisher: rec.publisher,
+                image: rec.image_url
+            };
+        } // Right here we map these objects in this array to a new array with new objects with the property names changed and we save these mapped arrays to our search object within our state object that we export to all modules.
+        );
+    } catch (err) {
+        console.error(`${err} 🏴`);
+        throw err;
+    } // We will throw this error, so that we can handle it in the controller, where we will call this function.
+}; // This is the function we are creating for loading the search results, this will be called by the contoller, and the controller is the one who will tell this function what we're going to be searching for. Therefore we will pass in a `query` parameter in order to pass this argument in when we call it with the controller.
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
@@ -3115,6 +3159,33 @@ Fraction.primeFactors = function(n) {
     return factors; // Return the prime factors
 };
 module.exports.Fraction = Fraction;
+
+},{}],"9OQAM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentEl = document.querySelector(`.search`);
+    // We will use this function to grab the query typed in by the user
+    getQuery() {
+        const query = this.#parentEl.querySelector(`.search__field`).value; // We do a querySelector() on the parent el to find the first child with the matching class and grab that value from there.
+        this.#clearInput();
+        return query;
+    }
+    #clearInput() {
+        this.#parentEl.querySelector(`.search__field`).value = ``;
+    }
+    addHandlerSearch(handler) {
+        this.#parentEl.addEventListener(`submit`, function(e) {
+            e.preventDefault();
+            handler();
+        });
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
+class ResultsView {
+}
 
 },{}]},["d8XZh","aenu9"], "aenu9", "parcelRequire3a11")
 

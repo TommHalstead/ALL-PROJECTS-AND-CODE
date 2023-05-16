@@ -222,12 +222,22 @@ FEATURES:
 
 3.) Now, upon the program starting, the init() function will be called in the controller.js file with its function body containing the call to the recipeView.addHandlerRender(controlRecipes) class method that is in our recipeView module. This way, we have our listener inside a function within the view.js file that takes the SUBSCRIBER as an argument. Into our event handler, we pass in the argument of `handler`. Then when we call this file on startup with the init() method that lives inside of the (controller.js) file, which in turn as the argument has the controlRecipes function passed in. This way we have interconnectivity between our pages via the PUBSUB architecture method.
 
+---- PUBSUB IS SIMPLY CREATING AN EVENT LISTENER INSDIE A FUNCTION FOR A SPECIFIC VIEW INSIDE THAT VIEWS FOLDER. THEN PASSING IN A HANDLER AS A PARAMETER. THEN SIMPLY CALLING THAT FUNCTION WITH THAT EVENT HANDLER INSIDE OF IT INSIDE OF THE CONTROLLER MODULE CONTAINING THE FUNCTION WE WANT TO PASS IN AS AN ARGUMENT.
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------- Searching ---------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
+- Since we want to keep all of our data seperated by the MVC architevture pattern, we will implement our actual search function in the model.js file but that function will only be called by the controller.js.
 
+- We store ALL of our information related to the business logic application should be stored ALL in the state object that we are exporting, this way other modules can interact with it, and we have all of our relevant information saved into one object.
+
+- We will create a new view for both our search results that are rendered to the UI and a different view for the actual search bar implementation. This is because these pieces sort of interact, but they aren't necessarily connected. Functionally and visually as well.
+
+- In this search view, we use OOP and stick with classes for each view. This way we can have our private methods and private fields.
+
+- We can use the `submit` keyword to listen for either the user clicking the button or for them hitting submit or enter. 
 
 
 
