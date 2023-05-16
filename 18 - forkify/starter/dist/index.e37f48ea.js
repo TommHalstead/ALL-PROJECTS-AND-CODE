@@ -558,9 +558,7 @@ function hmrAccept(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js"); // If we want to listen for multiple events and fire the same function in both cases, we can use this type of syntax. This will work for as many events as we would like to listen for.
- // window.addEventListener(`hashchange`, controlRecipes);
- // window.addEventListener(`load`, controlRecipes);
+var _esRegexpFlagsJs = require("core-js/modules/es.regexp.flags.js"); // We create this IIFE in order to call the addHandlerRender() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view.
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
 var _runtime = require("regenerator-runtime/runtime");
@@ -583,15 +581,14 @@ const controlRecipes = async function() {
         // 3.) Rendering recipe with the state object we created and imported from the model module
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
-        console.error(`${err.name} - ${err.message}`); // Catch block will catch all errors above, and do what we designate in this block.
+        (0, _recipeViewJsDefault.default).renderError(); // We pass in nothing because we have a default message set in our renderError function.
     }
 };
-[
-    `hashchange`,
-    `load`
-].forEach((ev)=>window.addEventListener(ev, controlRecipes));
+(()=>{
+    (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
+})();
 
-},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/recipeView.js":"l60JC","./model.js":"Y4A21"}],"gSXXb":[function(require,module,exports) {
+},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","regenerator-runtime/runtime":"dXNgZ","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");
 var DESCRIPTORS = require("1672c5f06c5f6f74");
 var defineBuiltInAccessor = require("55ee9251f1b0483a");
@@ -1984,7 +1981,40 @@ module.exports = function(scheduler, hasTimeArg) {
 },{"857511242f1f2dd1":"i8HOC","97167d5ce64e372f":"148ka","a5b5bbca6727049e":"l3Kyn","7c905bc367b885ef":"2BA6V","dd85804a0b75f228":"73xBt","1ae2b181bf04ec62":"RsFXo","3b66dc233f568c6":"b9O3D"}],"2BA6V":[function(require,module,exports) {
 /* global Bun -- Deno case */ module.exports = typeof Bun == "function" && Bun && typeof Bun.version == "string";
 
-},{}],"dXNgZ":[function(require,module,exports) {
+},{}],"Y4A21":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state);
+parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
+var _config = require("./config");
+var _helpers = require("./helpers");
+const state = {
+    recipe: {}
+};
+const loadRecipe = async function(id) {
+    try {
+        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
+        const { recipe  } = data.data;
+        state.recipe = {
+            id: recipe.id,
+            title: recipe.title,
+            publisher: recipe.publisher,
+            sourceUrl: recipe.source_url,
+            image: recipe.image_url,
+            servings: recipe.servings,
+            cookingTime: recipe.cooking_time,
+            ingredients: recipe.ingredients
+        };
+    // console.log(recipe);
+    } catch (err) {
+        // Temp error handling
+        console.error(`${err.name} - ${err.message} 🚩🚩`);
+        throw err; // We throw this error because in our controller.js is where we call this function but this function lives here in the model.js. So therefore if this function has an error, as the engine is reading this code, it would short-circuit and throw this error right here, never propegating it to the controller. This way, we throw our error and now it will return the code execution to the calling function in the (controller.js) which is where we will catch and ha ndle this error.
+    }
+};
+
+},{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -2571,7 +2601,15 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],"gkKU3":[function(require,module,exports) {
+},{}],"k5Hzs":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
+const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`; //
+const TIMEOUT_SEC = 10; // ITS STANDARD to keep all config values in all caps and name them accordingly, that way it's not just a random number appearing out of no where.
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -2601,7 +2639,34 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"l60JC":[function(require,module,exports) {
+},{}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+var _regeneratorRuntime = require("regenerator-runtime");
+var _config = require("./config");
+const timeout = (s)=>{
+    return new Promise((_, reject)=>{
+        setTimeout(()=>{
+            reject(new Error(`Request took too long! Timeout after ${s} second`));
+        }, s * 1000);
+    });
+}; // This setTimeout function, returns a new promise that will use the reject() function to reject this promise after the designated time has elapsed.
+const getJSON = async function(url) {
+    try {
+        const res = await Promise.race([
+            fetch(url),
+            timeout((0, _config.TIMEOUT_SEC))
+        ]);
+        const data = await res.json();
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This throws an error that will propegate to the nearest catch block.
+        return data; // We return data from this function, which will be the resolved promise of this API call.
+    } catch (err) {
+        throw err; // This will now re-throw this error, and will be handled by the next nearest catch block within environment where this function is called.
+    }
+};
+
+},{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _model = require("../model");
@@ -2610,7 +2675,8 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
 class RecipeView {
     #parentElement = document.querySelector(`.recipe`);
-    #recipe;
+    #errorMessage = `We couldn't find that recipe. Please try another!`;
+    #message = ``;
     render(recipe) {
         this.recipe = recipe; // Creates a recipe property and sets it to the argument that is received.
         const markup = this.#generateMarkup();
@@ -2620,16 +2686,52 @@ class RecipeView {
     #clear() {
         this.#parentElement.innerHTML = ``;
     }
-    renderSpinner = function() {
+    #insertHTML(markup) {
+        this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
+    }
+    renderSpinner() {
         const markup = `
   <div class="spinner">
     <svg>
       <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
     </svg>
   </div>`;
-        this.#parentElement.innerHTML = ``;
-        this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
-    };
+        this.#clear();
+        this.#insertHTML(markup);
+    }
+    renderError(message = this.#errorMessage) {
+        const markup = `
+    <div class="error">
+      <div>
+        <svg>
+          <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>`;
+        this.#clear();
+        this.#insertHTML(markup);
+    }
+    renderMessage(message = this.#message) {
+        const markup = `
+   <div class="recipe">
+     <div class="message">
+       <div>
+         <svg>
+           <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+         </svg>
+       </div>
+       <p>${message}</p>
+     </div>`;
+        this.#clear();
+        this.#insertHTML(markup);
+    }
+    addHandlerRender(handler) {
+        [
+            `hashchange`,
+            `load`
+        ].forEach((ev)=>window.addEventListener(ev, handler));
+    }
     #generateMarkup() {
         return `
   <figure class="recipe__fig">
@@ -2724,7 +2826,7 @@ class RecipeView {
 }
 exports.default = new RecipeView(); // This creates an object that we then export to our controller.js file so that we can use this data from this object instantiated through this class, which then therefore has all the prototypes from this class and the document.object. Since we are not passing in any data, we don't need any constructor function even
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp","../model":"Y4A21","fractional":"3SU56"}],"loVOp":[function(require,module,exports) {
+},{"../model":"Y4A21","url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
 module.exports = require("58cc49a32e9ddf48").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"58cc49a32e9ddf48":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -2761,74 +2863,7 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"Y4A21":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state", ()=>state);
-parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
-var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
-var _config = require("./config");
-var _helpers = require("./helpers");
-const state = {
-    recipe: {}
-};
-const loadRecipe = async function(id) {
-    try {
-        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
-        const { recipe  } = data.data;
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
-        console.log(recipe);
-    } catch (err) {
-        // Temp error handling
-        console.error(`${err.name} - ${err.message} 🚩🚩`);
-    }
-};
-
-},{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "API_URL", ()=>API_URL);
-parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
-const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`; //
-const TIMEOUT_SEC = 10; // ITS STANDARD to keep all config values in all caps and name them accordingly, that way it's not just a random number appearing out of no where.
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-var _regeneratorRuntime = require("regenerator-runtime");
-var _config = require("./config");
-const timeout = (s)=>{
-    return new Promise((_, reject)=>{
-        setTimeout(()=>{
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        }, s * 1000);
-    });
-}; // This setTimeout function, returns a new promise that will use the reject() function to reject this promise after the designated time has elapsed.
-const getJSON = async function(url) {
-    try {
-        const res = await Promise.race([
-            fetch(url),
-            timeout((0, _config.TIMEOUT_SEC))
-        ]);
-        const data = await res.json();
-        if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This throws an error that will propegate to the nearest catch block.
-        return data; // We return data from this function, which will be the resolved promise of this API call.
-    } catch (err) {
-        throw err; // This will now re-throw this error, and will be handled by the next nearest catch block within environment where this function is called.
-    }
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime":"dXNgZ","./config":"k5Hzs"}],"3SU56":[function(require,module,exports) {
+},{}],"3SU56":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.

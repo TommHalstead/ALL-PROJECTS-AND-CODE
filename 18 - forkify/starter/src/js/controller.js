@@ -29,13 +29,11 @@ const controlRecipes = async function () {
     // 3.) Rendering recipe with the state object we created and imported from the model module
     recipeView.render(model.state.recipe);
   } catch (err) {
-    console.error(`${err.name} - ${err.message}`); // Catch block will catch all errors above, and do what we designate in this block.
+    recipeView.renderError(); // We pass in nothing because we have a default message set in our renderError function.
   }
 };
 
-[`hashchange`, `load`].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-); // If we want to listen for multiple events and fire the same function in both cases, we can use this type of syntax. This will work for as many events as we would like to listen for.
-
-// window.addEventListener(`hashchange`, controlRecipes);
-// window.addEventListener(`load`, controlRecipes);
+(() => {
+  recipeView.addHandlerRender(controlRecipes);
+})();
+// We create this IIFE in order to call the addHandlerRender() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view.

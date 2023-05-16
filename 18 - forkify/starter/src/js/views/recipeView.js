@@ -3,7 +3,8 @@ import icons from 'url:../../img/icons.svg'; // Parcel 2
 import { Fraction } from 'fractional';
 class RecipeView {
   #parentElement = document.querySelector(`.recipe`);
-  #recipe;
+  #errorMessage = `We couldn't find that recipe. Please try another!`;
+  #message = ``;
   render(recipe) {
     this.recipe = recipe; // Creates a recipe property and sets it to the argument that is received.
     const markup = this.#generateMarkup();
@@ -15,16 +16,53 @@ class RecipeView {
     this.#parentElement.innerHTML = ``;
   } // Here we create a helper function to clear the container for us
 
-  renderSpinner = function () {
+  #insertHTML(markup) {
+    this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
+  }
+
+  renderSpinner() {
     const markup = `
   <div class="spinner">
     <svg>
       <use href="${icons}#icon-loader"></use>
     </svg>
   </div>`;
-    this.#parentElement.innerHTML = ``;
-    this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
-  };
+    this.#clear();
+    this.#insertHTML(markup);
+  }
+
+  renderError(message = this.#errorMessage) {
+    const markup = `
+    <div class="error">
+      <div>
+        <svg>
+          <use href="${icons}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>`;
+    this.#clear();
+    this.#insertHTML(markup);
+  }
+
+  renderMessage(message = this.#message) {
+    const markup = `
+   <div class="recipe">
+     <div class="message">
+       <div>
+         <svg>
+           <use href="${icons}#icon-smile"></use>
+         </svg>
+       </div>
+       <p>${message}</p>
+     </div>`;
+    this.#clear();
+    this.#insertHTML(markup);
+  }
+
+  addHandlerRender(handler) {
+    [`hashchange`, `load`].forEach(ev => window.addEventListener(ev, handler));
+  } // Here we create the publisher, because this is the one that will be listening for the event. We pass in the Subscriber, which is the code that will actually handle this event.
 
   #generateMarkup() {
     return `

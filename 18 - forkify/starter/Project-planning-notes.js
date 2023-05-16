@@ -190,17 +190,42 @@ FEATURES:
 
 - A common usecase of the setTimeout() function is to set a timer to automatically make this request fail. Therefore if a user has bad internet connection, it will timout after the designated time that we set. This way we prevent the fetch from running forever. In order to implement this functionality, we must first create a function that retuns a promise. Within that promise, we have a setTimeout() function that within its function body will reject the promise. Now we will use the Promise.race() static method in order to pass in both of these promises. Whatever promise returns first wins the race and that response is now the return value of that Promise.race() function. The reject() method will only be called once and if the setTimeout() function finishes before the API fetch() call returns.
 
+- We can create a seperate function(s) to render and handle our errors for us, wherever we want our errors to end up, we just have to make sure we properly propegate these errors down through the correct catch blocks in order to get it to where we want it to be. In order to keep from hardcoding anything directly to the console, we can make a private field in a class and set that to our error message. Within our errorHandler function, we can pass in that default error message to display. Now we can re-use this function multiple times in many places with a seperate error message. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------- Events ----------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Within the MVC pattern, we want to HANDLE events within the controller. Otherwise, application logic would be in the view and this is not what we want.
+
+- On the other hand, we want to listen for these events inside the view because otherwise we would need our DOM elements in the controller, and this is not what we want either.
+
+-- So we want to listen to our events in the view that they are in, but we want to handle these events in our controller module.
+
+- A solution of having our event handlers in one script and our actual functionality to handle that event in another folder, is easily handled by the Publisher/Subscriber architecture pattern. These patterns that we are using, are simply well established solutions to these issues that are well known in the developer world.
+
+- A PUBLISHER is the code that knows WHEN to react to an event. 
+
+- A SUBSCRIBER is the code that is actually executed when this event is triggered. 
+
+-- The solution to this issue, is that we can now SUBSCRIBE to the PUBLISHER by passing in the SUBSCRIBER function as an argument to the PUBLISHER. The way this works is, we have our program that loads, which calls our addHandlerRender() function, that has the controlRecipes() function passed in as an argument. This means we SUBSCRIBE controlRecipes() to the addHandlerRener() function.
+
+- AS SOON AS THE PUBLISHER PUBLISHES AN EVENT, THE SUBSCRIBER WILL GET CALLED. WE PASS IN THE SUBSCRIBER TO THE PUBLISHER.
+
+- The PUBLISHER needs access to the SUBSCRIBER.
+
+--- PUBSUB STEP-BY-STEP: 
+
+1.) We first create our publisher, which is our function that is the one to be listening for the event. This happens in our view.js since that is where we will be listening for the event at. As a parameter, we set it to the SUBSCRIBER(handler), which is the function that will be called once this event is triggered. Inside this function is where we add our event listener, and as a callback function to this event handler, we pass in our SUBSCRIBER or 'handler' parameter that we just created.
+
+2.) Within our controller, since this is where we actually want to handle this event, we create a new function called `init()` and it is called immediately, that way the event listeners are added to the designated locations as soon as the page loads because inside this function body we are calling the handler method with the controlReciped passed in as an argument.
+
+3.) Now, upon the program starting, the init() function will be called in the controller.js file with its function body containing the call to the recipeView.addHandlerRender(controlRecipes) class method that is in our recipeView module. This way, we have our listener inside a function within the view.js file that takes the SUBSCRIBER as an argument. Into our event handler, we pass in the argument of `handler`. Then when we call this file on startup with the init() method that lives inside of the (controller.js) file, which in turn as the argument has the controlRecipes function passed in. This way we have interconnectivity between our pages via the PUBSUB architecture method.
 
 
-
-
-
-
-
-
-
-
-
+----------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- Searching ---------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

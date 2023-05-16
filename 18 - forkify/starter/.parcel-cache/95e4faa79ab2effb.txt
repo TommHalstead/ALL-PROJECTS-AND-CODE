@@ -1,4 +1,4 @@
-9398
+9400
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\es.math.cosh.js133283082836354193 0
 88C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src133284011808347718 1
 110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\mdn-data\api133282930513751663 1
@@ -42,7 +42,7 @@
 147C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\source-map\parcel_sourcemap_node\build.js133282930512556599 0
 104C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\img\favicon.png133169910550815961 0
 127C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\msgpackr-extract\package.json133282930511866629 0
-89C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist133285971869201268 1
+89C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist133286708068083754 1
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\number\virtual133283082863567805 1
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\AL.js133282930514486592 0
 118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\full\btoa.js133283082832691797 0
@@ -112,7 +112,7 @@
 153C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\node_modules\css-tree\cjs\syntax\node\Selector.cjs133282930520971594 0
 143C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\urlsearchparams.js133282930530166595 0
 133C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\node-addon-api\package-support.json133282930514626588 0
-110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\Project-planning-notes.js133283985272844826 0
+110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\Project-planning-notes.js133286652340433876 0
 118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\globals\globals.json133282930510151646 0
 141C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\node_modules\css-tree\lib\syntax\scope133282930523606609 1
 128C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\string\sup.js133283082862512601 0
@@ -131,6 +131,15 @@
 119C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\braces\lib\compile.js133282930511871759 0
 118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\Forkify florchart-Mine.drawio133284014172230953 0
 122C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\reporter-cli\src133282930513666585 1
+144C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\dom-serializer\lib\esm133282930514021604 1
+153C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@jridgewell\trace-mapping\dist\types\trace-mapping.d.ts133282930514561595 0
+102C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\helpers.js133286571804151727 0
+172C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\node\Combinator.js133282930514866652 0
+126C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\docs\versioned_docs133282930518621630 1
+131C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\disposable-stack133283082850455252 1
+118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\process\package.json133283086665020219 0
+129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\type-fest\source\utilities.d.ts133282930517511598 0
+168C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\pseudo\lang.js133282930519886609 0
 130C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\full\typed-array\join.js133283082854097614 0
 118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\escape-string-regexp133282930510236609 1
 149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\transformer-react-refresh-wrap\package.json133282930512691601 0
@@ -157,7 +166,7 @@
 134C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\function\un-this.js133283082865818262 0
 142C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@swc\helpers\lib\_assert_this_initialized.js133282930511786623 0
 115C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\term-size\license133282930510161607 0
-91C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js133283973613393251 1
+91C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js133286434571837500 1
 115C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\semver\bin\semver133282930509536595 0
 136C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\cjs\restructure\prepare\index.cjs133282930516176600 0
 145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\number\virtual\to-precision.js133283082863567805 0
@@ -239,8 +248,14 @@
 106C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\sass\_upload.scss133169910552849556 0
 165C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\convertor\index.js133282930519231632 0
 130C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\full\array\find-index.js133283082842092021 0
+145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\lib\modules\sortAttributesWithLists.js133282930516646593 0
+151C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\registerprotocolhandler.js133282930527941580 0
+135C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\instance\find-index.js133283082842132091 0
+101C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\config.js133286572473643282 0
+129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\string\anchor.js133283082830656512 0
+149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\helpers.js.map133282930516056596 0
 135C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\posthtml\node_modules\posthtml-parser133282930511731582 1
-105C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\controller.js133285971860938212 0
+105C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\controller.js133286708067536873 0
 133C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\lib\generator\sourceMap.js133282930523471586 0
 136C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\string\virtual\index.js133283082851393669 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\msgpackr\dist\index-no-eval.cjs133282930510041593 0
@@ -252,7 +267,7 @@
 106C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\chokidar133282932193207821 1
 125C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\terser\lib\equivalent-to.js133282930516751595 0
 113C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\globals\license133282930508921599 0
-100C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\model.js133283857402066780 0
+100C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\model.js133286668701147713 0
 164C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-select\lib\attributes.d.ts133282930516271618 0
 117C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\parcel\package.json133282930512351582 0
 143C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-htmlnano\lib\svgMappings.js133282930510926581 0
@@ -269,7 +284,7 @@
 97C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\views133283973306259375 1
 146C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\electron-to-chromium\full-chromium-versions.json133282930512956774 0
 127C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\reflect\set.js133283082860187243 0
-111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\views\recipeView.js133285922511835132 0
+111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\src\js\views\recipeView.js133286644392143110 0
 118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\json5\dist\index.mjs133282930514721595 0
 146C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\css-color-function.js133282930521981580 0
 120C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\escalade\dist\index.js133282930509471591 0
@@ -737,9 +752,9 @@
 120C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\parent-module\index.js133282930509361588 0
 104C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\semver133282930512196590 1
 110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\chokidar\lib133282932192832062 1
+182C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-select\lib\pseudo-selectors\filters.d.ts.map133282930514881627 0
 104C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\srcset133282930510891724 1
 136C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\object\define-getter.js133283082834156439 0
-182C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-select\lib\pseudo-selectors\filters.d.ts.map133282930514881627 0
 147C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\node_modules\css-tree\lib\tokenizer\index.js133282930522876598 0
 173C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\definition-syntax\index.js133282930519276585 0
 104C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\stable133282930510821599 1
@@ -1308,14 +1323,6 @@
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\cjs\replace\Percentage.cjs133282930516511603 0
 145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\number\virtual\to-exponential.js133283082863127773 0
 141C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\type-fest\source\union-to-intersection.d.ts133282930517446602 0
-144C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\dom-serializer\lib\esm133282930514021604 1
-153C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@jridgewell\trace-mapping\dist\types\trace-mapping.d.ts133282930514561595 0
-172C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\node\Combinator.js133282930514866652 0
-126C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\docs\versioned_docs133282930518621630 1
-131C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\disposable-stack133283082850455252 1
-118C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\process\package.json133283086665020219 0
-129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\type-fest\source\utilities.d.ts133282930517511598 0
-168C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\pseudo\lang.js133282930519886609 0
 148C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\spellcheck-attribute.js133282930528516587 0
 135C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@swc\helpers\lib\_write_only_error.js133282930520621599 0
 130C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\es.string.sub.js133283082837568749 0
@@ -1909,7 +1916,6 @@
 133C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\mpeg4.js133282930526711592 0
 130C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\regenerator-runtime\package.json133282930510611600 0
 135C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\array\virtual\map.js133283082855206018 0
-124C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\cjs\syntax\config133282930521801595 1
 125C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\regenerator-runtime\path.js133282930509386583 0
 121C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\js-yaml\lib\type\set.js133282930516201606 0
 146C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mtest.c133282930519441593 0
@@ -2745,10 +2751,10 @@
 157C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\csso\node_modules\css-tree\cjs\syntax\node\MediaFeature.cjs133282930519891605 0
 141C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\css-image-set.js133282930522576657 0
 149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mdb_stat.1133282930516141604 0
+136C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\json-parse-even-better-errors\index.js133282930508861585 0
 144C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\.bin\node-gyp-build-optional-packages-optional133282930531366600 0
 126C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\logger\lib\Logger.js133282930509591598 0
 149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\mdb_stat.c133282930518041626 0
-136C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\json-parse-even-better-errors\index.js133282930508861585 0
 145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\lmdb\dependencies\lmdb\libraries\liblmdb\midl.h133282930521346604 0
 161C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\utils\clone.js133282930514741594 0
 124C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\lib\syntax\pseudo133282930522946604 1
@@ -3036,8 +3042,6 @@
 139C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\string\is-well-formed.js133283082853195182 0
 140C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\lib\modules\removeOptionalTags.js133282930515986600 0
 137C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\lib\modules\removeUnusedCss.js133282930516221642 0
-145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\lib\modules\sortAttributesWithLists.js133282930516646593 0
-151C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\registerprotocolhandler.js133282930527941580 0
 134C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\esnext.map.key-of.js133283082839133148 0
 124C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\htmlnano\docs\netlify.toml133282930519771612 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\lib\syntax\node\Nth.js133282930523166588 0
@@ -4068,6 +4072,7 @@
 155C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\dom-serializer\lib\esm\index.d.ts133282930514201624 0
 139C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\reflect\define-property.js133283082834281849 0
 130C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\cjs\tokenizer\types.cjs133282930521511593 0
+124C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\cjs\syntax\config133282930521801595 1
 127C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-tree\cjs\syntax\index.cjs133282930519441593 0
 128C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\regexp\index.js133283082849922968 0
 139C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\number\min-safe-integer.js133283082856114869 0
@@ -4355,9 +4360,6 @@
 143C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\feeds.js133282930510561617 0
 147C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\helpers.d.ts133282930518606619 0
 151C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\helpers.d.ts.map133282930515831591 0
-135C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\instance\find-index.js133283082842132091 0
-129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\string\anchor.js133283082830656512 0
-149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\helpers.js.map133282930516056596 0
 138C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\typed-array\iterator.js133283082853836758 0
 143C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\css-select\node_modules\domutils\lib\index.js133282930512361599 0
 138C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\internals\error-stack-install.js133283082835605944 0
@@ -5158,8 +5160,8 @@
 111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\chalk\license133282930509006589 0
 138C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\abortcontroller-polyfill\src\polyfill.js133282930513011610 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\EG.js133282930524091609 0
-134C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\full\object\define-getter.js133283082834181461 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\array\unshift.js133283082866203270 0
+134C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\full\object\define-getter.js133283082834181461 0
 128C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\stable\array\values.js133283082866707834 0
 133C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\actual\typed-array\index.js133283082849968294 0
 165C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\optimizer-svgo\node_modules\svgo\plugins\removeEmptyText.js133282930518481616 0
@@ -5485,7 +5487,7 @@
 140C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\es.weak-set.constructor.js133283082838265292 0
 128C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\es.weak-set.js133283082838275278 0
 139C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\esnext.aggregate-error.js133283082838325335 0
-108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.f7626f62.css133285971867867878 0
+108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.f7626f62.css133286643009566323 0
 145C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\modules\esnext.array-buffer.detached.js133283082838325335 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\ID.js133282930525326591 0
 150C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\features\contentsecuritypolicy2.js133282930521421577 0
@@ -6590,7 +6592,7 @@
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\es\instance\for-each.js133283082843896638 0
 132C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\set\difference.js133283082834698357 0
 128C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\set\filter.js133283082841771015 0
-108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\icons.21bad73c.svg133285971868102866 0
+108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\icons.21bad73c.svg133286643010081307 0
 127C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\set\index.js133283082850641132 0
 134C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\core-js\features\set\intersection.js133283082852071009 0
 149C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\@parcel\transformer-sass\node_modules\.bin\sass.ps1133282933565188206 0
@@ -7734,7 +7736,7 @@
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TJ.js133282930529431607 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TK.js133282930529446624 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TM.js133282930529521589 0
-110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\favicon.8b2f57bf.png133285971867867878 0
+110C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\favicon.8b2f57bf.png133286643009661324 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TN.js133282930529531593 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TT.js133282930529941594 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\caniuse-lite\data\regions\TW.js133282930530026626 0
@@ -9387,13 +9389,13 @@
 113C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\.bin\terser.ps1133282930531371621 0
 125C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\.bin\update-browserslist-db133282930531381642 0
 129C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\node_modules\.bin\update-browserslist-db.ps1133282930531376628 0
-108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\icons.dfd7a6db.svg133285971868102866 0
+108C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\icons.dfd7a6db.svg133286650048672682 0
 107C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.62406edb.js133282933666239434 0
 111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.62406edb.js.map133282933666329320 0
-107C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.e37f48ea.js133285971869121271 0
-111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.e37f48ea.js.map133285971869181272 0
-112C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.f7626f62.css.map133285971867968027 0
-100C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.html133285971868102866 0
-107C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\logo.726d37a8.png133285971868921666 0
+107C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.e37f48ea.js133286708068028427 0
+111C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.e37f48ea.js.map133286708068068761 0
+112C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.f7626f62.css.map133286643009641309 0
+100C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\index.html133286643010081307 0
+107C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\logo.726d37a8.png133286643009901312 0
 109C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\starter.3464ddca.js133282933666254336 0
 113C:\Users\tommy\Documents\Coding\JS COURSE\ALL PROJECTS AND CODE\18 - forkify\starter\dist\starter.3464ddca.js.map133282933666334333 0

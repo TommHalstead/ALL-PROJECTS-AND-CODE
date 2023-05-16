@@ -22,9 +22,10 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
     };
 
-    console.log(recipe);
+    // console.log(recipe);
   } catch (err) {
     // Temp error handling
     console.error(`${err.name} - ${err.message} 🚩🚩`);
+    throw err; // We throw this error because in our controller.js is where we call this function but this function lives here in the model.js. So therefore if this function has an error, as the engine is reading this code, it would short-circuit and throw this error right here, never propegating it to the controller. This way, we throw our error and now it will return the code execution to the calling function in the (controller.js) which is where we will catch and ha ndle this error.
   }
 };
