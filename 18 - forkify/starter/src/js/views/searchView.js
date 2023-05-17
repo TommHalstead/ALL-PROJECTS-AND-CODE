@@ -1,18 +1,21 @@
-class SearchView {
-  #parentEl = document.querySelector(`.search`);
+import View from './View';
+
+class SearchView extends View {
+  _parentElement = document.querySelector(`.search`);
+  // _errorMessage = `You must search for something!`;
   // We will use this function to grab the query typed in by the user
   getQuery() {
-    const query = this.#parentEl.querySelector(`.search__field`).value; // We do a querySelector() on the parent el to find the first child with the matching class and grab that value from there.
+    const query = this._parentElement.querySelector(`.search__field`).value; // We do a querySelector() on the parent el to find the first child with the matching class and grab that value from there.
     this.#clearInput();
     return query;
   }
 
   #clearInput() {
-    this.#parentEl.querySelector(`.search__field`).value = ``;
+    this._parentElement.querySelector(`.search__field`).value = ``;
   }
 
   addHandlerSearch(handler) {
-    this.#parentEl.addEventListener(`submit`, function (e) {
+    this._parentElement.addEventListener(`submit`, function (e) {
       e.preventDefault();
       handler();
     });

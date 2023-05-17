@@ -13,7 +13,6 @@ export const state = {
 export const loadRecipe = async function (id) {
   try {
     const data = await getJSON(`${API_URL}/${id}`);
-
     const { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
@@ -25,8 +24,6 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
-
-    // console.log(rec);
   } catch (err) {
     // Temp error handling
     console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -37,10 +34,11 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
-    const {
-      data: { recipes },
-    } = await getJSON(`${API_URL}?search=${query}`);
-    state.search.results = recipes.map(
+    const data = await getJSON(`${API_URL}?search=${query}`);
+
+    if (!data.results) throw new Error();
+
+    state.search.results = data.data.recipes.map(
       rec => {
         return {
           id: rec.id,
@@ -51,7 +49,7 @@ export const loadSearchResults = async function (query) {
       } // Right here we map these objects in this array to a new array with new objects with the property names changed and we save these mapped arrays to our search object within our state object that we export to all modules.
     );
   } catch (err) {
-    console.error(`${err} 🏴`);
+    // console.error(`${err} 🏴`);
     throw err;
   } // We will throw this error, so that we can handle it in the controller, where we will call this function.
 };

@@ -8,9 +8,9 @@ import 'regenerator-runtime/runtime';
 
 ///////////////////////////////////////
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}
 
 // Async function
 const controlRecipes = async function () {
@@ -22,9 +22,11 @@ const controlRecipes = async function () {
 
     // 2.) Loading recipe
     await model.loadRecipe(id);
-    console.log(recipe);
+
     // 3.) Rendering recipe with the state object we created and imported from the model module
     recipeView.render(model.state.recipe);
+
+    console.log(model.state.recipe);
   } catch (err) {
     recipeView.renderError(); // We pass in nothing because we have a default message set in our renderError function.
   }
@@ -33,17 +35,19 @@ const controlRecipes = async function () {
 // We create a new function to handle our search query, we call and await our loadSearchResults fn from our model.js
 const controlSearchResults = async function () {
   try {
+    resultsView.renderSpinner();
+
     // Get search query
     const query = searchView.getQuery();
-    if (!query) return;
+    if (!query) throw new Error();
 
     // Load search results
     await model.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
 
     // Render results
-    console.log(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
-    console.error(err);
+    resultsView.renderError(this._errorMessage);
   }
 };
 
