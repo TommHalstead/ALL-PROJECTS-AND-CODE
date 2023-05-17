@@ -569,9 +569,6 @@ var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
 var _runtime = require("regenerator-runtime/runtime");
 ///////////////////////////////////////
-// if (module.hot) {
-//   module.hot.accept();
-// }
 // Async function
 const controlRecipes = async function() {
     try {
@@ -581,9 +578,9 @@ const controlRecipes = async function() {
         (0, _recipeViewJsDefault.default).renderSpinner();
         // 2.) Loading recipe
         await _modelJs.loadRecipe(id);
-        console.log(recipe);
         // 3.) Rendering recipe with the state object we created and imported from the model module
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        console.log(_modelJs.state.recipe);
     } catch (err) {
         (0, _recipeViewJsDefault.default).renderError(); // We pass in nothing because we have a default message set in our renderError function.
     }
@@ -591,15 +588,16 @@ const controlRecipes = async function() {
 // We create a new function to handle our search query, we call and await our loadSearchResults fn from our model.js
 const controlSearchResults = async function() {
     try {
+        (0, _resultsViewJsDefault.default).renderSpinner();
         // Get search query
         const query = (0, _searchViewJsDefault.default).getQuery();
-        if (!query) return;
+        if (!query) throw new Error();
         // Load search results
         await _modelJs.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
         // Render results
-        console.log(_modelJs.state.search.results);
+        (0, _resultsViewJsDefault.default).render(_modelJs.state.search.results);
     } catch (err) {
-        console.error(err);
+        (0, _resultsViewJsDefault.default).renderError(this._errorMessage);
     }
 };
 const init = function() {
@@ -609,7 +607,7 @@ const init = function() {
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 init();
 
-},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/resultsView.js":"cSbZE"}],"gSXXb":[function(require,module,exports) {
+},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");
 var DESCRIPTORS = require("1672c5f06c5f6f74");
 var defineBuiltInAccessor = require("55ee9251f1b0483a");
@@ -2032,7 +2030,6 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-    // console.log(rec);
     } catch (err) {
         // Temp error handling
         console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -2042,8 +2039,9 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
-        const { data: { recipes  }  } = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
-        state.search.results = recipes.map((rec)=>{
+        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
+        if (!data.results) throw new Error();
+        state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
                 title: rec.title,
@@ -2053,7 +2051,7 @@ const loadSearchResults = async function(query) {
         } // Right here we map these objects in this array to a new array with new objects with the property names changed and we save these mapped arrays to our search object within our state object that we export to all modules.
         );
     } catch (err) {
-        console.error(`${err} 🏴`);
+        // console.error(`${err} 🏴`);
         throw err;
     } // We will throw this error, so that we can handle it in the controller, where we will call this function.
 }; // This is the function we are creating for loading the search results, this will be called by the contoller, and the controller is the one who will tell this function what we're going to be searching for. Therefore we will pass in a `query` parameter in order to pass this argument in when we call it with the controller.
@@ -2713,75 +2711,27 @@ const getJSON = async function(url) {
 },{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _model = require("../model");
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
 var _iconsSvg = require("url:../../img/icons.svg"); // Parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
-class RecipeView {
-    #parentElement = document.querySelector(`.recipe`);
-    #errorMessage = `We couldn't find that recipe. Please try another!`;
-    #message = ``;
-    render(recipe) {
-        this.recipe = recipe; // Creates a recipe property and sets it to the argument that is received.
-        const markup = this.#generateMarkup();
-        this.#clear();
-        this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
-    }
-    #clear() {
-        this.#parentElement.innerHTML = ``;
-    }
-    #insertHTML(markup) {
-        this.#parentElement.insertAdjacentHTML(`afterbegin`, markup);
-    }
-    renderSpinner() {
-        const markup = `
-  <div class="spinner">
-    <svg>
-      <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
-    </svg>
-  </div>`;
-        this.#clear();
-        this.#insertHTML(markup);
-    }
-    renderError(message = this.#errorMessage) {
-        const markup = `
-    <div class="error">
-      <div>
-        <svg>
-          <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
-        </svg>
-      </div>
-      <p>${message}</p>
-    </div>`;
-        this.#clear();
-        this.#insertHTML(markup);
-    }
-    renderMessage(message = this.#message) {
-        const markup = `
-   <div class="recipe">
-     <div class="message">
-       <div>
-         <svg>
-           <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
-         </svg>
-       </div>
-       <p>${message}</p>
-     </div>`;
-        this.#clear();
-        this.#insertHTML(markup);
-    }
+class RecipeView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(`.recipe`);
+    _errorMessage = `We couldn't find that recipe. Please try another!`;
+    _message = ``;
     addHandlerRender(handler) {
         [
             `hashchange`,
             `load`
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
-    #generateMarkup() {
+    _generateMarkup() {
         return `
   <figure class="recipe__fig">
-    <img src="${this.recipe.image}" alt=${this.recipe.title} class="recipe__img" />
+    <img src="${this._recipe.image}" alt=${this._recipe.title} class="recipe__img" />
     <h1 class="recipe__title">
-      <span>${this.recipe.title}</span>
+      <span>${this._recipe.title}</span>
     </h1>
   </figure>
 
@@ -2790,14 +2740,14 @@ class RecipeView {
       <svg class="recipe__info-icon">
         <use href="${0, _iconsSvgDefault.default}#icon-clock"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--minutes">${this.recipe.cookingTime}</span>
+      <span class="recipe__info-data recipe__info-data--minutes">${this._recipe.cookingTime}</span>
       <span class="recipe__info-text">minutes</span>
     </div>
     <div class="recipe__info">
       <svg class="recipe__info-icon">
         <use href="${0, _iconsSvgDefault.default}#icon-users"></use>
       </svg>
-      <span class="recipe__info-data recipe__info-data--people">${this.recipe.servings}</span>
+      <span class="recipe__info-data recipe__info-data--people">${this._recipe.servings}</span>
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
@@ -2815,9 +2765,7 @@ class RecipeView {
   </div>
 
   <div class="recipe__user-generated">
-    <svg>
-      <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
-    </svg>
+
   </div>
   <button class="btn--round">
     <svg class="">
@@ -2829,20 +2777,20 @@ class RecipeView {
   <div class="recipe__ingredients">
     <h2 class="heading--2">Recipe ingredients</h2>
     <ul class="recipe__ingredient-list">
-      ${this.recipe.ingredients.map(this.#generateMarkupIngredient).join(``)}
+      ${this._recipe.ingredients.map(this._generateMarkupIngredient).join(``)}
     </ul>
   </div>
 
   <div class="recipe__directions">
     <h2 class="heading--2">How to cook it</h2>
     <p class="recipe__directions-text">
-      This recipe was carefully designed and tested by
-      <span class="recipe__publisher">${this.recipe.publisher}</span>. Please check out
+      This _recipe was carefully designed and tested by
+      <span class="recipe__publisher">${this._recipe.publisher}</span>. Please check out
             directions at their website.
     </p>
     <a
         class="btn--small recipe__btn"
-        href="${this.recipe.sourceUrl}"
+        href="${this._recipe.sourceUrl}"
         target="_blank"
         >
       <span>Directions</span>
@@ -2853,7 +2801,7 @@ class RecipeView {
 </div>
     `;
     }
-    #generateMarkupIngredient(ing) {
+    _generateMarkupIngredient(ing) {
         return `
     <li class="recipe__ingredient">
       <svg class="recipe__icon">
@@ -2870,7 +2818,66 @@ class RecipeView {
 }
 exports.default = new RecipeView(); // This creates an object that we then export to our controller.js file so that we can use this data from this object instantiated through this class, which then therefore has all the prototypes from this class and the document.object. Since we are not passing in any data, we don't need any constructor function even
 
-},{"../model":"Y4A21","url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
+},{"./View":"5cUXS","url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5cUXS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _iconsSvg = require("url:../../img/icons.svg"); // Parcel 2
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class View {
+    _recipe;
+    render(recipe) {
+        this._recipe = recipe; // Creates a recipe property and sets it to the argument that is received.
+        const markup = this._generateMarkup();
+        this._clear();
+        this._insertHTML(markup);
+    }
+    _clear() {
+        this._parentElement.innerHTML = ``;
+    }
+    _insertHTML(markup) {
+        this._parentElement.insertAdjacentHTML(`afterbegin`, markup);
+    }
+    renderSpinner() {
+        const markup = `
+  <div class="spinner">
+    <svg>
+      <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
+    </svg>
+  </div>`;
+        this._clear();
+        this._insertHTML(markup);
+    }
+    renderError(message = this._errorMessage) {
+        const markup = `
+    <div class="error">
+      <div>
+        <svg>
+          <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>`;
+        this._clear();
+        this._insertHTML(markup);
+    }
+    renderMessage(message = this._message) {
+        const markup = `
+   <div class="recipe">
+     <div class="message">
+       <div>
+         <svg>
+           <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+         </svg>
+       </div>
+       <p>${message}</p>
+     </div>`;
+        this._clear();
+        this._insertHTML(markup);
+    }
+}
+exports.default = View;
+
+},{"url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
 module.exports = require("58cc49a32e9ddf48").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"58cc49a32e9ddf48":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -3163,19 +3170,22 @@ module.exports.Fraction = Fraction;
 },{}],"9OQAM":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-class SearchView {
-    #parentEl = document.querySelector(`.search`);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class SearchView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(`.search`);
+    // _errorMessage = `You must search for something!`;
     // We will use this function to grab the query typed in by the user
     getQuery() {
-        const query = this.#parentEl.querySelector(`.search__field`).value; // We do a querySelector() on the parent el to find the first child with the matching class and grab that value from there.
+        const query = this._parentElement.querySelector(`.search__field`).value; // We do a querySelector() on the parent el to find the first child with the matching class and grab that value from there.
         this.#clearInput();
         return query;
     }
     #clearInput() {
-        this.#parentEl.querySelector(`.search__field`).value = ``;
+        this._parentElement.querySelector(`.search__field`).value = ``;
     }
     addHandlerSearch(handler) {
-        this.#parentEl.addEventListener(`submit`, function(e) {
+        this._parentElement.addEventListener(`submit`, function(e) {
             e.preventDefault();
             handler();
         });
@@ -3183,10 +3193,37 @@ class SearchView {
 }
 exports.default = new SearchView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
-class ResultsView {
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class ResultsView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(`.results`);
+    _errorMessage = `No recipes found for your search! Please try another!`;
+    _message = ``;
+    _generateMarkup() {
+        return this._recipe.map(this._generateMarkupPreview).join("");
+    }
+    _generateMarkupPreview(result) {
+        return `
+<li class="preview">
+  <a class="preview__link" href="#${result.id}">
+    <figure class="preview__fig">
+      <img src="${result.image}" alt="${result.title}" />
+    </figure>
+    <div class="preview__data">
+      <h4 class="preview__title">${result.title}</h4>
+      <p class="preview__publisher">${result.publisher}</p>
+    </div>
+  </a>
+</li>`;
+    }
 }
+exports.default = new ResultsView();
 
-},{}]},["d8XZh","aenu9"], "aenu9", "parcelRequire3a11")
+},{"./View":"5cUXS","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d8XZh","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map

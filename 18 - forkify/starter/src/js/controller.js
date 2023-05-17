@@ -8,10 +8,6 @@ import 'regenerator-runtime/runtime';
 
 ///////////////////////////////////////
 
-if (module.hot) {
-  module.hot.accept();
-}
-
 // Async function
 const controlRecipes = async function () {
   try {
