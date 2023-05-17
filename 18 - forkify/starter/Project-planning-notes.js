@@ -78,6 +78,8 @@ FEATURES:
 
 - In order to change the data based on this hash, we grab the hash location with 'window.location.hash'.
 
+- When building your project, try to think as broad as possible. Meaning try to use as few functions to accomplish all the tasks needed. Combine functionality when possible.
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------- IMPORTING ICONS AND IMAGES WITH PARCEL -------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -144,6 +146,10 @@ FEATURES:
 - All that either the view or the model do is sit there with their own processes and logic ready to be interacted with by logic and function calls from the controller.
 
 - We create a config.js file in order to store functions, variables, or any peice of code that we're not 100% sure about that might be changed later or updated, reused etc. The standard for config.js files is to capitalize all of the variable names for them to standout. Any time we have random numbers or random pieces of data that may be unreadable from anothers perspective, we should name these and place them in our config files so that we have a cookie trail or something we can look at to verify this data and its purpose.
+
+- We have created multiple views for each section of the webpage that we need to add funtionality to. We have a searchView.js, resultsView.js, recipeView.js and a View.js. This splits up all of our actual imlementation related to the UI, therefore making it easier to refactor and add to later on.
+
+- Within all of these views, we have created classes in order to hide and encapsulate our functionality without it being in the global scope. 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------- ACTUAL IMPLEMENTATION ----------------------------------------------------------------
