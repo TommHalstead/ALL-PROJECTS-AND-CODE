@@ -600,16 +600,31 @@ const controlSearchResults = async function() {
         // Load search results
         await _modelJs.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
         // Render results
-        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(1)); // Call our pagination function to display only wanted amount of results.
+        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage()); // Call our pagination function to display only wanted amount of results.
         // Render initial pagination buttons
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
         (0, _resultsViewJsDefault.default).renderError(this._errorMessage);
     }
 };
+const controlPagination = function(goToPage) {
+    // Render new results
+    (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage));
+    // Render new pagination buttons
+    (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
+};
+const controlServings = function(newServings) {
+    // Update Recipe servings in the state
+    _modelJs.updateServings(newServings);
+    console.log(_modelJs.state.recipe.servings);
+    // Update the recipeView
+    (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
+};
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
+    (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
+    (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 init();
@@ -2014,6 +2029,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
 var _config = require("./config");
 var _helpers = require("./helpers");
@@ -2040,6 +2056,7 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
+        console.log(state.recipe);
     } catch (err) {
         // Temp error handling
         console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -2065,11 +2082,20 @@ const loadSearchResults = async function(query) {
         throw err;
     } // We will throw this error, so that we can handle it in the controller, where we will call this function.
 };
-const getSearchResultsPage = function(page = state.search.page) {
+const getSearchResultsPage = (page = state.search.page)=>{
     state.search.page = page;
     const start = (page - 1) * state.search.resultsPerPage; // 0
     const end = page * state.search.resultsPerPage; // 9
     return state.search.results.slice(start, end);
+};
+const updateServings = (newServings)=>{
+    console.log(state.recipe);
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    // newQt = oldQT * newServings / oldServings
+    });
+    // Update state recipe values
+    state.recipe.servings = newServings;
 };
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
@@ -2744,6 +2770,16 @@ class RecipeView extends (0, _viewDefault.default) {
             `load`
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener(`click`, function(e) {
+            const btn = e.target.closest(`.btn--update-servings`);
+            if (!btn) return;
+            console.log(btn);
+            const updateTo = +btn.dataset.updateTo;
+            console.log(+btn.dataset.updateTo);
+            handler(updateTo);
+        });
+    }
     _generateMarkup() {
         return `
   <figure class="recipe__fig">
@@ -2769,12 +2805,12 @@ class RecipeView extends (0, _viewDefault.default) {
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1}">
           <svg>
             <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
           </svg>
         </button>
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings + 1}">
           <svg>
             <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
           </svg>
@@ -3223,7 +3259,6 @@ class ResultsView extends (0, _viewDefault.default) {
     _errorMessage = `No recipes found for your search! Please try another!`;
     _message = ``;
     _generateMarkup() {
-        console.log(this);
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(result) {
@@ -3255,56 +3290,52 @@ var _config = require("../config");
 var _regeneratorRuntime = require("regenerator-runtime");
 class PaginationView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(`.pagination`);
-    _renderPrevPage() {
-        return `
-  <button class="btn--inline pagination__btn--prev">
-    <svg class="search__icon">
-      <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
-    </svg>
-    <span>Page ${curPage - 1}</span>
-  </button>`;
-    }
-    _generateNextPageMarkup() {
-        curPage;
+    addHandlerClick(handler) {
+        this._parentElement.addEventListener(`click`, function(e) {
+            const btn = e.target.closest(`.btn--inline`);
+            if (!btn) return;
+            const goToPage = +btn.dataset.goto;
+            handler(goToPage);
+        });
     }
     _generateMarkup() {
-        const curPage1 = this._data.page;
+        const curPage = this._data.page;
         const numPages = Math.ceil(_modelJs.state.search.results.length / _modelJs.state.search.resultsPerPage);
         // Page 1 - Other pages
-        if (curPage1 === 1 && numPages > 1) return ` 
-  <button class="btn--inline pagination__btn--next">
-    <span>Page ${curPage1 + 1}</span>
+        if (curPage === 1 && numPages > 1) return ` 
+  <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+    <span>Page ${curPage + 1}</span>
     <svg class="search__icon">
       <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
     </svg>
   </button>;
   `;
         // Last page
-        if (curPage1 === numPages && numPages > 1) return `
-  <button class="btn--inline pagination__btn--prev">
+        if (curPage === numPages && numPages > 1) return `
+  <button data-goto="${curPage - 1}" class="btn--inline pagination__btn--prev">
     <svg class="search__icon">
       <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
     </svg>
-    <span>Page ${curPage1 - 1}</span>
+    <span>Page ${curPage - 1}</span>
   </button>`;
         // Other page
-        if (curPage1 < numPages) return `
-  <button class="btn--inline pagination__btn--prev">
+        if (curPage < numPages) return `
+  <button data-goto="${curPage - 1}" class="btn--inline pagination__btn--prev">
     <svg class="search__icon">
       <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
     </svg>
-    <span>Page ${curPage1 - 1}</span>
+    <span>Page ${curPage - 1}</span>
   </button>
 
-  <button class="btn--inline pagination__btn--next">
-    <span>Page ${curPage1 + 1}</span>
+  <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+    <span>Page ${curPage + 1}</span>
     <svg class="search__icon">
       <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
     </svg>
   </button>;
   `;
         // Page 1 - No pages
-        if (curPage1 === 1 && numPages === 1) return ``;
+        if (curPage === 1 && numPages === 1) return ``;
     }
 }
 exports.default = new PaginationView();

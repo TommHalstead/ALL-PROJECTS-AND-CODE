@@ -21,7 +21,6 @@ const controlRecipes = async function () {
     if (!id) return;
     // 1.) Loading spinner
     recipeView.renderSpinner();
-
     // 2.) Loading recipe
     await model.loadRecipe(id);
 
@@ -45,18 +44,37 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
 
     // Render results
-    resultsView.render(model.getSearchResultsPage(1)); // Call our pagination function to display only wanted amount of results.
-    // Render initial pagination buttons
+    resultsView.render(model.getSearchResultsPage()); // Call our pagination function to display only wanted amount of results.
 
+    // Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError(this._errorMessage);
   }
 };
 
+const controlPagination = function (goToPage) {
+  // Render new results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+
+  // Render new pagination buttons
+  paginationView.render(model.state.search);
+};
+
+const controlServings = function (newServings) {
+  // Update Recipe servings in the state
+  model.updateServings(newServings);
+
+  console.log(model.state.recipe.servings);
+  // Update the recipeView
+  paginationView.render(model.state.search);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 

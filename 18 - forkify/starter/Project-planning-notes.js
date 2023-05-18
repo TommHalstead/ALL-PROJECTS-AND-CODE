@@ -268,6 +268,8 @@ FEATURES:
 
 - We first find out how many pages we are going to have by dividing our results by the results per page we would like and round that to the next nearest int.
 
+- In order for javascript to know what page we're on and what page we would like to go to (what results to dislpay) we need a way to connect our DOM with our code. We can do this with datasets.
+
 
 
 

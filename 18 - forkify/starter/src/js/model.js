@@ -27,6 +27,7 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+    console.log(state.recipe);
   } catch (err) {
     // Temp error handling
     console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -58,11 +59,21 @@ export const loadSearchResults = async function (query) {
 };
 // This is the function we are creating for loading the search results, this will be called by the contoller, and the controller is the one who will tell this function what we're going to be searching for. Therefore we will pass in a `query` parameter in order to pass this argument in when we call it with the controller.
 
-export const getSearchResultsPage = function (page = state.search.page) {
+export const getSearchResultsPage = (page = state.search.page) => {
   state.search.page = page;
 
   const start = (page - 1) * state.search.resultsPerPage; // 0
   const end = page * state.search.resultsPerPage; // 9
 
   return state.search.results.slice(start, end);
+};
+
+export const updateServings = newServings => {
+  console.log(state.recipe);
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    // newQt = oldQT * newServings / oldServings
+  });
+  // Update state recipe values
+  state.recipe.servings = newServings;
 };
