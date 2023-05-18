@@ -1,10 +1,10 @@
 import icons from 'url:../../img/icons.svg'; // Parcel 2
 
 export default class View {
-  _recipe;
+  _data;
 
   render(recipe) {
-    this._recipe = recipe; // Creates a recipe property and sets it to the argument that is received.
+    this._data = recipe; // Creates a recipe property and sets it to the argument that is received.
     const markup = this._generateMarkup();
     this._clear();
     this._insertHTML(markup);

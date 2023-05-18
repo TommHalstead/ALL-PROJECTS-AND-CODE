@@ -246,10 +246,27 @@ FEATURES:
 - We can use the `submit` keyword to listen for either the user clicking the button or for them hitting submit or enter. 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------- Pagination ---------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
+- Pagination means to only load a limited number of results to show on the page at one time.
 
+- In order to create a pagination function, we can do this formula: (page - 1) * 10 - for the start. Meaning page 1 - 1 * 10 = 0 and simply (page * 10) for the end result. This way if we want page 1 * 10, we get results from 0 - 10 with both of these forumlas. Then after this we can slice our array and grab the items from the array based on these values. We create a variable `RES_PER_PAGE` and save it in our config file singe it's a random number appearing out of nowhere and would be easy to change later on if we so wanted to.
 
+- Since this function is a function that is an integral part of the whole entire pages functionality, we store this function in the model.js file. We also store the actual page that we are currently on as a property in the state as well so that we can know later on what page we are on and therefore navigate between pages. We also create this variable inside of our function and set it to the parameter that we have of page. 
 
+- With pagination, we have a few scenarios:
+
+1.) With >= 10 results, we want to show no page buttons.
+
+2.) On page 1, we want to show the page button for page 2
+
+3.) On any middle page, we want to be able to go forward and back pages.
+
+4.) On the last page, we only want to be able to go back.
+
+- We first find out how many pages we are going to have by dividing our results by the results per page we would like and round that to the next nearest int.
 
 
 

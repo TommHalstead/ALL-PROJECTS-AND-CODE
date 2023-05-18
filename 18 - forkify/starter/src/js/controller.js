@@ -2,11 +2,17 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import { RES_PER_PAGE } from './config.js';
 
 ///////////////////////////////////////
+
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 // Async function
 const controlRecipes = async function () {
@@ -21,8 +27,6 @@ const controlRecipes = async function () {
 
     // 3.) Rendering recipe with the state object we created and imported from the model module
     recipeView.render(model.state.recipe);
-
-    console.log(model.state.recipe);
   } catch (err) {
     recipeView.renderError(); // We pass in nothing because we have a default message set in our renderError function.
   }
@@ -41,7 +45,10 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query); // WE MUST AWAIT this promise so that code execution in the background will stop while we're loading this.
 
     // Render results
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage(1)); // Call our pagination function to display only wanted amount of results.
+    // Render initial pagination buttons
+
+    paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError(this._errorMessage);
   }

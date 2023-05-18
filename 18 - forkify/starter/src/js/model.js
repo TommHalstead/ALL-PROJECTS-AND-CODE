@@ -1,11 +1,14 @@
 import { async } from 'regenerator-runtime/runtime'; // Imports polyfills for async functions
-import { API_URL } from './config';
+import { API_URL, RES_PER_PAGE } from './config';
 import { getJSON } from './helpers';
+
 export const state = {
   recipe: {},
   search: {
     query: ``,
     results: [],
+    page: 1,
+    resultsPerPage: RES_PER_PAGE,
   },
 };
 
@@ -54,3 +57,12 @@ export const loadSearchResults = async function (query) {
   } // We will throw this error, so that we can handle it in the controller, where we will call this function.
 };
 // This is the function we are creating for loading the search results, this will be called by the contoller, and the controller is the one who will tell this function what we're going to be searching for. Therefore we will pass in a `query` parameter in order to pass this argument in when we call it with the controller.
+
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+
+  const start = (page - 1) * state.search.resultsPerPage; // 0
+  const end = page * state.search.resultsPerPage; // 9
+
+  return state.search.results.slice(start, end);
+};

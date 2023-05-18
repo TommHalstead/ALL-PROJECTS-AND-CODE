@@ -1,5 +1,4 @@
 import View from './View';
-
 import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
@@ -8,7 +7,8 @@ class ResultsView extends View {
   _message = ``;
 
   _generateMarkup() {
-    return this._recipe.map(this._generateMarkupPreview).join('');
+    console.log(this);
+    return this._data.map(this._generateMarkupPreview).join('');
   }
 
   _generateMarkupPreview(result) {
