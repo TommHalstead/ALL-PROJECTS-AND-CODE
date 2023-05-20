@@ -1,9 +1,1 @@
-
-*.mdb
-*.txt
-18 - forkify/starter/.parcel-cache/lock.mdb
-18 - forkify/starter/.parcel-cache/data.mdb
-18 - forkify/starter/.parcel-cache/a9f5484dda8bfe2c
-18 - forkify/starter/.parcel-cache/a812c0ecb95413e4
-18 - forkify/starter/.parcel-cache/4f850010d38850c3
-18 - forkify/starter/.parcel-cache/092db1189cc128d8
+.parcel-cache
