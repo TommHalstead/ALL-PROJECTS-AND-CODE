@@ -3,10 +3,12 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { RES_PER_PAGE } from './config.js';
+import { async } from 'regenerator-runtime';
 
 ///////////////////////////////////////
 
@@ -14,24 +16,33 @@ import { RES_PER_PAGE } from './config.js';
 //   module.hot.accept();
 // }
 
-// Async function
+// ASYNC FUNCTION TO FIND AND LOAD THE RECIPE BASED ON THE ID AND RENDER IT TO THE DOM
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
     if (!id) return;
+
     // 1.) Loading spinner
     recipeView.renderSpinner();
-    // 2.) Loading recipe
+
+    // 1.5) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
+    // 2.) Render bookmarks to the view
+    bookmarksView.update(model.state.bookmarks);
+
+    // 2.5) Loading recipe
     await model.loadRecipe(id);
 
     // 3.) Rendering recipe with the state object we created and imported from the model module
     recipeView.render(model.state.recipe);
   } catch (err) {
+    console.error(err);
     recipeView.renderError(); // We pass in nothing because we have a default message set in our renderError function.
   }
 };
 
-// We create a new function to handle our search query, we call and await our loadSearchResults fn from our model.js
+//  LOAD AND RENDER SEARCH RESULTS TO THE SEARCHVIEW BASED ON THE USER QUERY
 const controlSearchResults = async function () {
   try {
     resultsView.renderSpinner();
@@ -53,6 +64,7 @@ const controlSearchResults = async function () {
   }
 };
 
+// CONTROL AND RENDER 10 RESULTS PER PAGE AND RENDER/UPDATE THE NEWSERVINGS WHEN CLICKED
 const controlPagination = function (goToPage) {
   // Render new results
   resultsView.render(model.getSearchResultsPage(goToPage));
@@ -65,16 +77,42 @@ const controlServings = function (newServings) {
   // Update Recipe servings in the state
   model.updateServings(newServings);
 
-  console.log(model.state.recipe.servings);
   // Update the recipeView
-  paginationView.render(model.state.search);
+
+  recipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = function () {
+  // 1.) Add or remove bookmark based on bookmarked property
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
+
+  // 2.) Update recipe view with bookmark change
+  recipeView.update(model.state.recipe);
+
+  // Render bookmarked bookmarks
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controlAddRecipe = function (newRecipeFormData) {
+  console.log(newRecipeFormData);
+
+  // Upload recipe data
+};
+
+// INITIALIZE ALL OF OUR EVENT HANDLERS WITH PUBSUB - CALLING OUR EVENT HANDLER FUNCTIONS WITH OUR CONTROLLER FUNCTIONS AS PARAMETERS FOR THE EVENT LISTENER TO CALL
 const init = function () {
+  bookmarksView.addHandlerRenderBookmarks(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 

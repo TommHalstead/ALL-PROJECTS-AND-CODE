@@ -569,28 +569,37 @@ var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
+var _bookmarksViewJs = require("./views/bookmarksView.js");
+var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
+var _addRecipeViewJs = require("./views/addRecipeView.js");
+var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 var _runtime = require("regenerator-runtime/runtime");
-var _configJs = require("./config.js");
+var _regeneratorRuntime = require("regenerator-runtime");
 ///////////////////////////////////////
 // if (module.hot) {
 //   module.hot.accept();
 // }
-// Async function
+// ASYNC FUNCTION TO FIND AND LOAD THE RECIPE BASED ON THE ID AND RENDER IT TO THE DOM
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
         // 1.) Loading spinner
         (0, _recipeViewJsDefault.default).renderSpinner();
-        // 2.) Loading recipe
+        // 1.5) Update results view to mark selected search result
+        (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultsPage());
+        // 2.) Render bookmarks to the view
+        (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
+        // 2.5) Loading recipe
         await _modelJs.loadRecipe(id);
         // 3.) Rendering recipe with the state object we created and imported from the model module
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
+        console.error(err);
         (0, _recipeViewJsDefault.default).renderError(); // We pass in nothing because we have a default message set in our renderError function.
     }
 };
-// We create a new function to handle our search query, we call and await our loadSearchResults fn from our model.js
+//  LOAD AND RENDER SEARCH RESULTS TO THE SEARCHVIEW BASED ON THE USER QUERY
 const controlSearchResults = async function() {
     try {
         (0, _resultsViewJsDefault.default).renderSpinner();
@@ -607,6 +616,7 @@ const controlSearchResults = async function() {
         (0, _resultsViewJsDefault.default).renderError(this._errorMessage);
     }
 };
+// CONTROL AND RENDER 10 RESULTS PER PAGE AND RENDER/UPDATE THE NEWSERVINGS WHEN CLICKED
 const controlPagination = function(goToPage) {
     // Render new results
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage));
@@ -616,20 +626,39 @@ const controlPagination = function(goToPage) {
 const controlServings = function(newServings) {
     // Update Recipe servings in the state
     _modelJs.updateServings(newServings);
-    console.log(_modelJs.state.recipe.servings);
     // Update the recipeView
-    (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
+const controlAddBookmark = function() {
+    // 1.) Add or remove bookmark based on bookmarked property
+    if (!_modelJs.state.recipe.bookmarked) _modelJs.addBookmark(_modelJs.state.recipe);
+    else _modelJs.deleteBookmark(_modelJs.state.recipe.id);
+    // 2.) Update recipe view with bookmark change
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
+    // Render bookmarked bookmarks
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+};
+const controlBookmarks = function() {
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+};
+const controlAddRecipe = function(newRecipeFormData) {
+    console.log(newRecipeFormData);
+// Upload recipe data
+};
+// INITIALIZE ALL OF OUR EVENT HANDLERS WITH PUBSUB - CALLING OUR EVENT HANDLER FUNCTIONS WITH OUR CONTROLLER FUNCTIONS AS PARAMETERS FOR THE EVENT LISTENER TO CALL
 const init = function() {
+    (0, _bookmarksViewJsDefault.default).addHandlerRenderBookmarks(controlBookmarks);
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
+    (0, _recipeViewJsDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
+    (0, _addRecipeViewJsDefault.default).addHandlerUpload(controlAddRecipe);
 };
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 init();
 
-},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","regenerator-runtime/runtime":"dXNgZ","./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
+},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj","regenerator-runtime/runtime":"dXNgZ","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");
 var DESCRIPTORS = require("1672c5f06c5f6f74");
 var defineBuiltInAccessor = require("55ee9251f1b0483a");
@@ -2030,6 +2059,9 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
+parcelHelpers.export(exports, "uploadRecipe", ()=>uploadRecipe);
 var _runtime = require("regenerator-runtime/runtime"); // Imports polyfills for async functions
 var _config = require("./config");
 var _helpers = require("./helpers");
@@ -2039,12 +2071,15 @@ const state = {
         query: ``,
         results: [],
         page: 1,
+        pageDefault: 1,
         resultsPerPage: (0, _config.RES_PER_PAGE)
-    }
+    },
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
+        console.log(data.data.recipe);
         const { recipe  } = data.data;
         state.recipe = {
             id: recipe.id,
@@ -2056,7 +2091,10 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(state.recipe);
+        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) {
+            state.recipe.bookmarked = true;
+            console.log(state.recipe);
+        } else state.recipe.bookmarked = false;
     } catch (err) {
         // Temp error handling
         console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -2082,20 +2120,49 @@ const loadSearchResults = async function(query) {
         throw err;
     } // We will throw this error, so that we can handle it in the controller, where we will call this function.
 };
-const getSearchResultsPage = (page = state.search.page)=>{
+const getSearchResultsPage = (page = state.search.pageDefault)=>{
     state.search.page = page;
-    const start = (page - 1) * state.search.resultsPerPage; // 0
-    const end = page * state.search.resultsPerPage; // 9
-    return state.search.results.slice(start, end);
+    const start = (page - 1) * state.search.resultsPerPage; // PAGE = (1 - 1) * 10 = 0 // PAGE = (2 - 1) * 10 = 10
+    const end = page * state.search.resultsPerPage; // PAGE 1 * 10 (results per page) = 10 // PAGE 2 * 10 = 20
+    return state.search.results.slice(start, end); // SLICES THE RESULTS ARRAY BASED ON USER QUERY BY OUR START AND END LOGIC ABOVE
 };
 const updateServings = (newServings)=>{
-    console.log(state.recipe);
     state.recipe.ingredients.forEach((ing)=>{
         ing.quantity = ing.quantity * newServings / state.recipe.servings;
     // newQt = oldQT * newServings / oldServings
     });
     // Update state recipe values
     state.recipe.servings = newServings;
+};
+const perstistBookmarks = function() {
+    console.log(state.bookmarks);
+    localStorage.setItem(`bookmarks`, JSON.stringify(state.bookmarks)); // Set item takes two parameters, a key(whatever you want to name it) and a value, that must first be a string in order to store it. Therefore we take our array of objects and pass it into our JSON.stringify() method.
+};
+const addBookmark = function(recipe) {
+    // Push bookmark to bookmark array
+    state.bookmarks.push(recipe);
+    // Mark current recipe as bookmarked
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    perstistBookmarks();
+};
+const deleteBookmark = function(id) {
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    // Mark current recipe as bookmarked = false
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
+    perstistBookmarks();
+};
+// Grab items from our local storage in order to render it via the previewView
+const init = function() {
+    const storage = localStorage.getItem(`bookmarks`);
+    if (storage) state.bookmarks = JSON.parse(storage);
+};
+init();
+const clearBookmarks = function() {
+    localStorage.clear(`bookmarks`);
+};
+const uploadRecipe = async function(newRecipe) {
+    const ingredients = Object.entries(newRecipe);
 };
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
@@ -2764,22 +2831,31 @@ class RecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(`.recipe`);
     _errorMessage = `We couldn't find that recipe. Please try another!`;
     _message = ``;
+    // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - CHECKING FOR RELOAD OR HASHCHANGE FOR ID
     addHandlerRender(handler) {
         [
             `hashchange`,
             `load`
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
+    // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - UPDATE SERVINGS  |-|  |+|
     addHandlerUpdateServings(handler) {
         this._parentElement.addEventListener(`click`, function(e) {
             const btn = e.target.closest(`.btn--update-servings`);
             if (!btn) return;
-            console.log(btn);
-            const updateTo = +btn.dataset.updateTo;
-            console.log(+btn.dataset.updateTo);
-            handler(updateTo);
+            const { updateTo  } = btn.dataset;
+            if (!+updateTo < 1) handler(+updateTo);
         });
     }
+    // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - UPDATE BOOKMARKS
+    addHandlerAddBookmark(handler) {
+        this._parentElement.addEventListener(`click`, function(e) {
+            const btn = e.target.closest(`.btn--bookmark`);
+            if (!btn) return;
+            handler();
+        });
+    }
+    // GENERATE OUR DYNAMIC MARKUP FOR OUR RECIPE VIEW AND RETURN IT - ONLY CALLED BY RENDER() METHOD
     _generateMarkup() {
         return `
   <figure class="recipe__fig">
@@ -2819,11 +2895,10 @@ class RecipeView extends (0, _viewDefault.default) {
   </div>
 
   <div class="recipe__user-generated">
-
   </div>
-  <button class="btn--round">
+  <button class="btn--round btn--bookmark">
     <svg class="">
-      <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+      <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? `-fill` : ``}"></use>
     </svg>
   </button>
   </div>
@@ -2838,7 +2913,7 @@ class RecipeView extends (0, _viewDefault.default) {
   <div class="recipe__directions">
     <h2 class="heading--2">How to cook it</h2>
     <p class="recipe__directions-text">
-      This _data was carefully designed and tested by
+      This recipe was carefully designed and tested by
       <span class="recipe__publisher">${this._data.publisher}</span>. Please check out
             directions at their website.
     </p>
@@ -2855,6 +2930,7 @@ class RecipeView extends (0, _viewDefault.default) {
 </div>
     `;
     }
+    // TEMPLATE FUNCTION FOR INGREDIENT MARKUP ONLY CALLED BY _GENERATEMARKUP
     _generateMarkupIngredient(ing) {
         return `
     <li class="recipe__ingredient">
@@ -2879,18 +2955,39 @@ var _iconsSvg = require("url:../../img/icons.svg"); // Parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
-    render(recipe) {
-        this._data = recipe; // Creates a recipe property and sets it to the argument that is received.
+    // RENDER ALL VIEWS - ALL VIEWS HAVE THESE METHODS AND VARIABLE NAMES DUE TO PROTOTYPAL INHERITANCE
+    render(data, render = true) {
+        this._data = data; // Creates a recipe property and sets it to the argument that is received.
         const markup = this._generateMarkup();
+        if (!render) return markup;
         this._clear();
         this._insertHTML(markup);
     }
+    // CLEAR THE OLD HTML MARKUP
     _clear() {
         this._parentElement.innerHTML = ``;
     }
+    // UPDATE IGREDIENT DATA FOR SERVINGS - RENDER ONLY UPDATED ELEMENTS
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup(); // Store our HTML
+        const newDOM = document.createRange().createContextualFragment(newMarkup); // These methods transform HTML markup into to a DOM element tree
+        const newElements = Array.from(newDOM.querySelectorAll(`*`));
+        const curElements = Array.from(this._parentElement.querySelectorAll(`*`));
+        // LOOP OVER NEW VIRTUAL DOM AND CHANGE THE CONTENT - ALSO LOOPING OVER THE curElements ARRAY FROM INSIDE THE forEach() loop!!
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            // UPDATE TEXT CONTENT
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== ``) curEl.textContent = newEl.textContent;
+            // UPDATE ATTRIBUTES - USE ISEQUALNODE TO COMPARE THE NODES THEMSELVES, USE ARRAY.FROM TO CREATE AN ARRAY FROM THE
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value)); // Replace all the different attribute names from the newEl to the curEl
+        });
+    }
+    // INSERT HTML INTO THE DOM
     _insertHTML(markup) {
         this._parentElement.insertAdjacentHTML(`afterbegin`, markup);
     }
+    // RENDER SPINNER FOR LOADING VIEWS
     renderSpinner() {
         const markup = `
   <div class="spinner">
@@ -2901,6 +2998,7 @@ class View {
         this._clear();
         this._insertHTML(markup);
     }
+    // RENDER ERROR MESSAGE FOR ERRORS
     renderError(message = this._errorMessage) {
         const markup = `
     <div class="error">
@@ -2914,6 +3012,7 @@ class View {
         this._clear();
         this._insertHTML(markup);
     }
+    // RENDER SUCCESS MESSAGES
     renderMessage(message = this._message) {
         const markup = `
    <div class="recipe">
@@ -3252,6 +3351,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewViewJs = require("./previewView.js");
+var _previewViewJsDefault = parcelHelpers.interopDefault(_previewViewJs);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class ResultsView extends (0, _viewDefault.default) {
@@ -3259,24 +3360,37 @@ class ResultsView extends (0, _viewDefault.default) {
     _errorMessage = `No recipes found for your search! Please try another!`;
     _message = ``;
     _generateMarkup() {
-        return this._data.map(this._generateMarkupPreview).join("");
+        return this._data.map((result)=>(0, _previewViewJsDefault.default).render(result, false)).join("");
     }
-    _generateMarkupPreview(result) {
+}
+exports.default = new ResultsView();
+
+},{"./View":"5cUXS","./previewView.js":"1FDQ6","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FDQ6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class PreviewView extends (0, _viewDefault.default) {
+    _parentElement = ``;
+    _generateMarkup() {
+        const id = window.location.hash.slice(1);
         return `
 <li class="preview">
-  <a class="preview__link" href="#${result.id}">
+  <a class="preview__link ${this._data.id === id ? `preview__link--active` : ``}" href="#${this._data.id}">
     <figure class="preview__fig">
-      <img src="${result.image}" alt="${result.title}" />
+      <img src="${this._data.image}" alt="${this._data.title}" />
     </figure>
     <div class="preview__data">
-      <h4 class="preview__title">${result.title}</h4>
-      <p class="preview__publisher">${result.publisher}</p>
+      <h4 class="preview__title">${this._data.title}</h4>
+      <p class="preview__publisher">${this._data.publisher}</p>
     </div>
   </a>
 </li>`;
     }
 }
-exports.default = new ResultsView();
+exports.default = new PreviewView();
 
 },{"./View":"5cUXS","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6z7bi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -3298,6 +3412,7 @@ class PaginationView extends (0, _viewDefault.default) {
             handler(goToPage);
         });
     }
+    // GENERATE MARKUP FOR
     _generateMarkup() {
         const curPage = this._data.page;
         const numPages = Math.ceil(_modelJs.state.search.results.length / _modelJs.state.search.resultsPerPage);
@@ -3308,7 +3423,7 @@ class PaginationView extends (0, _viewDefault.default) {
     <svg class="search__icon">
       <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
     </svg>
-  </button>;
+  </button>
   `;
         // Last page
         if (curPage === numPages && numPages > 1) return `
@@ -3339,6 +3454,79 @@ class PaginationView extends (0, _viewDefault.default) {
     }
 }
 exports.default = new PaginationView();
+
+},{"./View":"5cUXS","url:../../img/icons.svg":"loVOp","../model.js":"Y4A21","../config":"k5Hzs","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Lqzq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewViewJs = require("./previewView.js");
+var _previewViewJsDefault = parcelHelpers.interopDefault(_previewViewJs);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class BookmarksView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(`.bookmarks__list`);
+    _errorMessage = `No bookmarks yet, find a nice recipe and bookmark it!`;
+    _message = ``;
+    addHandlerRenderBookmarks(handler) {
+        window.addEventListener(`load`, handler);
+    }
+    // We use this function here to call our previewView.render() within the render we have a condition if(!render) return markup; which we then call and pass in our .map() argument and pass in our bookmark argument and set our second parameter to false, so this method will always return our markup. That will make all of this an array of strings, that we then join together with the .join() method.
+    _generateMarkup() {
+        return this._data.map((bookmark)=>(0, _previewViewJsDefault.default).render(bookmark, false)).join("");
+    }
+}
+exports.default = new BookmarksView();
+
+},{"./View":"5cUXS","./previewView.js":"1FDQ6","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i6DNj":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+var _modelJs = require("../model.js");
+var _config = require("../config");
+var _regeneratorRuntime = require("regenerator-runtime");
+class AddRecipeView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(`.upload`);
+    _windowEl = document.querySelector(`.add-recipe-window`);
+    _overlay = document.querySelector(`.overlay`);
+    _btnOpen = document.querySelector(`.nav__btn--add-recipe`);
+    _btnClose = document.querySelector(`.btn--close-modal`);
+    constructor(){
+        super();
+        this._addHandlerShowWindow();
+        this._addHandlerHideWindow();
+    }
+    // TOGGLE HIDDEN CLASS ON OVERLAY AND WINDOW ELEMENT
+    toggleWindow() {
+        this._overlay.classList.toggle(`hidden`);
+        this._windowEl.classList.toggle(`hidden`);
+    }
+    // OPEN THE FORM DATA WINDOW FOR MAKING YOUR OWN RECIPE
+    _addHandlerShowWindow() {
+        this._btnOpen.addEventListener(`click`, this.toggleWindow.bind(this));
+    }
+    // HIDE THE FORM DATA WINDOW FOR MAKING YOUR OWN RECIPE
+    _addHandlerHideWindow() {
+        this._btnClose.addEventListener(`click`, this.toggleWindow.bind(this));
+        this._overlay.addEventListener(`click`, this.toggleWindow.bind(this));
+    }
+    // PUBSUB HANDLER FUNCTION FOR UPLOADING OUR CUSTOM RECIPE TO OUR DATA
+    addHandlerUpload(handler) {
+        this._parentElement.addEventListener(`submit`, (e)=>{
+            e.preventDefault();
+            const dataArray = [
+                ...new FormData(this._parentElement)
+            ];
+            const data = Object.fromEntries(dataArray); // The fromEntries method takes an array of key/value pairs and converts it to an object
+            handler(data);
+        });
+    }
+    _generateMarkup() {}
+}
+exports.default = new AddRecipeView();
 
 },{"./View":"5cUXS","url:../../img/icons.svg":"loVOp","../model.js":"Y4A21","../config":"k5Hzs","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d8XZh","aenu9"], "aenu9", "parcelRequire3a11")
 

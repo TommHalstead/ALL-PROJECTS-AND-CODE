@@ -40,6 +40,7 @@ FEATURES:
 -------------------------------------------------------------- SETTING UP PARCEL -------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
+- When we setup parcel, we give it initial access to our controller.js file or our starting file, we then from there have to import every other file that is related to the controller, so that parcel will now have access to these other filse and therefore be able to read and use them.
 
 - When working with your package.json file, a devDependency is an element that contains all the packages that your prject requires in the development process and not in the prodcution or testing environments/phases.
 
@@ -79,6 +80,10 @@ FEATURES:
 - In order to change the data based on this hash, we grab the hash location with 'window.location.hash'.
 
 - When building your project, try to think as broad as possible. Meaning try to use as few functions to accomplish all the tasks needed. Combine functionality when possible.
+
+- When verifying forms, we can use the FormData web API. new FormData(), and into this we have to pass in an element that is a form.
+
+- Object.fromEntries() allows you to transform a list of key-value pairs into an object.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------- IMPORTING ICONS AND IMAGES WITH PARCEL -------------------------------------------------------
@@ -198,6 +203,9 @@ FEATURES:
 
 - We can create a seperate function(s) to render and handle our errors for us, wherever we want our errors to end up, we just have to make sure we properly propegate these errors down through the correct catch blocks in order to get it to where we want it to be. In order to keep from hardcoding anything directly to the console, we can make a private field in a class and set that to our error message. Within our errorHandler function, we can pass in that default error message to display. Now we can re-use this function multiple times in many places with a seperate error message. 
 
+- We can use the `debugger` keyword ANYWHERE in our code and code execution will stop at that point within the console and we can then do a play by play for each individual step and watch the flow of our code in order to understand why we're getting errors. To the right of the console without our debugging screen, we can view the enire callstack in action as we go through each line of our code.
+
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------- Events ----------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -272,11 +280,57 @@ FEATURES:
 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------- DOM Updating Algorithm --------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+- These functions will convert a markup string to a DOM element that's living in the memory, that we can then use to compare to the actual DOM on the page.
+
+- The createDocumentFragment() method can also be used to extract parts of a document, change, add, or delete some of the content, and insert it back to the document.
+
+- We pass into the createDocumentFragment() the markup that we would like to create a virtual DOM out of, that will live in the memory. We can then use that markup as if it's the real DOM. 
+
+- So we can use this as a DOM tree in memory to represent only specific changes on a webpage and then render only that new information to the page.
+
+- In order to compare old DOM elements to new DOM elements, we can loop over our newElement nodelist ARRAY and store our current DOM elements at each index into a variable 
+
+-- CREATES A NEW DOM FROM INPUTTED MARKUP --
+const newDOM = document.createRange().createContextualFragment(newMarkup);
+const newElements = newDOM.querySelectorAll(`*`);
+console.log(newDOM, newElement);
+
+-- COMPARES NEW DOM TO OLD DOM AT EACH ITERATION --- YOU CAN VIEW ANOTHER ARRAYS ELEMENT AT EACH ITERATION EVEN WITHOUT EXPLICITLY LOOPING IT
+newElements.forEach((newEl, i) => {
+const curEl = curElements[i];
+console.log(newEl.isEqualNode(curEl), ` -- `, newEl, ` -- `, curEl);
+});
 
 
+- We can use nodeValue to extract just the value of a node (if it's a text node that is), and then reassign it to our wanted value.
+
+- We can use the .attributes method to view all of the attributes that belong to a specific element and from there change those attributes to match what we need.
+
+- USE ARRAY.FROM(`ARRAY`) IN ORDER TO CONVERT AN ITERABLE TO AN ARRAY.
+
+- We can use the setAttribute(name, value) method in order to set the value of an attribute to our desired value.
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- Bookmarks ---------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+- For bookmarks we create another handlerevent in our recipeView and an addBookmark in our controller.js. We use the PUBSUB method once again and we push the recipe that we bookmarked to a bookmarks array within the state object. Within our loadRecipes function in the model.js we check if we have any bookmarks in the array matching the id that we have in our loadRecipe function, and if they match, we add the property of 'bookmarked: true' to this recipe object.
+
+- When we need to add something, we typically get the entire object itself, and when we want to delete something, we only grab the ID.
+
+- We create a new bookmarksView.js so that we can control and update our bookmarksView from there. 
+
+- We now create a new view called previewView.js in order to act as a child view to our bookmarksView.js and resultsView.js.
+
+- We use our previewView.js folder in order to generate our markup for our previews.
+
+- In order to use local storage, we first must call the localStorage. localStorage.setItem(`bookmarks`, JSON.stringify(state.bookmarks)); - this right here will make a key value pair and set the key to bookmarks, we must pass in a string in order to save it as data in the bookmarks, so we use our JSON.stringify() method and pass in the object we want saved to local storage converted by JS to a string.
 
 
 

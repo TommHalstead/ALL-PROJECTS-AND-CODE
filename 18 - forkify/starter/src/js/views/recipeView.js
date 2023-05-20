@@ -8,21 +8,31 @@ class RecipeView extends View {
   _errorMessage = `We couldn't find that recipe. Please try another!`;
   _message = ``;
 
+  // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - CHECKING FOR RELOAD OR HASHCHANGE FOR ID
   addHandlerRender(handler) {
     [`hashchange`, `load`].forEach(ev => window.addEventListener(ev, handler));
   } // Here we create the publisher, because this is the one that will be listening for the event. We pass in the Subscriber, which is the code that will actually handle this event.
 
+  // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - UPDATE SERVINGS  |-|  |+|
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener(`click`, function (e) {
       const btn = e.target.closest(`.btn--update-servings`);
       if (!btn) return;
-      console.log(btn);
-      const updateTo = +btn.dataset.updateTo;
-      console.log(+btn.dataset.updateTo);
-      handler(updateTo);
+      const { updateTo } = btn.dataset;
+      if (!+updateTo < 1) handler(+updateTo);
     });
   }
 
+  // PUBLISHER FUNCTION THAT WE CALL IN OUR CONTROLLER WITH THE SUBSCRIBING FUNCTION PASSED IN - UPDATE BOOKMARKS
+  addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener(`click`, function (e) {
+      const btn = e.target.closest(`.btn--bookmark`);
+      if (!btn) return;
+      handler();
+    });
+  }
+
+  // GENERATE OUR DYNAMIC MARKUP FOR OUR RECIPE VIEW AND RETURN IT - ONLY CALLED BY RENDER() METHOD
   _generateMarkup() {
     return `
   <figure class="recipe__fig">
@@ -72,11 +82,12 @@ class RecipeView extends View {
   </div>
 
   <div class="recipe__user-generated">
-
   </div>
-  <button class="btn--round">
+  <button class="btn--round btn--bookmark">
     <svg class="">
-      <use href="${icons}#icon-bookmark-fill"></use>
+      <use href="${icons}#icon-bookmark${
+      this._data.bookmarked ? `-fill` : ``
+    }"></use>
     </svg>
   </button>
   </div>
@@ -91,7 +102,7 @@ class RecipeView extends View {
   <div class="recipe__directions">
     <h2 class="heading--2">How to cook it</h2>
     <p class="recipe__directions-text">
-      This _data was carefully designed and tested by
+      This recipe was carefully designed and tested by
       <span class="recipe__publisher">${
         this._data.publisher
       }</span>. Please check out
@@ -111,6 +122,7 @@ class RecipeView extends View {
     `;
   }
 
+  // TEMPLATE FUNCTION FOR INGREDIENT MARKUP ONLY CALLED BY _GENERATEMARKUP
   _generateMarkupIngredient(ing) {
     return `
     <li class="recipe__ingredient">

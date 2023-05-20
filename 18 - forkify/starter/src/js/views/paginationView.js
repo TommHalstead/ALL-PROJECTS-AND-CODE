@@ -16,6 +16,7 @@ class PaginationView extends View {
     });
   }
 
+  // GENERATE MARKUP FOR
   _generateMarkup() {
     const curPage = this._data.page;
     const numPages = Math.ceil(
@@ -30,7 +31,7 @@ class PaginationView extends View {
     <svg class="search__icon">
       <use href="${icons}#icon-arrow-right"></use>
     </svg>
-  </button>;
+  </button>
   `;
     }
 
