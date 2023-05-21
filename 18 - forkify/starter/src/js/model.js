@@ -19,7 +19,6 @@ export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
     const { recipe: apiRec } = data.data;
-    console.log(apiRec);
 
     state.recipe = await makeObject(apiRec);
 
@@ -41,7 +40,6 @@ export const loadSearchResults = async function (query) {
     state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
     if (!data.results) throw new Error();
-    console.log(data.data.recipes);
 
     state.search.results = data.data.recipes.map(
       rec => {
@@ -82,7 +80,6 @@ export const updateServings = newServings => {
 };
 
 const perstistBookmarks = function () {
-  console.log(state.bookmarks);
   localStorage.setItem(`bookmarks`, JSON.stringify(state.bookmarks)); // Set item takes two parameters, a key(whatever you want to name it) and a value, that must first be a string in order to store it. Therefore we take our array of objects and pass it into our JSON.stringify() method.
 };
 
@@ -150,7 +147,6 @@ export const uploadRecipe = async function (formData) {
 
     state.recipe = await makeObject(apiRecipe);
     addBookmark(state.recipe);
-    console.log(state.recipe);
   } catch (err) {
     throw err;
   }
