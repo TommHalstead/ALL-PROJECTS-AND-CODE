@@ -334,17 +334,35 @@ console.log(newEl.isEqualNode(curEl), ` -- `, newEl, ` -- `, curEl);
 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------- SEND OR POST API DATA ----------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+- When we want to send or post an API call, we call the fetch with our desired API location as always, and then our second parameter is an object of options. The first option is `method:` which should be `POST`, the second option should be `headers:` and headers are snippets of info about our POST. The headers should ALWAYS BE EXACLTY IN THIS FORMAT: 'Content-Type': 'application/json', after this we have the 'payload' of our request. (What we're trying to send. THIS MUST BE IN JSON) so `body: JSON.stringify(data)`
 
 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------- HISTORY API --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+- window.history.pushState(null, '', `#${model.state.recipe.id}`)
+
+- This command allows you to change the id of the window to that of whatever you would like
+
+- First two params don't matter, third is the the URL
 
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------ JSDOC COMMENTS ------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+- A JS DOC is a standard for writing notes about your function for other developers to look at and be able to understand. It is made with the following syntax // ** * / - put together.
 
-
+- These JS DOCS are really cool, VS code will automatically find and comment in the parameters and variables, therefore allowing you to write a message about what is going on in this function. We can then hover over this funtion and be able to see out custom written messages.
 
 
 

@@ -4,6 +4,15 @@ export default class View {
   _data;
 
   // RENDER ALL VIEWS - ALL VIEWS HAVE THESE METHODS AND VARIABLE NAMES DUE TO PROTOTYPAL INHERITANCE
+  /**
+   * Render the received object to the DOM
+   * @param {Object | Object[]} data The data to be rendered to the DOM (e.g recipe)
+   * @param {Boolean} [render=true] If false, create markup string instead of rendering to the DOM
+   * @returns {string} If render is false.
+   * @this {Object} View instance
+   * @author Thomas Halstead
+   * @todo Finish implementation
+   */
   render(data, render = true) {
     this._data = data; // Creates a recipe property and sets it to the argument that is received.
     const markup = this._generateMarkup();

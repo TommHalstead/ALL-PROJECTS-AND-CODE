@@ -1,6 +1,6 @@
 import { async } from 'regenerator-runtime/runtime'; // Imports polyfills for async functions
-import { API_URL, RES_PER_PAGE } from './config';
-import { getJSON } from './helpers';
+import { API_URL, RES_PER_PAGE, KEY } from './config';
+import { AJAX, makeObject } from './helpers';
 
 export const state = {
   recipe: {},
@@ -17,23 +17,14 @@ export const state = {
 // ASYNC FUNCTIONS THAT MAKES THE API CALL IN ORDER TO GET THE RECIPE DATA AND THEN STORES IT ALL IN THE {RECIPE} OBJECT
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}/${id}`);
-    console.log(data.data.recipe);
-    const { recipe } = data.data;
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
+    const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
+    const { recipe: apiRec } = data.data;
+    console.log(apiRec);
+
+    state.recipe = await makeObject(apiRec);
 
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
-      console.log(state.recipe);
     } else {
       state.recipe.bookmarked = false;
     }
@@ -48,8 +39,9 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
     if (!data.results) throw new Error();
+    console.log(data.data.recipes);
 
     state.search.results = data.data.recipes.map(
       rec => {
@@ -58,6 +50,7 @@ export const loadSearchResults = async function (query) {
           title: rec.title,
           publisher: rec.publisher,
           image: rec.image_url,
+          ...(rec.key && { key: rec.key }),
         };
       } // Right here we map these objects in this array to a new array with new objects with the property names changed and we save these mapped arrays to our search object within our state object that we export to all modules.
     );
@@ -127,6 +120,38 @@ const clearBookmarks = function () {
 // clearBookmarks();
 
 // TAKING OUR FORM UPLOADED RECIPES AND PUSHING THEM TO AN ARRAY IN ORDER TO CREATE A NEW RECIPE
-export const uploadRecipe = async function (newRecipe) {
-  const ingredients = Object.entries(newRecipe); // Returns an array of an objects key value pairs
+export const uploadRecipe = async function (formData) {
+  try {
+    const ingredients = Object.entries(formData)
+      .filter(ings => ings[0].startsWith(`ingredient`) && ings[1] !== ``)
+      .map(ingArrs => {
+        const [quantity, unit, description] = ingArrs[1].trim().split(`,`);
+        return {
+          quantity: quantity ? +quantity : null,
+          unit: unit === undefined ? `` : unit,
+          description: description === undefined ? `` : description,
+        };
+      }); // Returns an array of key value pairs where the first item in the array is `ingredients`, that we then map to an object containing an array of the qty, unit, desc.
+
+    const objectRecipe = {
+      title: formData.title,
+      source_url: formData.sourceUrl,
+      image_url: formData.image,
+      publisher: formData.publisher,
+      cooking_time: +formData.cookingTime,
+      servings: +formData.servings,
+      ingredients,
+    };
+
+    const data = await AJAX(`${API_URL}?key=${KEY}`, objectRecipe);
+    const {
+      data: { recipe: apiRecipe },
+    } = data;
+
+    state.recipe = await makeObject(apiRecipe);
+    addBookmark(state.recipe);
+    console.log(state.recipe);
+  } catch (err) {
+    throw err;
+  }
 };

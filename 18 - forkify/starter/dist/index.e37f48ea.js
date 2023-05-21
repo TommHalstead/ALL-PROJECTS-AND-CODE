@@ -573,6 +573,7 @@ var _bookmarksViewJs = require("./views/bookmarksView.js");
 var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
 var _addRecipeViewJs = require("./views/addRecipeView.js");
 var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
+var _configJs = require("./config.js");
 var _runtime = require("regenerator-runtime/runtime");
 var _regeneratorRuntime = require("regenerator-runtime");
 ///////////////////////////////////////
@@ -641,9 +642,27 @@ const controlAddBookmark = function() {
 const controlBookmarks = function() {
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
 };
-const controlAddRecipe = function(newRecipeFormData) {
-    console.log(newRecipeFormData);
-// Upload recipe data
+const controlAddRecipe = async function(formData) {
+    try {
+        // Show loading spinner
+        (0, _addRecipeViewJsDefault.default).renderSpinner();
+        // Upload recipe data
+        await _modelJs.uploadRecipe(formData);
+        // Render recipe
+        (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        // Success message
+        (0, _addRecipeViewJsDefault.default).renderMessage();
+        // Render bookmark view
+        (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+        // Change ID in the URL
+        window.history.pushState(null, "", `#${_modelJs.state.recipe.id}`);
+        // Close from window
+        setTimeout(function() {
+            (0, _addRecipeViewJsDefault.default).toggleWindow();
+        }, (0, _configJs.CLOSE_MODAL_SEC) * 500);
+    } catch (err) {
+        (0, _addRecipeViewJsDefault.default).renderError(err);
+    }
 };
 // INITIALIZE ALL OF OUR EVENT HANDLERS WITH PUBSUB - CALLING OUR EVENT HANDLER FUNCTIONS WITH OUR CONTROLLER FUNCTIONS AS PARAMETERS FOR THE EVENT LISTENER TO CALL
 const init = function() {
@@ -658,7 +677,7 @@ const init = function() {
 // We create this INIT function in order to call the addHandlerRender() and addHandlerSearch() function immediately as the engine reads it. Which in turn, calls the addHandlerRender() function that adds an event listener to the `hashchange` and `load` events on the view and waits for them to call the controlRecipes function.
 init();
 
-},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj","regenerator-runtime/runtime":"dXNgZ","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
+},{"core-js/modules/es.regexp.flags.js":"gSXXb","core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj","./config.js":"k5Hzs","regenerator-runtime/runtime":"dXNgZ","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gSXXb":[function(require,module,exports) {
 var global = require("57d4db550ae0d47c");
 var DESCRIPTORS = require("1672c5f06c5f6f74");
 var defineBuiltInAccessor = require("55ee9251f1b0483a");
@@ -2078,23 +2097,12 @@ const state = {
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
-        console.log(data.data.recipe);
-        const { recipe  } = data.data;
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
-        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) {
-            state.recipe.bookmarked = true;
-            console.log(state.recipe);
-        } else state.recipe.bookmarked = false;
+        const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}/${id}?key=${(0, _config.KEY)}`);
+        const { recipe: apiRec  } = data.data;
+        console.log(apiRec);
+        state.recipe = await (0, _helpers.makeObject)(apiRec);
+        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = true;
+        else state.recipe.bookmarked = false;
     } catch (err) {
         // Temp error handling
         console.error(`${err.name} - ${err.message} 🚩🚩`);
@@ -2104,14 +2112,18 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query; // We created a search object within our state object, which holds the query that we here set to this parameter that is passed in, this way we update the query property with the queries that are searched.
-        const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
+        const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}?search=${query}&key=${(0, _config.KEY)}`);
         if (!data.results) throw new Error();
+        console.log(data.data.recipes);
         state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
                 title: rec.title,
                 publisher: rec.publisher,
-                image: rec.image_url
+                image: rec.image_url,
+                ...rec.key && {
+                    key: rec.key
+                }
             };
         } // Right here we map these objects in this array to a new array with new objects with the property names changed and we save these mapped arrays to our search object within our state object that we export to all modules.
         );
@@ -2161,8 +2173,33 @@ init();
 const clearBookmarks = function() {
     localStorage.clear(`bookmarks`);
 };
-const uploadRecipe = async function(newRecipe) {
-    const ingredients = Object.entries(newRecipe); // Returns an array of an objects key value pairs
+const uploadRecipe = async function(formData) {
+    try {
+        const ingredients = Object.entries(formData).filter((ings)=>ings[0].startsWith(`ingredient`) && ings[1] !== ``).map((ingArrs)=>{
+            const [quantity, unit, description] = ingArrs[1].trim().split(`,`);
+            return {
+                quantity: quantity ? +quantity : null,
+                unit: unit === undefined ? `` : unit,
+                description: description === undefined ? `` : description
+            };
+        }); // Returns an array of key value pairs where the first item in the array is `ingredients`, that we then map to an object containing an array of the qty, unit, desc.
+        const objectRecipe = {
+            title: formData.title,
+            source_url: formData.sourceUrl,
+            image_url: formData.image,
+            publisher: formData.publisher,
+            cooking_time: +formData.cookingTime,
+            servings: +formData.servings,
+            ingredients
+        };
+        const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}?key=${(0, _config.KEY)}`, objectRecipe);
+        const { data: { recipe: apiRecipe  }  } = data;
+        state.recipe = await (0, _helpers.makeObject)(apiRecipe);
+        addBookmark(state.recipe);
+        console.log(state.recipe);
+    } catch (err) {
+        throw err;
+    }
 };
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
@@ -2758,9 +2795,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "RES_PER_PAGE", ()=>RES_PER_PAGE);
-const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`; //
+parcelHelpers.export(exports, "KEY", ()=>KEY);
+parcelHelpers.export(exports, "CLOSE_MODAL_SEC", ()=>CLOSE_MODAL_SEC);
+const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes"; //
 const TIMEOUT_SEC = 10;
-const RES_PER_PAGE = 10; // ITS STANDARD to keep all config values in all caps and name them accordingly, that way it's not just a random number appearing out of no where.
+const RES_PER_PAGE = 10;
+const KEY = "b389560a-35f4-4068-9329-bbd8a2428f8d";
+const CLOSE_MODAL_SEC = 2.5; // ITS STANDARD to keep all config values in all caps and name them accordingly, that way it's not just a random number appearing out of no where.
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -2795,7 +2836,8 @@ exports.export = function(dest, destName, get) {
 },{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+parcelHelpers.export(exports, "AJAX", ()=>AJAX);
+parcelHelpers.export(exports, "makeObject", ()=>makeObject);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 const timeout = (s)=>{
@@ -2805,19 +2847,59 @@ const timeout = (s)=>{
         }, s * 1000);
     });
 }; // This setTimeout function, returns a new promise that will use the reject() function to reject this promise after the designated time has elapsed.
-const getJSON = async function(url) {
+const AJAX = async function(url, convertedFormData) {
     try {
+        const fetchPro = convertedFormData ? fetch(url, {
+            method: `POST`,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(convertedFormData)
+        }) : fetch(url);
         const res = await Promise.race([
-            fetch(url),
+            fetchPro,
             timeout((0, _config.TIMEOUT_SEC))
         ]);
         const data = await res.json();
-        if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This throws an error that will propegate to the nearest catch block.
-        return data; // We return data from this function, which will be the resolved promise of this API call.
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+        return data;
     } catch (err) {
-        throw err; // This will now re-throw this error, and will be handled by the next nearest catch block within environment where this function is called.
+        throw err;
     }
 };
+const makeObject = async function(recipeName) {
+    return {
+        bookmarked: false,
+        id: recipeName.id,
+        title: recipeName.title,
+        publisher: recipeName.publisher,
+        sourceUrl: recipeName.source_url,
+        image: recipeName.image_url,
+        servings: recipeName?.servings,
+        cookingTime: recipeName?.cooking_time,
+        ingredients: recipeName?.ingredients,
+        key: `${!recipeName.key ? `` : recipeName.key}`
+    };
+}; // export const sendJSON = async function (url, convertedFormData) {
+ //   try {
+ //     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
+ //     const data = await res.json();
+ //     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+ //     return data;
+ //   } catch (err) {
+ //     throw err;
+ //   }
+ // };
+ // export const getJSON = async function (url) {
+ //   try {
+ //     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+ //     const data = await res.json();
+ //     if (!res.ok) throw new Error(`${data.message} (${res.status})`); // This throws an error that will propegate to the nearest catch block.
+ //     return data; // We return data from this function, which will be the resolved promise of this API call.
+ //   } catch (err) {
+ //     throw err; // This will now re-throw this error, and will be handled by the next nearest catch block within environment where this function is called.
+ //   }
+ // };
 
 },{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2894,7 +2976,10 @@ class RecipeView extends (0, _viewDefault.default) {
     </div>
   </div>
 
-  <div class="recipe__user-generated">
+  <div class="recipe__user-generated ${this._data.key ? `hidden` : `hidden`}">
+    <svg>
+      <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+    </svg>
   </div>
   <button class="btn--round btn--bookmark">
     <svg class="">
@@ -2956,7 +3041,15 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
     // RENDER ALL VIEWS - ALL VIEWS HAVE THESE METHODS AND VARIABLE NAMES DUE TO PROTOTYPAL INHERITANCE
-    render(data, render = true) {
+    /**
+   * Render the received object to the DOM
+   * @param {Object | Object[]} data The data to be rendered to the DOM (e.g recipe)
+   * @param {Boolean} [render=true] If false, create markup string instead of rendering to the DOM
+   * @returns {string} If render is false.
+   * @this {Object} View instance
+   * @author Thomas Halstead
+   * @todo Finish implementation
+   */ render(data, render = true) {
         this._data = data; // Creates a recipe property and sets it to the argument that is received.
         const markup = this._generateMarkup();
         if (!render) return markup;
@@ -3385,7 +3478,12 @@ class PreviewView extends (0, _viewDefault.default) {
     <div class="preview__data">
       <h4 class="preview__title">${this._data.title}</h4>
       <p class="preview__publisher">${this._data.publisher}</p>
-    </div>
+      <div class="recipe__user-generated">
+      <svg>
+      <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+      </svg>
+      </div>
+  </div>
   </a>
 </li>`;
     }
@@ -3494,6 +3592,7 @@ class AddRecipeView extends (0, _viewDefault.default) {
     _overlay = document.querySelector(`.overlay`);
     _btnOpen = document.querySelector(`.nav__btn--add-recipe`);
     _btnClose = document.querySelector(`.btn--close-modal`);
+    _message = `Recipe was sucessfully uploaded!`;
     constructor(){
         super();
         this._addHandlerShowWindow();
@@ -3514,14 +3613,14 @@ class AddRecipeView extends (0, _viewDefault.default) {
         this._overlay.addEventListener(`click`, this.toggleWindow.bind(this));
     }
     // PUBSUB HANDLER FUNCTION FOR UPLOADING OUR CUSTOM RECIPE TO OUR DATA
-    addHandlerUpload(handler) {
+    addHandlerUpload(controlAddRecipe) {
         this._parentElement.addEventListener(`submit`, (e)=>{
             e.preventDefault();
             const dataArray = [
                 ...new FormData(this._parentElement)
             ]; // Creates and spreads an array created from a form
-            const data = Object.fromEntries(dataArray); // The fromEntries method takes an array of key/value pairs and converts it to an object
-            handler(data);
+            const formData = Object.fromEntries(dataArray); // The fromEntries method takes an array of key/value pairs and converts it to an object
+            controlAddRecipe(formData);
         });
     }
     _generateMarkup() {}

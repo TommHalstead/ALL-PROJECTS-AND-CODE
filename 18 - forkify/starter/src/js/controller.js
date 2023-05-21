@@ -5,6 +5,7 @@ import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
 import addRecipeView from './views/addRecipeView.js';
+import { CLOSE_MODAL_SEC } from './config.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -98,10 +99,33 @@ const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
-const controlAddRecipe = function (newRecipeFormData) {
-  console.log(newRecipeFormData);
+const controlAddRecipe = async function (formData) {
+  try {
+    // Show loading spinner
+    addRecipeView.renderSpinner();
 
-  // Upload recipe data
+    // Upload recipe data
+    await model.uploadRecipe(formData);
+
+    // Render recipe
+    recipeView.render(model.state.recipe);
+
+    // Success message
+    addRecipeView.renderMessage();
+
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change ID in the URL
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
+    // Close from window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, CLOSE_MODAL_SEC * 500);
+  } catch (err) {
+    addRecipeView.renderError(err);
+  }
 };
 
 // INITIALIZE ALL OF OUR EVENT HANDLERS WITH PUBSUB - CALLING OUR EVENT HANDLER FUNCTIONS WITH OUR CONTROLLER FUNCTIONS AS PARAMETERS FOR THE EVENT LISTENER TO CALL
