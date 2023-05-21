@@ -365,6 +365,14 @@ console.log(newEl.isEqualNode(curEl), ` -- `, newEl, ` -- `, curEl);
 - These JS DOCS are really cool, VS code will automatically find and comment in the parameters and variables, therefore allowing you to write a message about what is going on in this function. We can then hover over this funtion and be able to see out custom written messages.
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------- Building our final package for deployment ----------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+- When we build our final package, we need to delete out distribution and parcel cache folders just in order to get a fresh build. Inside of our package.json folder, we have to specify in our build script --dist-dir or the folder that we actually want to create. 
+
+- We also need to change our branch from "main" to "default" otherwise our build command will not run in parcel 2
+
 
 
 
