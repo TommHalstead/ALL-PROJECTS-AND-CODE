@@ -2162,7 +2162,7 @@ const clearBookmarks = function() {
     localStorage.clear(`bookmarks`);
 };
 const uploadRecipe = async function(newRecipe) {
-    const ingredients = Object.entries(newRecipe);
+    const ingredients = Object.entries(newRecipe); // Loop through this
 };
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
