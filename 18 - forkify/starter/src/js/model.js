@@ -128,5 +128,5 @@ const clearBookmarks = function () {
 
 // TAKING OUR FORM UPLOADED RECIPES AND PUSHING THEM TO AN ARRAY IN ORDER TO CREATE A NEW RECIPE
 export const uploadRecipe = async function (newRecipe) {
-  const ingredients = Object.entries(newRecipe); // Loop through this
+  const ingredients = Object.entries(newRecipe); // Returns an array of an objects key value pairs
 };

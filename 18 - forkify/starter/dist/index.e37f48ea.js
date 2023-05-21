@@ -2162,7 +2162,7 @@ const clearBookmarks = function() {
     localStorage.clear(`bookmarks`);
 };
 const uploadRecipe = async function(newRecipe) {
-    const ingredients = Object.entries(newRecipe); // Loop through this
+    const ingredients = Object.entries(newRecipe); // Returns an array of an objects key value pairs
 };
 
 },{"regenerator-runtime/runtime":"dXNgZ","./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
@@ -3519,7 +3519,7 @@ class AddRecipeView extends (0, _viewDefault.default) {
             e.preventDefault();
             const dataArray = [
                 ...new FormData(this._parentElement)
-            ];
+            ]; // Creates and spreads an array created from a form
             const data = Object.fromEntries(dataArray); // The fromEntries method takes an array of key/value pairs and converts it to an object
             handler(data);
         });
